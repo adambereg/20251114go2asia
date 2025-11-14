@@ -14,6 +14,7 @@
     "db:migrate:status": "drizzle-kit introspect:pg",
     "db:seed": "tsx src/db/seed.ts",
     "db:seed:import": "tsx src/db/seed-import.ts",
+    "db:migrate:push": "tsx scripts/apply-migration-auto.ts",
     "test": "vitest run",
     "test:watch": "vitest"
   },
