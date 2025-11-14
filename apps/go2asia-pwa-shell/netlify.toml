@@ -1,6 +1,9 @@
 [build]
-  command = "pnpm build"
-  publish = ".next"
+  # Команда сборки через Turbo с фильтром только для pwa-shell
+  command = "pnpm turbo build --filter=@go2asia/pwa-shell"
+  # Publish directory относительно корня репозитория
+  # Next.js собирает проект в apps/go2asia-pwa-shell/.next
+  publish = "apps/go2asia-pwa-shell/.next"
 
 [build.environment]
   NODE_VERSION = "20"
@@ -30,15 +33,18 @@
 
 # Preview deployments
 [context.production]
-  command = "pnpm build"
+  command = "pnpm turbo build --filter=@go2asia/pwa-shell"
+  publish = "apps/go2asia-pwa-shell/.next"
 
 [context.staging]
-  command = "pnpm build"
+  command = "pnpm turbo build --filter=@go2asia/pwa-shell"
+  publish = "apps/go2asia-pwa-shell/.next"
   [context.staging.environment]
     NEXT_PUBLIC_API_URL = "https://api-staging.go2asia.space"
 
 [context.deploy-preview]
-  command = "pnpm build"
+  command = "pnpm turbo build --filter=@go2asia/pwa-shell"
+  publish = "apps/go2asia-pwa-shell/.next"
   [context.deploy-preview.environment]
-    NEXT_PUBLIC_API_URL = "https://api-preview.go2asia.space"
+    NEXT_PUBLIC_API_URL = "https://api-staging.go2asia.space"
 
