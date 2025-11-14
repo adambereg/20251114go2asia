@@ -16,16 +16,32 @@ import { resolve } from 'path';
 import { existsSync } from 'fs';
 
 // Load .env from project root
+// When running from root: pnpm db:seed:import -> process.cwd() = root -> .env
+// When running from services/content-service: cd services/content-service && pnpm db:seed:import -> process.cwd() = services/content-service -> ../../.env
 const possiblePaths = [
-  resolve(__dirname, '../../../.env'),
-  resolve(process.cwd(), '.env'),
+  resolve(process.cwd(), '.env'),           // From root (when running pnpm db:seed:import from root)
+  resolve(process.cwd(), '../../.env'),    // From services/content-service (when running from service dir)
 ];
 
+// Try to load .env from one of the possible paths
+let envLoaded = false;
 for (const envPath of possiblePaths) {
   if (existsSync(envPath)) {
-    config({ path: envPath });
-    break;
+    const result = config({ path: envPath });
+    if (result.error) {
+      console.warn(`Warning: Error loading .env from ${envPath}:`, result.error);
+    } else {
+      console.log(`✓ Loaded .env from ${envPath}`);
+      envLoaded = true;
+      break;
+    }
   }
+}
+
+// Fallback: try default dotenv behavior (loads from process.cwd())
+if (!envLoaded) {
+  console.warn('Warning: .env file not found in expected locations, trying default behavior...');
+  config();
 }
 
 interface CsvRow {
@@ -370,14 +386,24 @@ async function seedArticles(
 }
 
 async function main() {
-  const db = createDb({ DATABASE_URL: process.env.DATABASE_URL });
-  
+  // Check DATABASE_URL before creating DB
   if (!process.env.DATABASE_URL) {
     console.error('Error: DATABASE_URL environment variable is required');
+    console.error('Current working directory:', process.cwd());
+    const checkPaths = [
+      resolve(process.cwd(), '.env'),
+      resolve(process.cwd(), '../../.env'),
+    ];
+    console.error('Tried paths:', checkPaths.map(p => `${p} (exists: ${existsSync(p)})`).join('\n'));
     process.exit(1);
   }
   
-  const importDir = join(__dirname, '../../data/import');
+  console.log('✓ DATABASE_URL found');
+  const db = createDb({ DATABASE_URL: process.env.DATABASE_URL });
+  
+  // Get import directory path (relative to process.cwd())
+  // When running from services/content-service, data/import is in the same directory
+  const importDir = resolve(process.cwd(), 'data/import');
   
   console.log('Starting data import from CSV files...\n');
   
