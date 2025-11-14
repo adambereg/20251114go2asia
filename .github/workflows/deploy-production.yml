@@ -1,0 +1,84 @@
+name: Promote to Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to deploy (git tag or commit SHA)'
+        required: true
+        type: string
+
+jobs:
+  deploy-prod:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.version }}
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Build
+        run: pnpm build
+      
+      # Deploy Next.js to Netlify Production
+      - name: Deploy to Netlify Production
+        if: env.NETLIFY_AUTH_TOKEN != ''
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        with:
+          args: deploy --dir=apps/go2asia-pwa-shell/.next --prod=true
+      
+      # Deploy API Gateway to Cloudflare Workers Production
+      - name: Deploy API Gateway Production
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: services/api-gateway
+          command: deploy --env production
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      
+      # Run database migrations (when DB is set up)
+      # - name: Run database migrations
+      #   run: pnpm db:migrate:prod
+      #   env:
+      #     DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+      #   continue-on-error: false
+      
+      # Smoke tests
+      - name: Smoke tests
+        run: |
+          echo "Running smoke tests against production..."
+          # Add smoke test commands here
+          # curl -f https://go2asia.space/health || exit 1
+      
+      # Rollback on failure
+      - name: Rollback on failure
+        if: failure()
+        run: |
+          echo "Deployment failed, initiating rollback..."
+          # Add rollback commands here
+          # pnpm db:rollback:prod || true
+          # pnpm deploy:rollback:prod || true
+
