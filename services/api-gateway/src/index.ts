@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger as honoLogger } from 'hono/logger';
 import { requestIdMiddleware } from './middleware/request-id';
+import { cacheMiddleware } from './middleware/cache';
 import { healthRoutes } from './routes/health';
 import { contentRoutes } from './routes/content';
 import { authRoutes } from './routes/auth';
@@ -13,6 +14,7 @@ const app = new Hono();
 // Middleware
 app.use('*', honoLogger());
 app.use('*', requestIdMiddleware);
+app.use('*', cacheMiddleware);
 app.use(
   '*',
   cors({
