@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 
 const app = new Hono();
 
-app.get('/health', (c) => {
+app.get('/', (c) => {
   return c.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
