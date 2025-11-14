@@ -1,0 +1,87 @@
+# Общие ответы для всех API
+
+BadRequest:
+  description: Неверный запрос
+  content:
+    application/json:
+      schema:
+        $ref: '../components/schemas.yaml#/ErrorResponse'
+      example:
+        error:
+          code: "VALIDATION_ERROR"
+          message: "Invalid request parameters"
+          key: "limit"
+          traceId: "123e4567-e89b-12d3-a456-426614174000"
+
+Unauthorized:
+  description: Требуется авторизация
+  content:
+    application/json:
+      schema:
+        $ref: '../components/schemas.yaml#/ErrorResponse'
+      example:
+        error:
+          code: "UNAUTHORIZED"
+          message: "Authentication required"
+          traceId: "123e4567-e89b-12d3-a456-426614174000"
+
+Forbidden:
+  description: Доступ запрещён
+  content:
+    application/json:
+      schema:
+        $ref: '../components/schemas.yaml#/ErrorResponse'
+      example:
+        error:
+          code: "FORBIDDEN"
+          message: "Insufficient permissions"
+          traceId: "123e4567-e89b-12d3-a456-426614174000"
+
+NotFound:
+  description: Ресурс не найден
+  content:
+    application/json:
+      schema:
+        $ref: '../components/schemas.yaml#/ErrorResponse'
+      example:
+        error:
+          code: "NOT_FOUND"
+          message: "Resource not found"
+          traceId: "123e4567-e89b-12d3-a456-426614174000"
+
+Conflict:
+  description: Конфликт (например, дубликат)
+  content:
+    application/json:
+      schema:
+        $ref: '../components/schemas.yaml#/ErrorResponse'
+      example:
+        error:
+          code: "CONFLICT"
+          message: "Resource already exists"
+          traceId: "123e4567-e89b-12d3-a456-426614174000"
+
+TooManyRequests:
+  description: Превышен лимит запросов
+  content:
+    application/json:
+      schema:
+        $ref: '../components/schemas.yaml#/ErrorResponse'
+      example:
+        error:
+          code: "RATE_LIMIT_EXCEEDED"
+          message: "Rate limit exceeded. Try again later."
+          traceId: "123e4567-e89b-12d3-a456-426614174000"
+
+InternalServerError:
+  description: Внутренняя ошибка сервера
+  content:
+    application/json:
+      schema:
+        $ref: '../components/schemas.yaml#/ErrorResponse'
+      example:
+        error:
+          code: "INTERNAL_ERROR"
+          message: "An internal error occurred"
+          traceId: "123e4567-e89b-12d3-a456-426614174000"
+

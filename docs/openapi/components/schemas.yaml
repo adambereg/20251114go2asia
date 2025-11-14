@@ -1,0 +1,58 @@
+# Общие схемы для всех API
+
+ErrorResponse:
+  type: object
+  required: [error]
+  properties:
+    error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          description: Код ошибки
+          example: "VALIDATION_ERROR"
+        message:
+          type: string
+          description: Сообщение об ошибке
+          example: "Invalid request parameters"
+        key:
+          type: string
+          nullable: true
+          description: Ключ поля с ошибкой
+          example: "limit"
+        traceId:
+          type: string
+          format: uuid
+          description: ID запроса для трейсинга
+          example: "123e4567-e89b-12d3-a456-426614174000"
+
+PaginationParams:
+  type: object
+  properties:
+    limit:
+      type: integer
+      minimum: 1
+      maximum: 100
+      default: 20
+      description: Количество элементов на странице
+    cursor:
+      type: string
+      nullable: true
+      description: Курсор для пагинации (cursor-based)
+
+PaginationResponse:
+  type: object
+  required: [items, hasMore]
+  properties:
+    items:
+      type: array
+      items: {}
+    nextCursor:
+      type: string
+      nullable: true
+      description: Курсор для следующей страницы
+    hasMore:
+      type: boolean
+      description: Есть ли ещё данные
+

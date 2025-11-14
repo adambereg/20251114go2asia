@@ -1,0 +1,632 @@
+openapi: 3.1.0
+info:
+  title: Go2Asia Content API
+  version: 1.0.0
+  description: API для работы с контентом (Atlas, Pulse, Blog)
+  contact:
+    name: Go2Asia API Support
+    email: api@go2asia.space
+
+servers:
+  - url: https://api.go2asia.space/v1/api/content
+    description: Production
+  - url: https://api-staging.go2asia.space/v1/api/content
+    description: Staging
+
+tags:
+  - name: Atlas
+    description: Страны, города, места
+  - name: Pulse
+    description: События и мероприятия
+  - name: Blog
+    description: Статьи и новости
+
+paths:
+  /countries:
+    get:
+      tags: [Atlas]
+      summary: Получить список стран
+      description: Возвращает список всех стран с пагинацией
+      operationId: getCountries
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountriesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /countries/{id}:
+    get:
+      tags: [Atlas]
+      summary: Получить страну по ID
+      description: Возвращает детальную информацию о стране
+      operationId: getCountryById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Country'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /cities:
+    get:
+      tags: [Atlas]
+      summary: Получить список городов
+      description: Возвращает список городов с фильтрацией по стране
+      operationId: getCities
+      parameters:
+        - name: countryId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Фильтр по стране
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitiesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /cities/{id}:
+    get:
+      tags: [Atlas]
+      summary: Получить город по ID
+      operationId: getCityById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /places:
+    get:
+      tags: [Atlas]
+      summary: Получить список мест
+      description: Возвращает список мест с фильтрацией
+      operationId: getPlaces
+      parameters:
+        - name: cityId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: types
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: false
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlacesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /places/{id}:
+    get:
+      tags: [Atlas]
+      summary: Получить место по ID
+      operationId: getPlaceById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /events:
+    get:
+      tags: [Pulse]
+      summary: Получить список событий
+      description: Возвращает список событий с фильтрацией по дате и городу
+      operationId: getEvents
+      parameters:
+        - name: cityId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [today, tomorrow, week]
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /events/{id}:
+    get:
+      tags: [Pulse]
+      summary: Получить событие по ID
+      operationId: getEventById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /articles:
+    get:
+      tags: [Blog]
+      summary: Получить список статей
+      description: Возвращает список статей блога
+      operationId: getArticles
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticlesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /articles/{slug}:
+    get:
+      tags: [Blog]
+      summary: Получить статью по slug
+      operationId: getArticleBySlug
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      description: Количество элементов на странице
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    Cursor:
+      name: cursor
+      in: query
+      description: Курсор для пагинации (cursor-based)
+      required: false
+      schema:
+        type: string
+
+  schemas:
+    Country:
+      type: object
+      required: [id, name, code]
+      properties:
+        id:
+          type: string
+          example: "th"
+        name:
+          type: string
+          example: "Таиланд"
+        code:
+          type: string
+          minLength: 2
+          maxLength: 3
+          example: "TH"
+        flag:
+          type: string
+          format: uri
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        citiesCount:
+          type: integer
+          example: 12
+        placesCount:
+          type: integer
+          example: 45
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CountriesResponse:
+      type: object
+      required: [items, hasMore]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Country'
+        nextCursor:
+          type: string
+          nullable: true
+        hasMore:
+          type: boolean
+
+    City:
+      type: object
+      required: [id, name, countryId]
+      properties:
+        id:
+          type: string
+          example: "bangkok"
+        name:
+          type: string
+          example: "Бангкок"
+        countryId:
+          type: string
+          example: "th"
+        description:
+          type: string
+          nullable: true
+        latitude:
+          type: number
+          format: float
+          nullable: true
+        longitude:
+          type: number
+          format: float
+          nullable: true
+        placesCount:
+          type: integer
+          example: 25
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CitiesResponse:
+      type: object
+      required: [items, hasMore]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/City'
+        nextCursor:
+          type: string
+          nullable: true
+        hasMore:
+          type: boolean
+
+    Place:
+      type: object
+      required: [id, name, cityId]
+      properties:
+        id:
+          type: string
+          example: "place-123"
+        name:
+          type: string
+          example: "Храм Ват Пхо"
+        cityId:
+          type: string
+          example: "bangkok"
+        description:
+          type: string
+          nullable: true
+        latitude:
+          type: number
+          format: float
+        longitude:
+          type: number
+          format: float
+        type:
+          type: string
+          example: "attraction"
+        categories:
+          type: array
+          items:
+            type: string
+          example: ["temple", "cultural"]
+        photos:
+          type: array
+          items:
+            type: string
+            format: uri
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    PlacesResponse:
+      type: object
+      required: [items, hasMore]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Place'
+        nextCursor:
+          type: string
+          nullable: true
+        hasMore:
+          type: boolean
+
+    Event:
+      type: object
+      required: [id, title, startTime]
+      properties:
+        id:
+          type: string
+          example: "event-123"
+        title:
+          type: string
+          example: "Фестиваль Сонгкран"
+        description:
+          type: string
+          nullable: true
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+          nullable: true
+        cityId:
+          type: string
+          example: "bangkok"
+        placeId:
+          type: string
+          nullable: true
+        type:
+          type: string
+          example: "festival"
+        category:
+          type: string
+          example: "cultural"
+        organizerId:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    EventsResponse:
+      type: object
+      required: [items, hasMore]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        nextCursor:
+          type: string
+          nullable: true
+        hasMore:
+          type: boolean
+
+    Article:
+      type: object
+      required: [id, slug, title, publishedAt]
+      properties:
+        id:
+          type: string
+          example: "article-123"
+        slug:
+          type: string
+          example: "best-places-bangkok"
+        title:
+          type: string
+          example: "Лучшие места в Бангкоке"
+        excerpt:
+          type: string
+          nullable: true
+        content:
+          type: string
+        authorId:
+          type: string
+        category:
+          type: string
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+        coverImage:
+          type: string
+          format: uri
+          nullable: true
+        publishedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    ArticlesResponse:
+      type: object
+      required: [items, hasMore]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Article'
+        nextCursor:
+          type: string
+          nullable: true
+        hasMore:
+          type: boolean
+
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              example: "VALIDATION_ERROR"
+            message:
+              type: string
+              example: "Invalid request parameters"
+            key:
+              type: string
+              nullable: true
+            traceId:
+              type: string
+              format: uuid
+              nullable: true
+
+  responses:
+    BadRequest:
+      description: Неверный запрос
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Требуется авторизация
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Доступ запрещён
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Ресурс не найден
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Conflict:
+      description: Конфликт
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequests:
+      description: Превышен лимит запросов
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: Внутренняя ошибка сервера
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+

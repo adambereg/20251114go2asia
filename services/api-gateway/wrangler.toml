@@ -1,0 +1,30 @@
+name = "go2asia-api-gateway"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[env.staging]
+name = "go2asia-api-gateway-staging"
+vars = { 
+  NODE_ENV = "staging",
+}
+
+[env.production]
+name = "go2asia-api-gateway-prod"
+vars = { 
+  NODE_ENV = "production",
+}
+
+[observability]
+enabled = true
+
+[observability.logs]
+enabled = true
+persist = true
+invocation_logs = true
+
+[observability.traces]
+enabled = false
+persist = true
+head_sampling_rate = 1
+

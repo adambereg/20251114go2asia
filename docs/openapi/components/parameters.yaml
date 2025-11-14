@@ -1,0 +1,40 @@
+# Общие параметры для всех API
+
+Limit:
+  name: limit
+  in: query
+  description: Количество элементов на странице
+  required: false
+  schema:
+    type: integer
+    minimum: 1
+    maximum: 100
+    default: 20
+
+Cursor:
+  name: cursor
+  in: query
+  description: Курсор для пагинации (cursor-based)
+  required: false
+  schema:
+    type: string
+
+UserId:
+  name: userId
+  in: path
+  required: true
+  description: ID пользователя
+  schema:
+    type: string
+    format: uuid
+
+AuthorizationHeader:
+  name: Authorization
+  in: header
+  required: true
+  description: JWT токен авторизации
+  schema:
+    type: string
+    format: bearer
+    example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+

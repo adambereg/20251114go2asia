@@ -1,0 +1,18 @@
+extends: ["spectral:oas"]
+
+rules:
+  operation-description:
+    severity: error
+  operation-tags:
+    severity: error
+  operation-summary:
+    severity: error
+  operation-operationId:
+    severity: error
+  info-version:
+    severity: error
+  info-contact:
+    severity: warn
+  schema-example:
+    severity: warn
+
