@@ -253,23 +253,81 @@ DATABASE_URL=postgresql://postgres:password@localhost:5432/test pnpm db:migrate:
 
 ## Команды миграций
 
-### Drizzle Kit команды
+### Локальный запуск
 
+**Требования:**
+- Файл `.env` в корне проекта с переменной `DATABASE_URL`
+- Установленные зависимости (`pnpm install`)
+
+**Генерация миграций:**
 ```bash
-# Генерировать миграцию из schema.ts
+# Из корня проекта
 pnpm db:migrate:generate
 
-# Применить миграции
+# Или из директории сервиса
+cd services/content-service
+pnpm db:migrate:generate
+```
+
+**Применение миграций:**
+```bash
+# Из корня проекта (использует DATABASE_URL из .env)
 pnpm db:migrate:up
 
+# Или из директории сервиса
+cd services/content-service
+pnpm db:migrate:up
+```
+
+**Проверка статуса:**
+```bash
+pnpm db:migrate:status
+```
+
+**Откат миграций:**
+```bash
 # Откатить последнюю миграцию
 pnpm db:migrate:down
 
-# Статус миграций
-pnpm db:migrate:status
-
 # Откатить несколько миграций
 pnpm db:migrate:down --count 3
+```
+
+### Запуск через CI/CD
+
+**GitHub Actions:**
+
+Миграции должны применяться автоматически при деплое в staging/production через GitHub Actions workflow.
+
+**Пример шага в workflow:**
+```yaml
+- name: Run database migrations
+  env:
+    DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  run: |
+    cd services/content-service
+    pnpm db:migrate:up
+```
+
+**Важно:**
+- Миграции применяются **до** деплоя сервисов
+- При ошибке миграции деплой должен быть остановлен
+- Всегда тестировать миграции на staging перед production
+
+### Drizzle Kit команды (низкоуровневые)
+
+```bash
+# Генерировать миграцию из schema.ts
+drizzle-kit generate:pg
+
+# Применить миграции (push схему в БД)
+drizzle-kit push:pg
+
+# Откатить последнюю миграцию
+drizzle-kit drop
+
+# Статус миграций (интроспекция БД)
+drizzle-kit introspect:pg
 ```
 
 ### Настройка в package.json

@@ -18,7 +18,11 @@
     "gen:types": "orval --types",
     "gen:sdk": "orval --sdk",
     "gen:all": "pnpm gen:types && pnpm gen:sdk",
-    "validate:openapi": "spectral lint docs/openapi/**/*.yaml"
+    "validate:openapi": "spectral lint docs/openapi/**/*.yaml",
+    "db:migrate:generate": "cd services/content-service && pnpm db:migrate:generate",
+    "db:migrate:up": "cd services/content-service && pnpm db:migrate:up",
+    "db:migrate:down": "cd services/content-service && pnpm db:migrate:down",
+    "db:migrate:status": "cd services/content-service && pnpm db:migrate:status"
   },
   "devDependencies": {
     "@lhci/cli": "^0.12.0",

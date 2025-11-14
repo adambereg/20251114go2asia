@@ -8,10 +8,10 @@
     "deploy:staging": "wrangler deploy --env staging",
     "deploy:prod": "wrangler deploy --env production",
     "typecheck": "tsc --noEmit",
-    "db:migrate:generate": "drizzle-kit generate",
-    "db:migrate:up": "drizzle-kit migrate",
+    "db:migrate:generate": "drizzle-kit generate:pg",
+    "db:migrate:up": "drizzle-kit push:pg",
     "db:migrate:down": "drizzle-kit drop",
-    "db:migrate:status": "drizzle-kit check",
+    "db:migrate:status": "drizzle-kit introspect:pg",
     "db:seed": "tsx src/db/seed.ts",
     "test": "vitest run",
     "test:watch": "vitest"
