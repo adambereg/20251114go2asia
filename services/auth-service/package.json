@@ -13,13 +13,19 @@
   },
   "dependencies": {
     "@go2asia/logger": "workspace:*",
+    "@clerk/backend": "^1.0.0",
+    "drizzle-orm": "^0.29.0",
     "hono": "^3.12.0",
+    "postgres": "^3.4.3",
+    "svix": "^1.15.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20231121.0",
     "@go2asia/config": "workspace:*",
     "@types/node": "^20.10.0",
+    "drizzle-kit": "^0.20.0",
+    "dotenv": "^16.3.1",
     "typescript": "^5.3.0",
     "vitest": "^1.0.0",
     "wrangler": "^3.19.0"

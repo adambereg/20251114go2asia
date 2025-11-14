@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger as honoLogger } from 'hono/logger';
 import { requestIdMiddleware } from './middleware/request-id';
+import { createDb } from './db';
 import { healthRoutes } from './routes/health';
 import { profileRoutes } from './routes/profile';
 import { webhookRoutes } from './routes/webhook';
@@ -22,6 +23,13 @@ app.use(
     credentials: true,
   })
 );
+
+// Database middleware - инъекция БД в контекст
+app.use('*', async (c, next) => {
+  const db = createDb(c.env);
+  c.set('db', db);
+  await next();
+});
 
 // Routes
 app.route('/health', healthRoutes);
