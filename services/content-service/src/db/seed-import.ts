@@ -6,7 +6,7 @@
  */
 
 import { createDb } from './index';
-import { countries, cities, places, events, articles } from './schema';
+import { countries, cities, places, events, articles, mediaFiles } from './schema';
 import { sql, eq } from 'drizzle-orm';
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -385,6 +385,44 @@ async function seedArticles(
   console.log(`✓ Imported ${csvData.length} articles`);
 }
 
+async function seedMediaFiles(db: ReturnType<typeof createDb>, csvData: CsvRow[]) {
+  console.log('Importing media files...');
+  
+  for (const row of csvData) {
+    try {
+      await db.insert(mediaFiles).values({
+        id: row.id,
+        filename: normalizeValue(row.filename),
+        originalFilename: normalizeValue(row.original_filename),
+        url: row.url,
+        type: normalizeValue(row.type),
+        mimeType: normalizeValue(row.mime_type),
+        size: row.size && row.size !== 'NULL' ? parseInt(row.size, 10) : null,
+        width: row.width && row.width !== 'NULL' ? parseInt(row.width, 10) : null,
+        height: row.height && row.height !== 'NULL' ? parseInt(row.height, 10) : null,
+        thumbnailUrl: normalizeValue(row.thumbnail_url),
+        entityType: normalizeValue(row.entity_type),
+        entityId: normalizeValue(row.entity_id),
+        orderIndex: row.order_index && row.order_index !== 'NULL' ? parseInt(row.order_index, 10) : null,
+        title: normalizeValue(row.title),
+        description: normalizeValue(row.description),
+        createdAt: row.created_at ? new Date(row.created_at) : new Date(),
+        updatedAt: row.updated_at ? new Date(row.updated_at) : new Date(),
+      }).onConflictDoUpdate({
+        target: mediaFiles.id,
+        set: {
+          url: sql`excluded.url`,
+          updatedAt: sql`now()`,
+        },
+      });
+    } catch (error) {
+      console.error(`Error importing media file ${row.id}:`, error);
+    }
+  }
+  
+  console.log(`✓ Imported ${csvData.length} media files`);
+}
+
 async function main() {
   // Check DATABASE_URL before creating DB
   if (!process.env.DATABASE_URL) {
@@ -422,6 +460,7 @@ async function main() {
     await seedPlaces(db, placesData, mediaFilesData);
     await seedEvents(db, eventsData, citiesData);
     await seedArticles(db, articlesData, mediaFilesData);
+    await seedMediaFiles(db, mediaFilesData);
     
     console.log('\n✅ Data import completed successfully!');
   } catch (error) {

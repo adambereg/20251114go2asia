@@ -89,3 +89,24 @@ export const articles = pgTable('articles', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
+// Media Files table
+export const mediaFiles = pgTable('media_files', {
+  id: text('id').primaryKey(),
+  filename: text('filename'),
+  originalFilename: text('original_filename'),
+  url: text('url').notNull(),
+  type: varchar('type', { length: 50 }),
+  mimeType: text('mime_type'),
+  size: integer('size'),
+  width: integer('width'),
+  height: integer('height'),
+  thumbnailUrl: text('thumbnail_url'),
+  entityType: varchar('entity_type', { length: 50 }),
+  entityId: text('entity_id'),
+  orderIndex: integer('order_index'),
+  title: text('title'),
+  description: text('description'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
