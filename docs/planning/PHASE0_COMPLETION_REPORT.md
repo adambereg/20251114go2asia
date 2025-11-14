@@ -232,20 +232,23 @@ go2asia-monorepo/
 ### Немедленные действия:
 
 1. **Настроить окружения:**
-   - [ ] Создать Neon проекты (staging + production)
-   - [ ] Настроить Cloudflare Workers окружения
-   - [ ] Настроить Netlify сайты
-   - [ ] Добавить секреты в GitHub Secrets
+   - [x] Создать Neon проекты (staging + production) ✅
+   - [x] Настроить Cloudflare Workers окружения ✅
+   - [ ] Настроить Netlify сайты (опционально, после готовности фронтенда)
+   - [x] Добавить секреты в GitHub Secrets ✅
 
 2. **Применить миграции:**
    - [x] Сгенерировать первую миграцию из schema.ts ✅
-   - [ ] Применить миграции на staging
+   - [x] Применить миграции на staging ✅
    - [ ] Протестировать rollback
    
    **Выполнено:**
    - ✅ Миграция `0000_narrow_bloodstrike.sql` сгенерирована из schema.ts
    - ✅ Скрипты `db:migrate:*` добавлены в корневой `package.json`
    - ✅ Документация обновлена с инструкциями по локальному запуску и CI/CD
+   - ✅ Миграции применены локально к staging БД Neon
+   - ✅ Созданы 5 таблиц: `articles`, `cities`, `countries`, `events`, `places`
+   - ✅ Все health endpoints возвращают статус `ready`
 
 3. **Настроить деплои:**
    - [ ] Протестировать preview деплои
