@@ -1,6 +1,5 @@
 import { Hono } from 'hono';
 import { places } from '../db';
-import { db } from '../db';
 import { eq } from 'drizzle-orm';
 
 const app = new Hono();
@@ -10,6 +9,7 @@ app.get('/', async (c) => {
   const limit = parseInt(c.req.query('limit') || '20');
 
   try {
+    const db = c.get('db');
     let query = db.select().from(places);
     
     if (cityId) {
@@ -41,6 +41,7 @@ app.get('/:id', async (c) => {
   const id = c.req.param('id');
 
   try {
+    const db = c.get('db');
     const result = await db.select().from(places).where(eq(places.id, id)).limit(1);
     
     if (result.length === 0) {

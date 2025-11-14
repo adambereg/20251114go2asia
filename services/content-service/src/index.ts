@@ -8,8 +8,21 @@ import { citiesRoutes } from './routes/cities';
 import { placesRoutes } from './routes/places';
 import { eventsRoutes } from './routes/events';
 import { articlesRoutes } from './routes/articles';
+import { createDb } from './db';
 
-const app = new Hono();
+export interface Env {
+  DATABASE_URL?: string;
+  NODE_ENV?: string;
+}
+
+const app = new Hono<{ Bindings: Env }>();
+
+// Middleware to inject database instance
+app.use('*', async (c, next) => {
+  const db = createDb(c.env);
+  c.set('db', db);
+  await next();
+});
 
 // Middleware
 app.use('*', honoLogger());

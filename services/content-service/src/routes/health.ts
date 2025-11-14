@@ -1,5 +1,4 @@
 import { Hono } from 'hono';
-import { db } from '../db';
 
 const app = new Hono();
 
@@ -14,6 +13,7 @@ app.get('/health', (c) => {
 app.get('/ready', async (c) => {
   try {
     // Проверка подключения к БД
+    const db = c.get('db');
     await db.execute('SELECT 1');
     return c.json({
       status: 'ready',

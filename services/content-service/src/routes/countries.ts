@@ -1,6 +1,5 @@
 import { Hono } from 'hono';
 import { countries } from '../db';
-import { db } from '../db';
 import { eq } from 'drizzle-orm';
 
 const app = new Hono();
@@ -11,6 +10,7 @@ app.get('/', async (c) => {
   const cursor = c.req.query('cursor');
 
   try {
+    const db = c.get('db');
     const result = await db.select().from(countries).limit(limit);
     
     return c.json({
@@ -38,6 +38,7 @@ app.get('/:id', async (c) => {
   const id = c.req.param('id');
 
   try {
+    const db = c.get('db');
     const result = await db.select().from(countries).where(eq(countries.id, id)).limit(1);
     
     if (result.length === 0) {
