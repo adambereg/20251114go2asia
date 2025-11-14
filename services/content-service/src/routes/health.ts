@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import { sql } from 'drizzle-orm';
 
 const app = new Hono();
 
@@ -14,7 +15,8 @@ app.get('/ready', async (c) => {
   try {
     // Проверка подключения к БД
     const db = c.get('db');
-    await db.execute('SELECT 1');
+    // Используем sql helper для выполнения сырого SQL запроса
+    await db.execute(sql`SELECT 1`);
     return c.json({
       status: 'ready',
       timestamp: new Date().toISOString(),
