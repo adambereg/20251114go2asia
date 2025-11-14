@@ -37,14 +37,15 @@ jobs:
         run: pnpm build
       
       # Deploy Next.js to Netlify Production
-      - name: Deploy to Netlify Production
-        if: env.NETLIFY_AUTH_TOKEN != ''
-        uses: netlify/actions/cli@master
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        with:
-          args: deploy --dir=apps/go2asia-pwa-shell/.next --prod=true
+      # TODO: Uncomment when Netlify is configured
+      # - name: Deploy to Netlify Production
+      #   if: ${{ secrets.NETLIFY_AUTH_TOKEN != '' }}
+      #   uses: netlify/cli-action@v1
+      #   env:
+      #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      #     NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      #   with:
+      #     args: deploy --dir=apps/go2asia-pwa-shell/.next --prod=true
       
       # Deploy API Gateway to Cloudflare Workers Production
       - name: Deploy API Gateway Production

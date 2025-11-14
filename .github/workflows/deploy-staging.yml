@@ -32,14 +32,16 @@ jobs:
       
       # Deploy Next.js to Netlify Staging
       # Note: Skipped if NETLIFY_AUTH_TOKEN is not set (will fail gracefully)
-      - name: Deploy to Netlify Staging
-        continue-on-error: true
-        uses: netlify/actions/cli@master
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        with:
-          args: deploy --dir=apps/go2asia-pwa-shell/.next --prod=false --alias=staging.go2asia.space
+      # TODO: Uncomment when Netlify is configured
+      # - name: Deploy to Netlify Staging
+      #   continue-on-error: true
+      #   if: ${{ secrets.NETLIFY_AUTH_TOKEN != '' }}
+      #   uses: netlify/cli-action@v1
+      #   env:
+      #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      #     NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      #   with:
+      #     args: deploy --dir=apps/go2asia-pwa-shell/.next --prod=false --alias=staging.go2asia.space
       
       # Deploy API Gateway to Cloudflare Workers Staging
       - name: Deploy API Gateway Staging
