@@ -13,6 +13,7 @@
     "db:migrate:down": "drizzle-kit drop",
     "db:migrate:status": "drizzle-kit introspect:pg",
     "db:seed": "tsx src/db/seed.ts",
+    "db:seed:import": "tsx src/db/seed-import.ts",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -27,6 +28,7 @@
     "@cloudflare/workers-types": "^4.20231121.0",
     "@go2asia/config": "workspace:*",
     "@types/node": "^20.10.0",
+    "csv-parse": "^5.5.0",
     "dotenv": "^16.6.1",
     "drizzle-kit": "^0.20.0",
     "tsx": "^4.7.0",

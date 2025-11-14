@@ -1,4 +1,4 @@
-import { pgTable, text, varchar, integer, timestamp, pgEnum } from 'drizzle-orm/pg-core';
+import { pgTable, text, varchar, integer, timestamp, pgEnum, boolean, jsonb } from 'drizzle-orm/pg-core';
 
 // Enums
 export const countryCodeEnum = pgEnum('country_code', ['TH', 'VN', 'ID', 'MY', 'SG', 'PH']);
@@ -10,6 +10,15 @@ export const countries = pgTable('countries', {
   code: varchar('code', { length: 3 }).notNull().unique(),
   flag: text('flag'),
   description: text('description'),
+  capital: text('capital'),
+  population: text('population'),
+  currency: text('currency'),
+  language: text('language'),
+  area: text('area'),
+  timezone: text('timezone'),
+  nameEn: text('name_en'),
+  heroImage: text('hero_image'),
+  gallery: text('gallery').array(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
@@ -22,6 +31,7 @@ export const cities = pgTable('cities', {
   description: text('description'),
   latitude: text('latitude'),
   longitude: text('longitude'),
+  image: text('image'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
@@ -37,6 +47,8 @@ export const places = pgTable('places', {
   type: varchar('type', { length: 50 }),
   categories: text('categories').array(),
   photos: text('photos').array(),
+  address: text('address'),
+  rating: integer('rating'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
@@ -53,6 +65,8 @@ export const events = pgTable('events', {
   type: varchar('type', { length: 50 }),
   category: varchar('category', { length: 50 }),
   organizerId: text('organizer_id'),
+  address: text('address'),
+  contact: jsonb('contact'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
@@ -69,6 +83,8 @@ export const articles = pgTable('articles', {
   tags: text('tags').array(),
   coverImage: text('cover_image'),
   publishedAt: timestamp('published_at'),
+  featured: boolean('featured').default(false),
+  views: integer('views').default(0),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
