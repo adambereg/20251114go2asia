@@ -31,8 +31,9 @@ jobs:
         run: pnpm build
       
       # Deploy Next.js to Netlify Staging
+      # Note: Skipped if NETLIFY_AUTH_TOKEN is not set (will fail gracefully)
       - name: Deploy to Netlify Staging
-        if: ${{ secrets.NETLIFY_AUTH_TOKEN != '' }}
+        continue-on-error: true
         uses: netlify/actions/cli@master
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
@@ -42,7 +43,6 @@ jobs:
       
       # Deploy API Gateway to Cloudflare Workers Staging
       - name: Deploy API Gateway Staging
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -52,7 +52,6 @@ jobs:
       
       # Deploy Auth Service to Cloudflare Workers Staging
       - name: Deploy Auth Service Staging
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -62,7 +61,6 @@ jobs:
       
       # Deploy Content Service to Cloudflare Workers Staging
       - name: Deploy Content Service Staging
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -72,7 +70,6 @@ jobs:
       
       # Deploy Token Service to Cloudflare Workers Staging
       - name: Deploy Token Service Staging
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -82,7 +79,6 @@ jobs:
       
       # Deploy Referral Service to Cloudflare Workers Staging
       - name: Deploy Referral Service Staging
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
