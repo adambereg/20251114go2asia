@@ -2,17 +2,18 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
+  const { id } = await params;
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.go2asia.space';
   
-  const country = await fetch(`${apiUrl}/v1/api/content/countries/${params.id}`)
+  const country = await fetch(`${apiUrl}/v1/api/content/countries/${id}`)
     .then((res) => (res.ok ? res.json() : null))
     .catch(() => null);
 
@@ -35,9 +36,10 @@ export async function generateMetadata({
 }
 
 export default async function CountryPage({ params }: PageProps) {
+  const { id } = await params;
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.go2asia.space';
   
-  const country = await fetch(`${apiUrl}/v1/api/content/countries/${params.id}`)
+  const country = await fetch(`${apiUrl}/v1/api/content/countries/${id}`)
     .then((res) => (res.ok ? res.json() : null))
     .catch(() => null);
 

@@ -2,17 +2,18 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.go2asia.space';
   
-  const article = await fetch(`${apiUrl}/v1/api/content/articles/${params.slug}`)
+  const article = await fetch(`${apiUrl}/v1/api/content/articles/${slug}`)
     .then((res) => (res.ok ? res.json() : null))
     .catch(() => null);
 
@@ -37,9 +38,10 @@ export async function generateMetadata({
 }
 
 export default async function ArticlePage({ params }: PageProps) {
+  const { slug } = await params;
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.go2asia.space';
   
-  const article = await fetch(`${apiUrl}/v1/api/content/articles/${params.slug}`)
+  const article = await fetch(`${apiUrl}/v1/api/content/articles/${slug}`)
     .then((res) => (res.ok ? res.json() : null))
     .catch(() => null);
 
