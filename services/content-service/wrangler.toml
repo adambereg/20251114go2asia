@@ -5,15 +5,11 @@ compatibility_flags = ["nodejs_compat"]
 
 [env.staging]
 name = "go2asia-content-service-staging"
-vars = { 
-  NODE_ENV = "staging",
-}
+vars = { NODE_ENV = "staging" }
 
 [env.production]
 name = "go2asia-content-service-prod"
-vars = { 
-  NODE_ENV = "production",
-}
+vars = { NODE_ENV = "production" }
 
 [observability]
 enabled = true
