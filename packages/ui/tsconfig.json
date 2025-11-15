@@ -5,11 +5,7 @@
     "rootDir": "./src",
     "jsx": "react-jsx",
     "declaration": true,
-    "declarationMap": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "declarationMap": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", ".storybook"]

@@ -1,6 +1,4 @@
 /** @type {import('next').NextConfig} */
-const path = require('path');
-
 const nextConfig = {
   reactStrictMode: true,
   env: {
@@ -10,14 +8,6 @@ const nextConfig = {
   images: {
     domains: ['cdn.go2asia.space', 'images.unsplash.com'],
     formats: ['image/avif', 'image/webp'],
-  },
-  webpack: (config) => {
-    // Настройка алиаса @ для packages/ui
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': path.resolve(__dirname, '../../packages/ui/src'),
-    };
-    return config;
   },
   async headers() {
     return [
