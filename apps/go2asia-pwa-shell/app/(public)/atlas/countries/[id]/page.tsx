@@ -31,17 +31,23 @@ const countryData: Record<string, any> = {
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  const country = countryData[params.id];
+  const { id } = await params;
+  const country = countryData[id];
   return {
     title: `${country?.name || 'Страна'} - Atlas Asia | Go2Asia`,
     description: `Информация о ${country?.name || 'стране'} в Atlas Asia`,
   };
 }
 
-export default function CountryPage({ params }: { params: { id: string } }) {
-  const country = countryData[params.id] || {
+export default async function CountryPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const country = countryData[id] || {
     name: 'Страна',
     flag: '🌏',
     description: 'Описание страны',

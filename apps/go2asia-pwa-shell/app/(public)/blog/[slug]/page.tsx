@@ -49,9 +49,10 @@ const articles: Record<string, any> = {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const article = articles[params.slug];
+  const { slug } = await params;
+  const article = articles[slug];
   return {
     title: `${article?.title || 'Статья'} - Blog Asia | Go2Asia`,
     description: article?.excerpt || 'Статья из Blog Asia',
@@ -67,8 +68,13 @@ function formatDate(dateString: string) {
   });
 }
 
-export default function ArticlePage({ params }: { params: { slug: string } }) {
-  const article = articles[params.slug] || {
+export default async function ArticlePage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const article = articles[slug] || {
     title: 'Статья не найдена',
     author: { name: 'Автор' },
     publishedAt: new Date().toISOString(),
