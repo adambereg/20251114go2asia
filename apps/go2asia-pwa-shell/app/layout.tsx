@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { TopAppBar } from '../components/app-shell/TopAppBar';
+import { BottomNav } from '../components/app-shell/BottomNav';
 
 export const metadata: Metadata = {
   title: {
@@ -26,6 +28,8 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  manifest: '/manifest.webmanifest',
+  themeColor: '#1677FF',
 };
 
 export default function RootLayout({
@@ -35,7 +39,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru">
-      <body>{children}</body>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>
+        <TopAppBar />
+        <main className="min-h-screen pb-16 lg:pb-0">
+          {children}
+        </main>
+        <BottomNav />
+      </body>
     </html>
   );
 }
