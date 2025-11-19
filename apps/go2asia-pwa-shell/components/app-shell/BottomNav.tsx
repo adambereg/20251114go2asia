@@ -2,22 +2,22 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, MapPin, Calendar, Target, User } from 'lucide-react';
+import { Home, Globe, Calendar, BookOpen, Users } from 'lucide-react';
 import { cn } from '@go2asia/ui';
 
 const navItems = [
   { href: '/', icon: Home, label: 'Главная' },
-  { href: '/atlas', icon: MapPin, label: 'Карта' },
-  { href: '/pulse', icon: Calendar, label: 'События' },
-  { href: '/quest', icon: Target, label: 'Квесты' },
-  { href: '/space/me', icon: User, label: 'Профиль' },
+  { href: '/atlas', icon: Globe, label: 'Atlas' },
+  { href: '/pulse', icon: Calendar, label: 'Pulse' },
+  { href: '/blog', icon: BookOpen, label: 'Blog' },
+  { href: '/space', icon: Users, label: 'Space' },
 ];
 
 export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 shadow-lg lg:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 lg:hidden">
       <div className="flex items-center justify-around h-16">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -32,7 +32,7 @@ export function BottomNav() {
                 'transition-colors',
                 isActive
                   ? 'text-sky-600'
-                  : 'text-slate-600 hover:text-sky-600'
+                  : 'text-slate-600'
               )}
               aria-label={item.label}
             >

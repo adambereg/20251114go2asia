@@ -50,5 +50,15 @@
     );
     background-size: 800px 104px;
   }
+
+  /* Скрытие скроллбара */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
 
