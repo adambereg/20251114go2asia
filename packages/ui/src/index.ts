@@ -5,8 +5,8 @@ export { cn } from './utils/cn';
 export { Button } from './components/Button';
 export type { ButtonProps } from './components/Button';
 
-export { Card } from './components/Card';
-export type { CardProps } from './components/Card';
+export { Card, CardContent } from './components/Card';
+export type { CardProps, CardContentProps } from './components/Card';
 
 export { GradientCard } from './components/GradientCard';
 export type { GradientCardProps } from './components/GradientCard';

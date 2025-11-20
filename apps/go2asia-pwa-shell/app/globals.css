@@ -2,8 +2,6 @@
    Go2Asia Design System - Global Styles
    ======================================== */
 
-@import 'leaflet/dist/leaflet.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
