@@ -32,30 +32,6 @@ const nextConfig = {
           },
         ],
       },
-      {
-        // HTML файлы не кэшируем
-        source: '/:path*.html',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=0, must-revalidate',
-          },
-        ],
-      },
-      {
-        // CSS файлы кэшируем с версионированием
-        source: '/_next/static/css/:path*.css',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-          {
-            key: 'Content-Type',
-            value: 'text/css; charset=utf-8',
-          },
-        ],
-      },
     ];
   },
   async redirects() {

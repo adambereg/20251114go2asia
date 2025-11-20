@@ -20,49 +20,21 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
-# HTML файлы - не кэшируем, чтобы всегда получать свежую версию
+# Cache headers - минимальная конфигурация
 [[headers]]
   for = "/*.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-    X-Content-Type-Options = "nosniff"
 
-# Next.js статические файлы - кэшируем с версионированием
 [[headers]]
   for = "/_next/static/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-    X-Content-Type-Options = "nosniff"
 
-# CSS и JS файлы - кэшируем с версионированием
-[[headers]]
-  for = "/_next/static/css/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-    Content-Type = "text/css; charset=utf-8"
-
-[[headers]]
-  for = "/_next/static/chunks/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# Изображения - кэшируем на день
 [[headers]]
   for = "/images/*"
   [headers.values]
     Cache-Control = "public, max-age=86400"
-
-# Фавиконки и манифесты - кэшируем на неделю
-[[headers]]
-  for = "/*.ico"
-  [headers.values]
-    Cache-Control = "public, max-age=604800"
-
-[[headers]]
-  for = "/*.webmanifest"
-  [headers.values]
-    Cache-Control = "public, max-age=604800"
-    Content-Type = "application/manifest+json"
 
 # Preview deployments
 [context.production]
