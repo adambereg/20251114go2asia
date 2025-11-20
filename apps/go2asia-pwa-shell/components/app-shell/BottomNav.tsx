@@ -1,48 +1,39 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Home, Globe, Calendar, BookOpen, User } from 'lucide-react';
-import { cn } from '@go2asia/ui';
+import { usePathname, useRouter } from 'next/navigation';
+import { BottomNav as DesignSystemBottomNav } from '@go2asia/ui';
 
-const navItems = [
-  { href: '/', icon: Home, label: 'Главная' },
-  { href: '/atlas', icon: Globe, label: 'Atlas' },
-  { href: '/pulse', icon: Calendar, label: 'Pulse' },
-  { href: '/blog', icon: BookOpen, label: 'Blog' },
-  { href: '/space', icon: User, label: 'Space' },
-];
+type ModuleType = 'home' | 'atlas' | 'pulse' | 'blog' | 'space';
 
 export function BottomNav() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  // Определяем активный модуль на основе pathname
+  const getActiveModule = (): ModuleType => {
+    if (pathname === '/') return 'home';
+    if (pathname.startsWith('/atlas')) return 'atlas';
+    if (pathname.startsWith('/pulse')) return 'pulse';
+    if (pathname.startsWith('/blog')) return 'blog';
+    if (pathname.startsWith('/space')) return 'space';
+    return 'home';
+  };
+
+  const handleModuleChange = (module: ModuleType) => {
+    const routes: Record<ModuleType, string> = {
+      home: '/',
+      atlas: '/atlas',
+      pulse: '/pulse',
+      blog: '/blog',
+      space: '/space',
+    };
+    router.push(routes[module]);
+  };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 md:hidden">
-      <div className="flex items-center justify-around h-16">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
-
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                'flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg',
-                'transition-colors',
-                isActive
-                  ? 'text-sky-600'
-                  : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50'
-              )}
-              aria-label={item.label}
-            >
-              <Icon size={20} className={isActive ? 'stroke-[2.5]' : ''} />
-              <span className="text-xs font-medium">{item.label}</span>
-            </Link>
-          );
-        })}
-      </div>
-    </nav>
+    <DesignSystemBottomNav
+      activeModule={getActiveModule()}
+      onModuleChange={handleModuleChange}
+    />
   );
 }
-

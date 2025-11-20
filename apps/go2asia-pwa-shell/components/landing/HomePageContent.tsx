@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   Globe,
   Calendar,
@@ -20,12 +21,12 @@ import {
 } from 'lucide-react';
 import {
   HeroSection,
-  ModuleCard,
-  PopularPlacesCard,
-  EventCard,
-  BenefitCard,
+  ModuleTile,
+  CarouselItem,
+  FeatureCard,
   CTABanner,
-  PersonalWelcome,
+  UserSummary,
+  Button,
 } from '@go2asia/ui';
 import { RewardsList } from './RewardsList';
 import { LocationPrompt } from './LocationPrompt';
@@ -36,75 +37,84 @@ const isAuthenticated = false; // Временно false для демонстр
 const modules = [
   {
     href: '/atlas',
+    module: 'atlas' as const,
     icon: Globe,
     title: 'Atlas Asia',
     description: 'Энциклопедия мест',
-    color: 'blue' as const,
     requiresAuth: false,
+    isPro: false,
   },
   {
     href: '/pulse',
+    module: 'pulse' as const,
     icon: Calendar,
     title: 'Pulse Asia',
     description: 'События и афиша',
-    color: 'blue' as const,
     requiresAuth: false,
+    isPro: false,
   },
   {
     href: '/blog',
+    module: 'blog' as const,
     icon: BookOpen,
     title: 'Blog Asia',
     description: 'Статьи и гайды',
-    color: 'blue' as const,
     requiresAuth: false,
+    isPro: false,
   },
   {
     href: '/guru',
+    module: 'guru' as const,
     icon: MapPin,
     title: 'Guru Asia',
     description: 'Рядом со мной',
-    color: 'blue' as const,
     requiresAuth: true,
+    isPro: false,
   },
   {
     href: '/rielt',
+    module: 'rielt' as const,
     icon: Building,
     title: 'Rielt.Market',
     description: 'Поиск жилья',
-    color: 'emerald' as const,
     requiresAuth: true,
+    isPro: false,
   },
   {
     href: '/quest',
+    module: 'quest' as const,
     icon: Target,
     title: 'Quest Asia',
     description: 'Квесты и челленджи',
-    color: 'purple' as const,
     requiresAuth: true,
+    isPro: false,
   },
   {
     href: '/rf',
+    module: 'rf' as const,
     icon: Handshake,
     title: 'Russian Friendly',
     description: 'Партнеры и скидки',
-    color: 'blue' as const,
     requiresAuth: true,
+    isPro: true,
   },
   {
     href: '/space',
+    module: 'space' as const,
     icon: Users,
     title: 'Space Asia',
     description: 'Социальная сеть',
-    color: 'blue' as const,
     requiresAuth: true,
+    isPro: false,
   },
   {
     href: '/connect',
+    module: 'connect' as const,
     icon: Wallet,
     title: 'Connect Asia',
     description: 'Баланс и награды',
-    color: 'amber' as const,
     requiresAuth: true,
+    isPro: false,
   },
 ];
 
@@ -158,52 +168,52 @@ const events = [
 
 const benefits = [
   {
+    type: 'community' as const,
     icon: Users2,
     title: 'Живое сообщество Go2Asia',
     description:
       'Знакомьтесь с людьми, делитесь опытом, находите ответы на любые вопросы о ЮВА.',
-    actionText: 'Перейти в Space Asia',
-    color: 'blue' as const,
+    cta: 'Перейти в Space Asia',
   },
   {
+    type: 'teams' as const,
     icon: Users2,
     title: 'Путешествуйте командой',
     description:
       'Создавайте небольшие команды друзей и единомышленников, планируйте поездки и квесты вместе.',
-    actionText: 'Создать группу в Space',
-    color: 'purple' as const,
+    cta: 'Создать группу в Space',
   },
   {
+    type: 'rf' as const,
     icon: Gift,
     title: 'Скидки у Russian Friendly-партнёров',
     description:
       'Кафе, отели, коворкинги и сервисы, где вас понимают и дают бонусы по Go2Asia.',
-    actionText: 'Смотреть партнёрские места',
-    color: 'emerald' as const,
+    cta: 'Смотреть партнёрские места',
   },
   {
+    type: 'referral' as const,
     icon: TrendingUp,
     title: 'Реферальная программа',
     description:
       'Приглашайте друзей в Go2Asia и получайте вознаграждения за их активность.',
-    actionText: 'Получить свою реферальную ссылку',
-    color: 'yellow' as const,
+    cta: 'Получить свою реферальную ссылку',
   },
   {
+    type: 'rewards' as const,
     icon: Award,
     title: 'Награды за активность',
     description:
       'Публикуйте посты, проходите квесты, помогайте новичкам и копите Points и NFT-бейджи.',
-    actionText: 'Открыть профиль наград',
-    color: 'indigo' as const,
+    cta: 'Открыть профиль наград',
   },
   {
+    type: 'quests' as const,
     icon: Crosshair,
     title: 'Открывайте Азию через квесты',
     description:
       'Маршруты, челленджи и задания в любимых городах. Выполняйте миссии и получайте бонусы.',
-    actionText: 'Смотреть квесты',
-    color: 'rose' as const,
+    cta: 'Смотреть квесты',
   },
 ];
 
@@ -229,45 +239,48 @@ const rewards = [
 ];
 
 export function HomePageContent() {
+  const router = useRouter();
+
   return (
     <div className="min-h-screen bg-white pb-20 pt-16">
       {/* Hero Section или Personal Welcome */}
       {isAuthenticated ? (
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <PersonalWelcome
-            userName="Анна Петрова"
-            currentLocation="Паттайя, Таиланд"
+          <UserSummary
+            name="Анна Петрова"
+            initials="АП"
+            location="Паттайя, Таиланд"
             level={12}
-            levelProgress={75}
+            progress={75}
             pointsToNextLevel={335}
-            pointsBalance={3450}
-            unfinishedNFTs={5}
-            teamMembers={7}
-            activeQuests={2}
-            onContinueQuest={() => console.log('Продолжить квест')}
-            onNewVouchers={() => console.log('Новые ваучеры')}
-            onReferralLink={() => console.log('Реферальная ссылка')}
+            stats={{
+              points: 3450,
+              nfts: 5,
+              teamMembers: 7,
+              vouchers: 2,
+            }}
           />
         </div>
       ) : (
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <HeroSection
             primaryAction={
-              <Link
-                href="/signup"
+              <button
+                onClick={() => router.push('/signup')}
                 className="inline-flex items-center justify-center gap-2 bg-white text-sky-600 px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
               >
                 Зарегистрироваться
                 <ArrowRight size={18} />
-              </Link>
+              </button>
             }
             secondaryAction={
-              <Link
-                href="/atlas"
-                className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur text-white px-6 py-3 rounded-xl transition-all"
+              <Button
+                variant="ghost"
+                size="lg"
+                onClick={() => router.push('/atlas')}
               >
                 Посмотреть контент
-              </Link>
+              </Button>
             }
           />
         </div>
@@ -296,15 +309,16 @@ export function HomePageContent() {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           {modules.map((module) => (
-            <Link key={module.href} href={module.href}>
-              <ModuleCard
-                icon={module.icon}
-                title={module.title}
-                description={module.description}
-                color={module.color}
-                requiresAuth={module.requiresAuth}
-              />
-            </Link>
+            <ModuleTile
+              key={module.href}
+              module={module.module}
+              icon={module.icon}
+              title={module.title}
+              description={module.description}
+              locked={module.requiresAuth && !isAuthenticated}
+              isPro={module.isPro}
+              onClick={() => router.push(module.href)}
+            />
           ))}
         </div>
       </section>
@@ -322,14 +336,14 @@ export function HomePageContent() {
           </div>
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4">
             {popularPlaces.map((place, index) => (
-              <div key={index} className="flex-shrink-0 w-48 md:w-64">
-                <PopularPlacesCard
-                  type={place.type}
-                  name={place.name}
-                  country={place.country}
-                  image={place.image}
-                />
-              </div>
+              <CarouselItem
+                key={index}
+                image={place.image || '/images/placeholder.jpg'}
+                title={place.name}
+                subtitle={place.country}
+                type={place.type}
+                onClick={() => router.push(`/atlas?place=${place.name}`)}
+              />
             ))}
           </div>
         </div>
@@ -355,14 +369,13 @@ export function HomePageContent() {
         </div>
         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4">
           {events.map((event, index) => (
-            <div key={index} className="flex-shrink-0 w-72">
-              <EventCard
-                date={event.date}
-                location={event.location}
-                title={event.title}
-                image={event.image}
-              />
-            </div>
+            <CarouselItem
+              key={index}
+              image={event.image || '/images/placeholder.jpg'}
+              title={event.title}
+              subtitle={`${event.date}${event.location ? ` • ${event.location}` : ''}`}
+              onClick={() => router.push(`/pulse?event=${event.title}`)}
+            />
           ))}
         </div>
         <div className="text-center md:hidden mt-4">
@@ -389,13 +402,17 @@ export function HomePageContent() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {benefits.map((benefit, index) => (
-              <BenefitCard
+              <FeatureCard
                 key={index}
+                type={benefit.type}
                 icon={benefit.icon}
                 title={benefit.title}
                 description={benefit.description}
-                actionText={benefit.actionText}
-                color={benefit.color}
+                cta={benefit.cta}
+                onClick={() => {
+                  // TODO: Implement navigation based on benefit type
+                  console.log(`Navigate to ${benefit.type}`);
+                }}
               />
             ))}
           </div>
@@ -409,21 +426,24 @@ export function HomePageContent() {
             title="Присоединяйтесь к сообществу"
             description="Получите доступ ко всем возможностям экосистемы, зарабатывайте награды и находите единомышленников"
             primaryAction={
-              <Link
-                href="/signup"
-                className="inline-flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold transition-all"
+              <Button
+                variant="primary"
+                size="xl"
+                icon={ArrowRight}
+                iconPosition="right"
+                onClick={() => router.push('/signup')}
               >
                 Зарегистрироваться
-                <ArrowRight size={20} />
-              </Link>
+              </Button>
             }
             secondaryAction={
-              <Link
-                href="/about"
-                className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold transition-all"
+              <Button
+                variant="ghost"
+                size="xl"
+                onClick={() => router.push('/about')}
               >
                 Узнать больше
-              </Link>
+              </Button>
             }
           />
         </div>

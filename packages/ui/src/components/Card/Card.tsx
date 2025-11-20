@@ -1,63 +1,22 @@
-import { type ReactNode } from 'react';
-import { cn } from '../../utils/cn';
+import React from 'react';
 
-export interface CardProps {
-  children: ReactNode;
-  className?: string;
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
   hover?: boolean;
-  onClick?: () => void;
 }
 
-export function Card({ children, className, hover = true, onClick }: CardProps) {
-  return (
-    <article
-      className={cn(
-        'bg-white rounded-xl border border-slate-200 shadow-sm',
-        'overflow-hidden',
-        hover &&
-          'hover:shadow-lg hover:border-sky-300 hover:-translate-y-1 transition-all duration-200',
-        onClick && 'cursor-pointer',
-        className
-      )}
-      onClick={onClick}
-    >
-      {children}
-    </article>
-  );
-}
+export const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className = '', hover = true, children, ...props }, ref) => {
+    const baseStyles = 'bg-white rounded-xl border-2 border-slate-200 p-4 transition-all';
+    const hoverStyles = hover ? 'hover:shadow-lg hover:border-sky-300 hover:-translate-y-0.5' : '';
+    const combinedClassName = `${baseStyles} ${hoverStyles} ${className}`;
 
-export interface CardHeaderProps {
-  children: ReactNode;
-  className?: string;
-}
+    return (
+      <div ref={ref} className={combinedClassName} {...props}>
+        {children}
+      </div>
+    );
+  }
+);
 
-export function CardHeader({ children, className }: CardHeaderProps) {
-  return (
-    <div className={cn('p-5 pb-3', className)}>{children}</div>
-  );
-}
-
-export interface CardContentProps {
-  children: ReactNode;
-  className?: string;
-}
-
-export function CardContent({ children, className }: CardContentProps) {
-  return (
-    <div className={cn('p-5', className)}>{children}</div>
-  );
-}
-
-export interface CardFooterProps {
-  children: ReactNode;
-  className?: string;
-}
-
-export function CardFooter({ children, className }: CardFooterProps) {
-  return (
-    <div className={cn('p-5 pt-3 border-t border-slate-100', className)}>
-      {children}
-    </div>
-  );
-}
-
+Card.displayName = 'Card';
