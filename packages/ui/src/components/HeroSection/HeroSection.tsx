@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { Check } from 'lucide-react';
+import { Sparkles, CheckCircle, ArrowRight } from 'lucide-react';
 import { cn } from '../../utils/cn';
 
 export interface HeroSectionProps {
@@ -24,37 +24,36 @@ export function HeroSection({
   secondaryAction,
 }: HeroSectionProps) {
   return (
-    <section
-      className={cn(
-        'bg-gradient-to-br from-sky-600 to-sky-700 text-white',
-        'py-12 lg:py-16',
-        className
-      )}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">
-            {title}
-          </h1>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            {subtitle}
-          </h2>
-          <p className="text-base sm:text-lg text-sky-100 mb-8">
+    <section className={cn('mb-8 md:mb-12', className)}>
+      <div className="bg-gradient-to-br from-sky-500 to-sky-600 rounded-2xl p-6 md:p-12 text-white overflow-hidden relative">
+        {/* Декоративные круги */}
+        <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -mr-24 -mt-24" />
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full -ml-16 -mb-16" />
+
+        <div className="relative z-10 max-w-3xl">
+          {/* Sparkles icon */}
+          <div className="flex items-center gap-2 mb-3">
+            <Sparkles className="w-5 h-5" />
+            <span className="text-xs font-medium opacity-90">{title}</span>
+          </div>
+
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3">{subtitle}</h1>
+          <p className="text-lg md:text-xl lg:text-2xl mb-4 opacity-95">
             Всё для жизни, путешествий и работы в Юго-Восточной Азии
           </p>
 
-          {/* Features */}
-          <ul className="flex flex-col items-start sm:items-center gap-3 mb-8 text-left sm:text-center">
+          {/* Value propositions с CheckCircle */}
+          <div className="mb-6 space-y-2">
             {features.map((feature, index) => (
-              <li key={index} className="flex items-center gap-2 text-sm sm:text-base">
-                <Check size={20} className="flex-shrink-0" />
-                <span>{feature}</span>
-              </li>
+              <div key={index} className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 flex-shrink-0" />
+                <span className="text-sm md:text-base">{feature}</span>
+              </div>
             ))}
-          </ul>
+          </div>
 
-          {/* Actions */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          {/* CTA кнопки */}
+          <div className="flex flex-col sm:flex-row gap-3">
             {primaryAction}
             {secondaryAction}
           </div>

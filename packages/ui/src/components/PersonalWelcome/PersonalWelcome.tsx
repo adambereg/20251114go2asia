@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { MapPin, Gem, Headphones, Users, FileText, Compass, Calendar, TrendingUp } from 'lucide-react';
+import { MapPin, Coins, Award, Users, Ticket, Star, Target, Gift, TrendingUp } from 'lucide-react';
 import { cn } from '../../utils/cn';
 
 export interface PersonalWelcomeProps {
@@ -36,109 +36,110 @@ export function PersonalWelcome({
   onReferralLink,
 }: PersonalWelcomeProps) {
   return (
-    <section
-      className={cn(
-        'bg-gradient-to-br from-orange-500 to-amber-500 text-white rounded-xl p-6 sm:p-8',
-        className
-      )}
-    >
-      <div className="flex flex-col sm:flex-row gap-6">
-        {/* Left: Avatar and Info */}
-        <div className="flex items-start gap-4">
+    <section className={cn('mb-8 md:mb-12', className)}>
+      <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-5 md:p-7 text-white">
+        {/* Аватар + инфо */}
+        <div className="flex items-start gap-4 mb-5">
           {userAvatar ? (
             <img
               src={userAvatar}
               alt={userName}
-              className="w-16 h-16 rounded-full border-2 border-white/20"
+              className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur"
             />
           ) : (
-            <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center border-2 border-white/20">
-              <span className="text-2xl font-bold">{userName.charAt(0).toUpperCase()}</span>
+            <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-xl font-bold">
+              {userName.charAt(0).toUpperCase()}
             </div>
           )}
           <div className="flex-1">
-            <h2 className="text-xl sm:text-2xl font-bold mb-1">{userName}</h2>
-            <div className="flex items-center gap-2 text-sm text-white/90 mb-4">
-              <MapPin size={16} />
+            <h2 className="text-lg font-bold mb-1">{userName}</h2>
+            <div className="flex items-center gap-1.5 text-xs opacity-90">
+              <MapPin size={14} />
               <span>Сейчас: {currentLocation}</span>
             </div>
-            <div className="flex items-center gap-4 mb-4">
-              <span className="text-sm font-medium">Level {level}</span>
-              <div className="flex-1 bg-white/20 rounded-full h-2 max-w-xs">
-                <div
-                  className="bg-white rounded-full h-2 transition-all"
-                  style={{ width: `${levelProgress}%` }}
-                />
-              </div>
-            </div>
-            <p className="text-xs sm:text-sm text-white/80">
-              +{pointsToNextLevel} Points до следующего уровня
-            </p>
           </div>
         </div>
 
-        {/* Right: Stats Grid */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 flex-1">
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4">
-            <div className="flex items-center gap-2 mb-1">
-              <Gem size={18} />
-              <span className="text-xs text-white/80">Points на балансе</span>
-            </div>
-            <p className="text-lg sm:text-xl font-bold">{pointsBalance.toLocaleString()}</p>
+        {/* Level Progress */}
+        <div className="mb-5">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-bold flex items-center gap-1.5">
+              <Star size={16} />
+              Level {level}
+            </span>
+            <span className="text-sm font-bold">{levelProgress}%</span>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4">
-            <div className="flex items-center gap-2 mb-1">
-              <Headphones size={18} />
-              <span className="text-xs text-white/80">незавершенных NFT</span>
-            </div>
-            <p className="text-lg sm:text-xl font-bold">{unfinishedNFTs}</p>
+          <div className="bg-white/20 rounded-full h-2 mb-1">
+            <div
+              className="bg-white rounded-full h-2 transition-all"
+              style={{ width: `${levelProgress}%` }}
+            />
           </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4">
-            <div className="flex items-center gap-2 mb-1">
-              <Users size={18} />
-              <span className="text-xs text-white/80">человек в команде</span>
-            </div>
-            <p className="text-lg sm:text-xl font-bold">{teamMembers}</p>
-          </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4">
-            <div className="flex items-center gap-2 mb-1">
-              <FileText size={18} />
-              <span className="text-xs text-white/80">активных квеста</span>
-            </div>
-            <p className="text-lg sm:text-xl font-bold">{activeQuests}</p>
-          </div>
+          <p className="text-xs opacity-80">+{pointsToNextLevel} Points до следующего уровня</p>
         </div>
-      </div>
 
-      {/* Actions */}
-      <div className="flex flex-wrap gap-3 mt-6 pt-6 border-t border-white/20">
-        {onContinueQuest && (
-          <button
-            onClick={onContinueQuest}
-            className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors text-sm font-medium"
-          >
-            <Compass size={18} />
-            Продолжить квест
+        {/* Mini Stats Grid (2x2 на mobile, 4x1 на desktop) */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          <button className="bg-white/15 hover:bg-white/25 backdrop-blur rounded-xl p-3 text-left">
+            <div className="flex items-center gap-2 mb-1">
+              <Coins size={18} className="text-yellow-200" />
+              <span className="text-lg font-bold">{pointsBalance.toLocaleString()}</span>
+            </div>
+            <p className="text-xs opacity-90">Points на балансе</p>
           </button>
-        )}
-        {onNewVouchers && (
-          <button
-            onClick={onNewVouchers}
-            className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors text-sm font-medium"
-          >
-            <Calendar size={18} />
-            Новые ваучеры
+          <button className="bg-white/15 hover:bg-white/25 backdrop-blur rounded-xl p-3 text-left">
+            <div className="flex items-center gap-2 mb-1">
+              <Award size={18} className="text-yellow-200" />
+              <span className="text-lg font-bold">{unfinishedNFTs}</span>
+            </div>
+            <p className="text-xs opacity-90">коллекционных NFT</p>
           </button>
-        )}
-        {onReferralLink && (
-          <button
-            onClick={onReferralLink}
-            className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors text-sm font-medium"
-          >
-            <TrendingUp size={18} />
-            Реферальная ссылка
+          <button className="bg-white/15 hover:bg-white/25 backdrop-blur rounded-xl p-3 text-left">
+            <div className="flex items-center gap-2 mb-1">
+              <Users size={18} className="text-yellow-200" />
+              <span className="text-lg font-bold">{teamMembers}</span>
+            </div>
+            <p className="text-xs opacity-90">человек в команде</p>
           </button>
-        )}
+          <button className="bg-white/15 hover:bg-white/25 backdrop-blur rounded-xl p-3 text-left">
+            <div className="flex items-center gap-2 mb-1">
+              <Ticket size={18} className="text-yellow-200" />
+              <span className="text-lg font-bold">{activeQuests}</span>
+            </div>
+            <p className="text-xs opacity-90">активных ваучера</p>
+          </button>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="flex flex-wrap gap-2 mt-4">
+          {onContinueQuest && (
+            <button
+              onClick={onContinueQuest}
+              className="px-4 py-2 bg-white/15 hover:bg-white/25 backdrop-blur rounded-lg text-sm flex items-center gap-2"
+            >
+              <Target size={16} />
+              Продолжить квест
+            </button>
+          )}
+          {onNewVouchers && (
+            <button
+              onClick={onNewVouchers}
+              className="px-4 py-2 bg-white/15 hover:bg-white/25 backdrop-blur rounded-lg text-sm flex items-center gap-2"
+            >
+              <Gift size={16} />
+              Новые ваучеры
+            </button>
+          )}
+          {onReferralLink && (
+            <button
+              onClick={onReferralLink}
+              className="px-4 py-2 bg-white/15 hover:bg-white/25 backdrop-blur rounded-lg text-sm flex items-center gap-2"
+            >
+              <TrendingUp size={16} />
+              Реферальная ссылка
+            </button>
+          )}
+        </div>
       </div>
     </section>
   );

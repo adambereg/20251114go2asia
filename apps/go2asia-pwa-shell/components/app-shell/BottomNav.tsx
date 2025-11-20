@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Globe, Calendar, BookOpen, Users } from 'lucide-react';
+import { Home, Globe, Calendar, BookOpen, User } from 'lucide-react';
 import { cn } from '@go2asia/ui';
 
 const navItems = [
@@ -10,14 +10,14 @@ const navItems = [
   { href: '/atlas', icon: Globe, label: 'Atlas' },
   { href: '/pulse', icon: Calendar, label: 'Pulse' },
   { href: '/blog', icon: BookOpen, label: 'Blog' },
-  { href: '/space', icon: Users, label: 'Space' },
+  { href: '/space', icon: User, label: 'Space' },
 ];
 
 export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 lg:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 md:hidden">
       <div className="flex items-center justify-around h-16">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -28,15 +28,15 @@ export function BottomNav() {
               key={item.href}
               href={item.href}
               className={cn(
-                'flex flex-col items-center justify-center gap-1 flex-1 h-full',
+                'flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg',
                 'transition-colors',
                 isActive
                   ? 'text-sky-600'
-                  : 'text-slate-600'
+                  : 'text-slate-600 hover:text-sky-600 hover:bg-slate-50'
               )}
               aria-label={item.label}
             >
-              <Icon size={20} />
+              <Icon size={20} className={isActive ? 'stroke-[2.5]' : ''} />
               <span className="text-xs font-medium">{item.label}</span>
             </Link>
           );

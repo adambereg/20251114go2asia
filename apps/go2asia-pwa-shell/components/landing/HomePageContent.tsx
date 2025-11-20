@@ -16,6 +16,7 @@ import {
   TrendingUp,
   Award,
   Crosshair,
+  ArrowRight,
 } from 'lucide-react';
 import {
   HeroSection,
@@ -62,7 +63,7 @@ const modules = [
     icon: MapPin,
     title: 'Guru Asia',
     description: 'Рядом со мной',
-    color: 'green' as const,
+    color: 'blue' as const,
     requiresAuth: true,
   },
   {
@@ -70,7 +71,7 @@ const modules = [
     icon: Building,
     title: 'Rielt.Market',
     description: 'Поиск жилья',
-    color: 'green' as const,
+    color: 'emerald' as const,
     requiresAuth: true,
   },
   {
@@ -102,7 +103,7 @@ const modules = [
     icon: Wallet,
     title: 'Connect Asia',
     description: 'Баланс и награды',
-    color: 'orange' as const,
+    color: 'amber' as const,
     requiresAuth: true,
   },
 ];
@@ -170,7 +171,7 @@ const benefits = [
     description:
       'Создавайте небольшие команды друзей и единомышленников, планируйте поездки и квесты вместе.',
     actionText: 'Создать группу в Space',
-    color: 'blue' as const,
+    color: 'purple' as const,
   },
   {
     icon: Gift,
@@ -178,7 +179,7 @@ const benefits = [
     description:
       'Кафе, отели, коворкинги и сервисы, где вас понимают и дают бонусы по Go2Asia.',
     actionText: 'Смотреть партнёрские места',
-    color: 'green' as const,
+    color: 'emerald' as const,
   },
   {
     icon: TrendingUp,
@@ -194,7 +195,7 @@ const benefits = [
     description:
       'Публикуйте посты, проходите квесты, помогайте новичкам и копите Points и NFT-бейджи.',
     actionText: 'Открыть профиль наград',
-    color: 'purple' as const,
+    color: 'indigo' as const,
   },
   {
     icon: Crosshair,
@@ -202,7 +203,7 @@ const benefits = [
     description:
       'Маршруты, челленджи и задания в любимых городах. Выполняйте миссии и получайте бонусы.',
     actionText: 'Смотреть квесты',
-    color: 'pink' as const,
+    color: 'rose' as const,
   },
 ];
 
@@ -229,10 +230,10 @@ const rewards = [
 
 export function HomePageContent() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white pb-20 pt-16">
       {/* Hero Section или Personal Welcome */}
       {isAuthenticated ? (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <PersonalWelcome
             userName="Анна Петрова"
             currentLocation="Паттайя, Таиланд"
@@ -249,24 +250,27 @@ export function HomePageContent() {
           />
         </div>
       ) : (
-        <HeroSection
-          primaryAction={
-            <Link
-              href="/signup"
-              className="inline-flex items-center justify-center px-6 py-3 bg-white text-sky-600 rounded-lg hover:bg-sky-50 shadow-sm hover:shadow-md transition-all font-medium"
-            >
-              Зарегистрироваться →
-            </Link>
-          }
-          secondaryAction={
-            <Link
-              href="/atlas"
-              className="inline-flex items-center justify-center px-6 py-3 bg-white/10 text-white border border-white/30 rounded-lg hover:bg-white/20 transition-all font-medium"
-            >
-              Посмотреть контент
-            </Link>
-          }
-        />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <HeroSection
+            primaryAction={
+              <Link
+                href="/signup"
+                className="inline-flex items-center justify-center gap-2 bg-white text-sky-600 px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
+              >
+                Зарегистрироваться
+                <ArrowRight size={18} />
+              </Link>
+            }
+            secondaryAction={
+              <Link
+                href="/atlas"
+                className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur text-white px-6 py-3 rounded-xl transition-all"
+              >
+                Посмотреть контент
+              </Link>
+            }
+          />
+        </div>
       )}
 
       {/* Location Prompt - только для авторизованных */}
@@ -281,16 +285,16 @@ export function HomePageContent() {
       {isAuthenticated && <RewardsList rewards={rewards} />}
 
       {/* Modules Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 mb-8 md:mb-12">
+        <div className="text-center mb-4 md:mb-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
             Модули экосистемы
           </h2>
-          <p className="text-sm sm:text-base text-slate-600">
+          <p className="text-sm md:text-base text-slate-600">
             Выберите модуль, чтобы начать исследование
           </p>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           {modules.map((module) => (
             <Link key={module.href} href={module.href}>
               <ModuleCard
@@ -306,19 +310,19 @@ export function HomePageContent() {
       </section>
 
       {/* Popular Places Section */}
-      <section className="bg-slate-50 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+      <section className="bg-slate-50 py-8 md:py-12 mb-8 md:mb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-4 md:mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
               Популярно сейчас
             </h2>
-            <p className="text-sm sm:text-base text-slate-600">
+            <p className="text-sm md:text-base text-slate-600">
               Самые посещаемые места и контент
             </p>
           </div>
-          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4">
             {popularPlaces.map((place, index) => (
-              <div key={index} className="flex-shrink-0 w-64">
+              <div key={index} className="flex-shrink-0 w-48 md:w-64">
                 <PopularPlacesCard
                   type={place.type}
                   name={place.name}
@@ -332,24 +336,24 @@ export function HomePageContent() {
       </section>
 
       {/* Events Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex items-center justify-between mb-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 mb-8 md:mb-12">
+        <div className="flex items-center justify-between mb-4 md:mb-6">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
               События этой недели
             </h2>
-            <p className="text-sm sm:text-base text-slate-600">
+            <p className="text-sm md:text-base text-slate-600">
               Предстоящие мероприятия
             </p>
           </div>
           <Link
             href="/pulse"
-            className="text-sm font-medium text-sky-600 hover:text-sky-700 hidden sm:inline"
+            className="text-sm font-medium text-sky-600 hover:text-sky-700 hidden md:inline"
           >
             Смотреть все →
           </Link>
         </div>
-        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4">
           {events.map((event, index) => (
             <div key={index} className="flex-shrink-0 w-72">
               <EventCard
@@ -361,7 +365,7 @@ export function HomePageContent() {
             </div>
           ))}
         </div>
-        <div className="text-center sm:hidden mt-4">
+        <div className="text-center md:hidden mt-4">
           <Link
             href="/pulse"
             className="text-sm font-medium text-sky-600 hover:text-sky-700"
@@ -372,18 +376,18 @@ export function HomePageContent() {
       </section>
 
       {/* Benefits Section */}
-      <section className="bg-slate-50 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+      <section className="bg-slate-50 py-8 md:py-12 mb-8 md:mb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-4 md:mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
               Зачем вступать в экосистему Go2Asia?
             </h2>
-            <p className="text-sm sm:text-base text-slate-600">
+            <p className="text-sm md:text-base text-slate-600">
               Больше чем просто информация о путешествиях — целая экосистема
               возможностей
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {benefits.map((benefit, index) => (
               <BenefitCard
                 key={index}
@@ -400,26 +404,29 @@ export function HomePageContent() {
 
       {/* CTA Banner - только для неавторизованных */}
       {!isAuthenticated && (
-        <CTABanner
-          title="Присоединяйтесь к сообществу"
-          description="Получите доступ ко всем возможностям экосистемы, зарабатывайте награды и находите единомышленников"
-          primaryAction={
-            <Link
-              href="/signup"
-              className="inline-flex items-center justify-center px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white rounded-lg shadow-sm hover:shadow-md transition-all font-medium"
-            >
-              Зарегистрироваться →
-            </Link>
-          }
-          secondaryAction={
-            <Link
-              href="/about"
-              className="inline-flex items-center justify-center px-6 py-3 bg-transparent text-white border border-white/30 rounded-lg hover:bg-white/10 transition-all font-medium"
-            >
-              Узнать больше
-            </Link>
-          }
-        />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-8 md:mb-12">
+          <CTABanner
+            title="Присоединяйтесь к сообществу"
+            description="Получите доступ ко всем возможностям экосистемы, зарабатывайте награды и находите единомышленников"
+            primaryAction={
+              <Link
+                href="/signup"
+                className="inline-flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold transition-all"
+              >
+                Зарегистрироваться
+                <ArrowRight size={20} />
+              </Link>
+            }
+            secondaryAction={
+              <Link
+                href="/about"
+                className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold transition-all"
+              >
+                Узнать больше
+              </Link>
+            }
+          />
+        </div>
       )}
     </div>
   );

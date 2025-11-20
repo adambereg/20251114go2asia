@@ -21,25 +21,24 @@ export function EventCard({
   onClick,
 }: EventCardProps) {
   return (
-    <div
+    <button
       onClick={onClick}
       className={cn(
-        'rounded-xl overflow-hidden bg-white border border-slate-200',
-        'cursor-pointer transition-all duration-200 hover:shadow-lg',
+        'flex-shrink-0 w-72 bg-white rounded-xl border-2 border-slate-200 overflow-hidden',
+        'hover:shadow-lg hover:border-sky-300 hover:-translate-y-1 transition-all',
+        'text-left',
         className
       )}
     >
-      {image ? (
-        <img
-          src={image}
-          alt={imageAlt || title}
-          className="w-full h-40 object-cover"
-        />
-      ) : (
-        <div className="w-full h-40 bg-slate-200 flex items-center justify-center">
-          <span className="text-slate-400 text-sm">Изображение</span>
-        </div>
-      )}
+      <div className="aspect-[4/3] overflow-hidden">
+        {image ? (
+          <img src={image} alt={imageAlt || title} className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full bg-slate-200 flex items-center justify-center">
+            <span className="text-slate-400 text-sm">Изображение</span>
+          </div>
+        )}
+      </div>
       <div className="p-4">
         <div className="flex items-center gap-2 text-xs text-slate-600 mb-2">
           <span>{date}</span>
@@ -50,11 +49,9 @@ export function EventCard({
             </>
           )}
         </div>
-        <h3 className="text-sm font-semibold text-slate-900 line-clamp-2">
-          {title}
-        </h3>
+        <h3 className="text-sm font-bold text-slate-900 line-clamp-2">{title}</h3>
       </div>
-    </div>
+    </button>
   );
 }
 

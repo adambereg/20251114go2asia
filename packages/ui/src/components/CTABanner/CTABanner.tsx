@@ -1,4 +1,5 @@
 import { type ReactNode } from 'react';
+import { ArrowRight } from 'lucide-react';
 import { cn } from '../../utils/cn';
 
 export interface CTABannerProps {
@@ -17,25 +18,21 @@ export function CTABanner({
   className,
 }: CTABannerProps) {
   return (
-    <section
+    <div
       className={cn(
-        'bg-slate-900 text-white py-12 lg:py-16',
+        'bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 md:p-12 text-white text-center',
         className
       )}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4">{title}</h2>
-          <p className="text-base sm:text-lg text-slate-300 mb-8">
-            {description}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {primaryAction}
-            {secondaryAction}
-          </div>
-        </div>
+      <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
+      <p className="text-base md:text-lg lg:text-xl mb-6 md:mb-8 opacity-90 max-w-2xl mx-auto">
+        {description}
+      </p>
+      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        {primaryAction}
+        {secondaryAction}
       </div>
-    </section>
+    </div>
   );
 }
 
