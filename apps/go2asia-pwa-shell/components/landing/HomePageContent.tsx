@@ -30,7 +30,7 @@ import { RewardsList } from './RewardsList';
 import { LocationPrompt } from './LocationPrompt';
 
 // TODO: Заменить на реальную проверку авторизации через Clerk
-const isAuthenticated = true; // Временно false для демонстрации неавторизованного состояния
+const isAuthenticated = false; // Временно false для демонстрации неавторизованного состояния
 
 const modules = [
   {
