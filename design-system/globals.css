@@ -2,6 +2,8 @@
    Go2Asia Design System - Global Styles
    ======================================== */
 
+@import 'leaflet/dist/leaflet.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -190,7 +192,7 @@
   }
 
   .module-title {
-    @apply font-bold text-xl md:text-2xl mb-1;
+    @apply font-bold text-base md:text-lg mb-1;
   }
 
   .module-description {
@@ -200,7 +202,7 @@
   /* ========== SECTIONS ========== */
 
   .section-title {
-    @apply text-2xl md:text-3xl font-bold text-slate-900 mb-2;
+    @apply text-xl md:text-2xl font-bold text-slate-900 mb-2;
   }
 
   .section-subtitle {

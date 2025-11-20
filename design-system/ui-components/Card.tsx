@@ -20,11 +20,3 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
 );
 
 Card.displayName = 'Card';
-
-export interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
-}
-
-export function CardContent({ children, className }: CardContentProps) {
-  return <div className={className}>{children}</div>;
-}

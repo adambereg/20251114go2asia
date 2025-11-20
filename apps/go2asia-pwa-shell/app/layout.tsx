@@ -39,21 +39,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
       <body>
         <TopAppBar />
-        <main className="min-h-screen pb-16 lg:pb-0">
+        <main className="min-h-screen pb-20 pt-16">
           {children}
         </main>
         <BottomNav />

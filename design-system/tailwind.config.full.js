@@ -1,10 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    '../../packages/ui/src/**/*.{js,ts,jsx,tsx}',
-  ],
+export default {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       // ========================================
@@ -120,18 +116,7 @@ module.exports = {
       },
 
       fontSize: {
-        // Стандартные размеры Tailwind (соответствуют спецификации прототипа)
-        'xs': ['0.75rem', { lineHeight: '1rem' }], // 12px - Tiny
-        'sm': ['0.875rem', { lineHeight: '1.25rem' }], // 14px - Small mobile / Base mobile
-        'base': ['1rem', { lineHeight: '1.5rem' }], // 16px - Base desktop / Nav
-        'lg': ['1.125rem', { lineHeight: '1.75rem' }], // 18px - Large mobile / H4 mobile
-        'xl': ['1.25rem', { lineHeight: '1.75rem' }], // 20px - Large desktop / H3 mobile / H4 desktop
-        '2xl': ['1.5rem', { lineHeight: '2rem' }], // 24px - H2 mobile / H3 desktop
-        '3xl': ['1.875rem', { lineHeight: '2.25rem' }], // 30px - H1 mobile / H2 desktop
-        '4xl': ['2.25rem', { lineHeight: '2.5rem' }], // 36px - H1 tablet
-        '5xl': ['3rem', { lineHeight: '1.2' }], // 48px - H1 desktop
-
-        // Кастомные размеры (для справки)
+        // Заголовки (с responsive размерами из design system)
         'h1-mobile': ['1.875rem', { lineHeight: '2.25rem', fontWeight: '700' }], // 30px
         'h1-tablet': ['2.25rem', { lineHeight: '2.5rem', fontWeight: '700' }], // 36px
         'h1-desktop': ['3rem', { lineHeight: '1.2', fontWeight: '700' }], // 48px
@@ -281,5 +266,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [],
 };
