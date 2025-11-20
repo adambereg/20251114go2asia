@@ -38,7 +38,7 @@ export const ModuleTile: React.FC<ModuleTileProps> = ({
         <div className="mb-2 md:mb-3">
           <Icon size={28} className="w-7 h-7 md:w-8 md:h-8" />
         </div>
-        <h3 className="font-bold text-base md:text-lg mb-1">{title}</h3>
+        <h3 className="font-bold text-xl md:text-2xl mb-1">{title}</h3>
         <p className="text-xs md:text-sm opacity-90">{description}</p>
       </GradientCard>
     </button>

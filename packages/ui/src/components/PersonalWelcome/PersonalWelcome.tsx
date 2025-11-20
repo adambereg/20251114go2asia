@@ -52,8 +52,8 @@ export function PersonalWelcome({
             </div>
           )}
           <div className="flex-1">
-            <h2 className="text-lg font-bold mb-1">{userName}</h2>
-            <div className="flex items-center gap-1.5 text-xs opacity-90">
+            <h2 className="text-2xl md:text-3xl font-bold mb-1">{userName}</h2>
+            <div className="flex items-center gap-1.5 text-xs md:text-sm opacity-90">
               <MapPin size={14} />
               <span>Сейчас: {currentLocation}</span>
             </div>

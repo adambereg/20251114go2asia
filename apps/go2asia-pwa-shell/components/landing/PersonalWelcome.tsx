@@ -38,8 +38,8 @@ export function PersonalWelcome({
 
           {/* User Info */}
           <div className="flex-1 min-w-0">
-            <h2 className="text-xl sm:text-2xl font-bold mb-1">{userName}</h2>
-            <div className="flex items-center gap-2 text-sm sm:text-base text-orange-50 mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold mb-1">{userName}</h2>
+            <div className="flex items-center gap-2 text-xs md:text-sm text-orange-50 mb-4">
               <MapPin size={16} />
               <span>Сейчас: {location}</span>
             </div>

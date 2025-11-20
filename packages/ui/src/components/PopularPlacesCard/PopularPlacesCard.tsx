@@ -41,8 +41,8 @@ export function PopularPlacesCard({
       </div>
       <div className="p-4">
         <div className="text-xs text-sky-600 font-medium mb-1">{type}</div>
-        <h3 className="font-bold text-slate-900 mb-1">{name}</h3>
-        <p className="text-sm text-slate-600">{country}</p>
+        <h3 className="font-bold text-xl md:text-2xl text-slate-900 mb-1">{name}</h3>
+        <p className="text-sm md:text-base text-slate-600">{country}</p>
       </div>
     </button>
   );

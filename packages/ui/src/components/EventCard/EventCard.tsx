@@ -49,7 +49,7 @@ export function EventCard({
             </>
           )}
         </div>
-        <h3 className="text-sm font-bold text-slate-900 line-clamp-2">{title}</h3>
+        <h3 className="text-xl md:text-2xl font-bold text-slate-900 line-clamp-2">{title}</h3>
       </div>
     </button>
   );

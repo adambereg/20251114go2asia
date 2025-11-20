@@ -40,7 +40,7 @@ export const UserSummary: React.FC<UserSummaryProps> = ({
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap mb-1">
-              <h2 className="text-lg md:text-xl font-bold">{name}</h2>
+              <h2 className="text-2xl md:text-3xl font-bold">{name}</h2>
               {isPro && (
                 <span className="px-2 py-0.5 bg-purple-500 rounded-md text-xs font-bold flex items-center gap-1">
                   <Star size={12} />

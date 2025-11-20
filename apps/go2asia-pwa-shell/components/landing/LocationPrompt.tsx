@@ -28,7 +28,7 @@ export function LocationPrompt({
             <MapPin size={32} className="text-sky-600" />
           </div>
           <div className="flex-1 text-center sm:text-left">
-            <h3 className="text-lg font-bold text-slate-900 mb-2">
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">
               Включите определение местоположения
             </h3>
             <p className="text-sm md:text-base text-slate-600 mb-4">

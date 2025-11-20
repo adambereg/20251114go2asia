@@ -38,7 +38,7 @@ export function HeroSection({
           </div>
 
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3">{subtitle}</h1>
-          <p className="text-lg md:text-xl lg:text-2xl mb-4 opacity-95">
+          <p className="text-lg md:text-xl mb-4 opacity-95">
             Всё для жизни, путешествий и работы в Юго-Восточной Азии
           </p>
 

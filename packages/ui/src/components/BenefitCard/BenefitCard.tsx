@@ -82,7 +82,7 @@ export function BenefitCard({
       <div className="mb-4">
         <Icon className={cn('w-8 h-8 md:w-10 md:h-10', config.icon)} />
       </div>
-      <h3 className="font-bold text-slate-900 mb-2 text-base md:text-lg">
+      <h3 className="font-bold text-slate-900 mb-2 text-xl md:text-2xl">
         {title}
       </h3>
       <p className="text-sm md:text-base text-slate-700 mb-4 leading-relaxed">

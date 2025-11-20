@@ -27,8 +27,8 @@ export const CarouselItem: React.FC<CarouselItemProps> = ({
       </div>
       <div className="p-4">
         {type && <div className="text-xs text-sky-600 font-medium mb-1">{type}</div>}
-        <h3 className="font-bold text-slate-900 mb-1">{title}</h3>
-        <p className="text-sm text-slate-600">{subtitle}</p>
+        <h3 className="font-bold text-xl md:text-2xl text-slate-900 mb-1">{title}</h3>
+        <p className="text-sm md:text-base text-slate-600">{subtitle}</p>
       </div>
     </button>
   );

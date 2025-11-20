@@ -56,7 +56,7 @@ export function ModuleCard({
       <div className="mb-2">
         <Icon size={32} className="text-white" />
       </div>
-      <h3 className="font-bold text-base md:text-lg mb-1">{title}</h3>
+      <h3 className="font-bold text-xl md:text-2xl mb-1">{title}</h3>
       <p className="text-xs md:text-sm opacity-90">{description}</p>
       {children}
     </Component>

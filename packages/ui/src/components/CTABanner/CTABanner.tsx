@@ -24,8 +24,8 @@ export function CTABanner({
         className
       )}
     >
-      <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
-      <p className="text-base md:text-lg lg:text-xl mb-6 md:mb-8 opacity-90 max-w-2xl mx-auto">
+      <h2 className="text-2xl md:text-3xl font-bold mb-4">{title}</h2>
+      <p className="text-lg md:text-xl mb-6 md:mb-8 opacity-90 max-w-2xl mx-auto">
         {description}
       </p>
       <div className="flex flex-col sm:flex-row gap-4 justify-center">

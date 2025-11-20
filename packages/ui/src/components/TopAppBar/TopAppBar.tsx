@@ -40,16 +40,16 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({
 
           {/* Навигация для десктопа */}
           <nav className="hidden md:flex items-center gap-6" aria-label="Главная навигация">
-            <button className="text-slate-600 hover:text-sky-600 transition-colors font-medium">
+            <button className="text-base text-slate-600 hover:text-sky-600 transition-colors font-medium">
               Atlas
             </button>
-            <button className="text-slate-600 hover:text-sky-600 transition-colors font-medium">
+            <button className="text-base text-slate-600 hover:text-sky-600 transition-colors font-medium">
               Pulse
             </button>
-            <button className="text-slate-600 hover:text-sky-600 transition-colors font-medium">
+            <button className="text-base text-slate-600 hover:text-sky-600 transition-colors font-medium">
               Blog
             </button>
-            <button className="text-slate-600 hover:text-sky-600 transition-colors font-medium">
+            <button className="text-base text-slate-600 hover:text-sky-600 transition-colors font-medium">
               Space
             </button>
           </nav>
