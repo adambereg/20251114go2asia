@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Star, Coins, Award, Users, Ticket } from 'lucide-react';
+import { MapPin, Star, Coins, Award, Users, Ticket, Compass, Gift, TrendingUp } from 'lucide-react';
 
 export interface UserSummaryProps {
   name: string;
@@ -14,8 +14,16 @@ export interface UserSummaryProps {
     teamMembers: number;
     vouchers: number;
   };
+  recentActivity?: {
+    quests: number;
+    posts: number;
+    reviews: number;
+  };
   isPro?: boolean;
   className?: string;
+  onContinueQuest?: () => void;
+  onNewVouchers?: () => void;
+  onReferralLink?: () => void;
 }
 
 export const UserSummary: React.FC<UserSummaryProps> = ({
@@ -26,8 +34,12 @@ export const UserSummary: React.FC<UserSummaryProps> = ({
   progress,
   pointsToNextLevel,
   stats,
+  recentActivity,
   isPro = false,
   className = '',
+  onContinueQuest,
+  onNewVouchers,
+  onReferralLink,
 }) => {
   return (
     <div className={`bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-5 md:p-7 text-white ${className}`}>
@@ -50,7 +62,7 @@ export const UserSummary: React.FC<UserSummaryProps> = ({
             </div>
             <div className="flex items-center gap-1.5 text-xs md:text-sm opacity-90">
               <MapPin size={14} className="flex-shrink-0" />
-              <span>{location}</span>
+              <span>Сейчас: {location}</span>
             </div>
           </div>
         </div>
@@ -67,7 +79,12 @@ export const UserSummary: React.FC<UserSummaryProps> = ({
           <div className="bg-white/20 rounded-full h-2 mb-1">
             <div className="bg-white rounded-full h-2" style={{ width: `${progress}%` }}></div>
           </div>
-          <p className="text-xs opacity-80">+{pointsToNextLevel} Points до следующего уровня</p>
+          <p className="text-xs opacity-80 mb-2">+{pointsToNextLevel} Points до следующего уровня</p>
+          {recentActivity && (
+            <p className="text-xs opacity-80">
+              За 30 дней: {recentActivity.quests} квестов, {recentActivity.posts} постов, {recentActivity.reviews} отзывов
+            </p>
+          )}
         </div>
       </div>
 
@@ -83,11 +100,16 @@ export const UserSummary: React.FC<UserSummaryProps> = ({
         <div className="bg-white/20 rounded-full h-2 mb-1">
           <div className="bg-white rounded-full h-2" style={{ width: `${progress}%` }}></div>
         </div>
-        <p className="text-xs opacity-80">+{pointsToNextLevel} Points до следующего уровня</p>
+        <p className="text-xs opacity-80 mb-2">+{pointsToNextLevel} Points до следующего уровня</p>
+        {recentActivity && (
+          <p className="text-xs opacity-80">
+            За 30 дней: {recentActivity.quests} квестов, {recentActivity.posts} постов, {recentActivity.reviews} отзывов
+          </p>
+        )}
       </div>
 
-      {/* Bottom Row: Mini Stats Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+      {/* Middle Row: Mini Stats Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-5">
         <button className="bg-white/15 hover:bg-white/25 backdrop-blur rounded-xl p-3 md:p-4 transition-all text-left">
           <div className="flex items-center gap-2 mb-1">
             <Coins size={18} className="text-yellow-200" />
@@ -118,6 +140,31 @@ export const UserSummary: React.FC<UserSummaryProps> = ({
             <span className="text-lg md:text-xl font-bold">{stats.vouchers}</span>
           </div>
           <p className="text-xs opacity-90">активных ваучера</p>
+        </button>
+      </div>
+
+      {/* Bottom Row: Action Buttons */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <button
+          onClick={onContinueQuest}
+          className="flex items-center gap-2 bg-white/15 hover:bg-white/25 backdrop-blur rounded-xl px-4 py-3 transition-all text-left flex-1"
+        >
+          <Compass size={20} />
+          <span className="font-medium">Продолжить квест</span>
+        </button>
+        <button
+          onClick={onNewVouchers}
+          className="flex items-center gap-2 bg-white/15 hover:bg-white/25 backdrop-blur rounded-xl px-4 py-3 transition-all text-left flex-1"
+        >
+          <Gift size={20} />
+          <span className="font-medium">Новые ваучеры</span>
+        </button>
+        <button
+          onClick={onReferralLink}
+          className="flex items-center gap-2 bg-white/15 hover:bg-white/25 backdrop-blur rounded-xl px-4 py-3 transition-all text-left flex-1"
+        >
+          <TrendingUp size={20} />
+          <span className="font-medium">Реферальная ссылка</span>
         </button>
       </div>
     </div>
