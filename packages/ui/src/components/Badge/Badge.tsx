@@ -1,12 +1,16 @@
 import React from 'react';
-import { Lock, Crown, CheckCircle } from 'lucide-react';
+import { Lock, Crown, CheckCircle, CheckCircle2, Info } from 'lucide-react';
 
 export interface BadgeProps {
-  type: 'lock' | 'pro' | 'rf' | 'rf-full';
+  type?: 'lock' | 'pro' | 'rf' | 'rf-full';
+  variant?: 'verified' | 'info' | 'ugc' | 'editor' | 'russian-friendly' | 'new' | 'popular';
+  icon?: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 }
 
-export const Badge: React.FC<BadgeProps> = ({ type, className = '' }) => {
+export const Badge: React.FC<BadgeProps> = ({ type, variant, icon, children, className = '' }) => {
+  // Новый API для модулей (type)
   if (type === 'lock') {
     return (
       <div className={`absolute top-2 right-2 bg-white/20 backdrop-blur px-2 py-1 rounded-lg flex items-center gap-1 text-xs font-medium ${className}`}>
@@ -39,6 +43,70 @@ export const Badge: React.FC<BadgeProps> = ({ type, className = '' }) => {
         <CheckCircle size={16} />
         Russian Friendly
       </div>
+    );
+  }
+
+  // Старый API для контента (variant)
+  if (variant === 'verified') {
+    return (
+      <span className={`inline-flex items-center gap-1 px-2.5 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium ${className}`}>
+        {icon || <CheckCircle2 size={12} />}
+        {children}
+      </span>
+    );
+  }
+
+  if (variant === 'info') {
+    return (
+      <span className={`inline-flex items-center gap-1 px-2.5 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium ${className}`}>
+        {icon || <Info size={12} />}
+        {children}
+      </span>
+    );
+  }
+
+  if (variant === 'ugc') {
+    return (
+      <span className={`inline-flex items-center gap-1 px-2.5 py-1 bg-sky-100 text-sky-700 rounded-full text-xs font-medium ${className}`}>
+        {icon}
+        {children}
+      </span>
+    );
+  }
+
+  if (variant === 'editor') {
+    return (
+      <span className={`inline-flex items-center gap-1 px-2.5 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium ${className}`}>
+        {icon}
+        {children}
+      </span>
+    );
+  }
+
+  if (variant === 'russian-friendly') {
+    return (
+      <span className={`inline-flex items-center gap-1 px-2.5 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium ${className}`}>
+        {icon}
+        {children}
+      </span>
+    );
+  }
+
+  if (variant === 'new') {
+    return (
+      <span className={`inline-flex items-center gap-1 px-2.5 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium ${className}`}>
+        {icon}
+        {children}
+      </span>
+    );
+  }
+
+  if (variant === 'popular') {
+    return (
+      <span className={`inline-flex items-center gap-1 px-2.5 py-1 bg-rose-100 text-rose-700 rounded-full text-xs font-medium ${className}`}>
+        {icon}
+        {children}
+      </span>
     );
   }
 

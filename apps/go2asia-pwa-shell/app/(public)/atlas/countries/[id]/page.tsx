@@ -77,7 +77,7 @@ export default async function CountryPage({
                 {country.name}
               </h1>
               <div className="flex flex-wrap gap-2 mb-4">
-                <Badge variant="verified" icon={<CheckCircle2 size={12} />}>
+                <Badge variant="verified">
                   Проверено редакцией
                 </Badge>
               </div>
