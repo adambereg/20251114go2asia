@@ -35,25 +35,40 @@ export const metadata: Metadata = {
   themeColor: '#1677FF',
 };
 
+// Проверяем, настроен ли Clerk (есть ли publishableKey)
+const isClerkConfigured = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+function AppContent({ children }: { children: React.ReactNode }) {
+  return (
+    <AuthModeProvider>
+      <html lang="ru">
+        <body>
+          <TopAppBar />
+          <main className="min-h-screen pb-20 pt-16">
+            {children}
+          </main>
+          <BottomNav />
+          <AuthModeToggle />
+        </body>
+      </html>
+    </AuthModeProvider>
+  );
+}
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <ClerkProvider>
-      <AuthModeProvider>
-        <html lang="ru">
-          <body>
-            <TopAppBar />
-            <main className="min-h-screen pb-20 pt-16">
-              {children}
-            </main>
-            <BottomNav />
-            <AuthModeToggle />
-          </body>
-        </html>
-      </AuthModeProvider>
-    </ClerkProvider>
-  );
+  // Если Clerk настроен, используем его, иначе только AuthModeProvider
+  if (isClerkConfigured) {
+    return (
+      <ClerkProvider>
+        <AppContent>{children}</AppContent>
+      </ClerkProvider>
+    );
+  }
+
+  // В development режиме без Clerk используем только AuthModeProvider
+  return <AppContent>{children}</AppContent>;
 }

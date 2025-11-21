@@ -310,23 +310,40 @@ function AuthenticatedHomePage() {
   );
 }
 
+const isClerkConfigured = typeof window !== 'undefined' && !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+// Компонент-обертка для условного использования Clerk
+function ClerkAuthWrapper({ children }: { children: (auth: { isLoaded: boolean; isSignedIn: boolean }) => React.ReactNode }) {
+  if (!isClerkConfigured) {
+    return <>{children({ isLoaded: true, isSignedIn: false })}</>;
+  }
+  const auth = useUser();
+  return <>{children({ isLoaded: auth.isLoaded, isSignedIn: auth.isSignedIn })}</>;
+}
+
 export default function HomePage() {
-  const { isLoaded, isSignedIn } = useUser();
   const { isAuthenticated: devModeAuthenticated } = useAuthMode();
 
-  // В development режиме используем переключатель, в production - реальный Clerk
-  const isAuthenticated =
-    process.env.NODE_ENV === 'production' ? isSignedIn : devModeAuthenticated;
+  return (
+    <ClerkAuthWrapper>
+      {({ isLoaded, isSignedIn }) => {
+        // Если Clerk настроен и в production - используем его, иначе используем dev mode toggle
+        const isAuthenticated = isClerkConfigured && process.env.NODE_ENV === 'production'
+          ? isSignedIn
+          : devModeAuthenticated;
 
-  // Показываем загрузку только в production режиме при проверке Clerk
-  if (process.env.NODE_ENV === 'production' && !isLoaded) {
-    return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="text-slate-600">Загрузка...</div>
-      </div>
-    );
-  }
+        // Показываем загрузку только если Clerk настроен и еще загружается
+        if (isClerkConfigured && !isLoaded) {
+          return (
+            <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+              <div className="text-slate-600">Загрузка...</div>
+            </div>
+          );
+        }
 
-  // Условный рендеринг в зависимости от статуса авторизации
-  return isAuthenticated ? <AuthenticatedHomePage /> : <UnauthenticatedHomePage />;
+        // Условный рендеринг в зависимости от статуса авторизации
+        return isAuthenticated ? <AuthenticatedHomePage /> : <UnauthenticatedHomePage />;
+      }}
+    </ClerkAuthWrapper>
+  );
 }
