@@ -36,10 +36,10 @@ export const ModuleTile: React.FC<ModuleTileProps> = ({
         {isPro && !locked && <Badge type="pro" />}
 
         <div className="mb-2 md:mb-3">
-          <Icon size={28} className="w-7 h-7 md:w-8 md:h-8" />
+          <Icon size={28} className="w-7 h-7 md:w-8 md:h-8 text-white" />
         </div>
-        <h3 className="font-bold text-xl md:text-2xl mb-1">{title}</h3>
-        <p className="text-xs md:text-sm opacity-90">{description}</p>
+        <h3 className="font-bold text-xl md:text-2xl mb-1 text-white">{title}</h3>
+        <p className="text-xs md:text-sm opacity-90 text-white">{description}</p>
       </GradientCard>
     </button>
   );

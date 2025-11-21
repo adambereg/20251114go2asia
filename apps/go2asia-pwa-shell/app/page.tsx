@@ -234,33 +234,33 @@ function UnauthenticatedHomePage() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Hero Section - Синий градиент */}
-      <section className="bg-gradient-to-br from-sky-500 to-sky-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      <section className="bg-gradient-to-br from-sky-500 to-sky-600">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 text-white">
           <div className="max-w-3xl">
-            <p className="text-sm md:text-base mb-2 opacity-90">
+            <p className="text-sm md:text-base mb-2 opacity-90 text-white">
               Добро пожаловать в экосистему
             </p>
             <div className="flex items-center gap-3 mb-4">
-              <Globe className="w-12 h-12 md:w-16 md:h-16" />
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
+              <Globe className="w-12 h-12 md:w-16 md:h-16 text-white" />
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
                 Go2Asia
               </h1>
             </div>
-            <p className="text-lg md:text-xl mb-6 opacity-95">
+            <p className="text-lg md:text-xl mb-6 opacity-95 text-white">
               Всё для жизни, путешествий и работы в Юго-Восточной Азии
             </p>
             <ul className="space-y-3 mb-8">
               <li className="flex items-center gap-3">
-                <CheckCircle2 size={20} className="flex-shrink-0" />
-                <span>Гайды и события по всей ЮВА</span>
+                <CheckCircle2 size={20} className="flex-shrink-0 text-white" />
+                <span className="text-white">Гайды и события по всей ЮВА</span>
               </li>
               <li className="flex items-center gap-3">
-                <CheckCircle2 size={20} className="flex-shrink-0" />
-                <span>Сообщество и квесты для путешественников</span>
+                <CheckCircle2 size={20} className="flex-shrink-0 text-white" />
+                <span className="text-white">Сообщество и квесты для путешественников</span>
               </li>
               <li className="flex items-center gap-3">
-                <CheckCircle2 size={20} className="flex-shrink-0" />
-                <span>Points, токены и NFT за активность</span>
+                <CheckCircle2 size={20} className="flex-shrink-0 text-white" />
+                <span className="text-white">Points, токены и NFT за активность</span>
               </li>
             </ul>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -412,13 +412,13 @@ function UnauthenticatedHomePage() {
       </section>
 
       {/* Присоединяйтесь к сообществу */}
-      <section className="bg-gradient-to-br from-sky-600 to-sky-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      <section className="bg-gradient-to-br from-sky-600 to-sky-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 text-white">
           <div className="max-w-3xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
               Присоединяйтесь к сообществу
             </h2>
-            <p className="text-lg md:text-xl mb-8 opacity-95">
+            <p className="text-lg md:text-xl mb-8 opacity-95 text-white">
               Получите доступ ко всем возможностям экосистемы, зарабатывайте
               награды и находите единомышленников
             </p>
@@ -709,13 +709,13 @@ function AuthenticatedHomePage() {
       </section>
 
       {/* Присоединяйтесь к сообществу */}
-      <section className="bg-gradient-to-br from-sky-600 to-sky-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      <section className="bg-gradient-to-br from-sky-600 to-sky-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 text-white">
           <div className="max-w-3xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
               Присоединяйтесь к сообществу
             </h2>
-            <p className="text-lg md:text-xl mb-8 opacity-95">
+            <p className="text-lg md:text-xl mb-8 opacity-95 text-white">
               Получите доступ ко всем возможностям экосистемы, зарабатывайте
               награды и находите единомышленников
             </p>
