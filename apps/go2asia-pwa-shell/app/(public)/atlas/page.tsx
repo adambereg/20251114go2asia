@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Card, CardContent } from '@go2asia/ui';
-import { MapPin } from 'lucide-react';
+import { MapPin, Globe } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Atlas Asia - Путеводитель по Юго-Восточной Азии | Go2Asia',
@@ -71,9 +71,12 @@ export default function AtlasPage() {
       {/* Hero Section */}
       <section className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-          <h1 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-2">
-            🌏 Atlas Asia
-          </h1>
+          <div className="flex items-center gap-3 mb-2">
+            <Globe className="w-8 h-8 lg:w-10 lg:h-10 text-sky-600" />
+            <h1 className="text-3xl lg:text-4xl font-bold text-slate-900">
+              Atlas Asia
+            </h1>
+          </div>
           <p className="text-lg text-slate-600">
             Справочник мест Юго-Восточной Азии
           </p>
