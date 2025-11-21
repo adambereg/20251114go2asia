@@ -417,17 +417,58 @@
 - Tailwind CSS
 - Компоненты из `packages/ui`
 
-**Типографика:**
-- H1: `text-3xl md:text-4xl lg:text-5xl`
-- H2: `text-2xl md:text-3xl`
-- H3: `text-xl md:text-2xl`
-- Body: `text-base` или `text-sm md:text-base`
+**Типографика (критически важно!):**
+
+⚠️ **ЗАПРЕТ на использование дефолтных Tailwind классов для типографики:**
+
+Запрещено использовать дефолтные размеры Tailwind напрямую без указания breakpoints:
+- ❌ `text-3xl` (только один размер)
+- ❌ `text-4xl` (только один размер)
+- ❌ `text-5xl` (только один размер)
+- ❌ `text-2xl` без breakpoints для заголовков
+- ❌ `text-xl` без breakpoints для заголовков
+
+✅ **ОБЯЗАТЕЛЬНО использовать типографические токены:**
+
+Типографические токены определены в `packages/ui/tailwind.config.js` и соответствуют прототипу Bolt.New:
+
+- **H1**: Использовать `text-h1 md:text-4xl lg:text-5xl` или глобальный стиль `h1`
+  - Размеры: 30px (mobile) / 36px (tablet) / 48px (desktop)
+  - Line height: `leading-8` (32px)
+  - Font weight: `font-bold` (700)
+  
+- **H2**: Использовать `text-h2 md:text-3xl` или глобальный стиль `h2`
+  - Размеры: 24px (mobile) / 30px (desktop)
+  - Line height: `leading-7` (28px)
+  - Font weight: `font-bold` (700)
+  
+- **H3**: Использовать `text-h3 md:text-2xl` или глобальный стиль `h3`
+  - Размеры: 20px (mobile) / 24px (desktop)
+  - Line height: `leading-6` (24px)
+  - Font weight: `font-bold` (700)
+  
+- **Body**: Использовать `text-body` или `text-base`
+  - Размер: 16px
+  - Line height: `leading-6` (24px)
+  - Font weight: `font-normal` (400)
+  
+- **Small**: Использовать `text-small` или `text-sm md:text-base`
+  - Размеры: 14px (mobile) / 16px (desktop)
+  - Line height: `leading-5` (20px)
+  - Font weight: `font-normal` (400)
+
+**Правила использования:**
+- Для заголовков страниц и секций использовать семантические HTML-теги (`<h1>`, `<h2>`, `<h3>`) с глобальными стилями из `globals.css`
+- Для заголовков внутри компонентов использовать токены напрямую: `text-h1 md:text-4xl lg:text-5xl`
+- Все размеры зафиксированы согласно прототипу Bolt.New и не должны изменяться без обновления дизайн-системы
 
 **Стилизация:**
 - Следовать `go2asia_uiux_style_guide.md`
 - Использовать компоненты из `packages/ui`
 - Адаптивный дизайн (mobile-first)
 - Цветовая палитра модулей
+- **Типографика только через токены** (`text-h1`, `text-h2`, `text-h3`, `text-body`, `text-small`)
+- **Запрет на использование дефолтных Tailwind классов** для типографики (`text-3xl`, `text-4xl`, `text-5xl` без breakpoints)
 
 **API интеграция:**
 - Использовать SDK из `packages/sdk`

@@ -22,17 +22,21 @@
     font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   }
 
-  /* Заголовки */
+  /* Заголовки - используют типографические токены */
+  /* Соответствуют прототипу Bolt.New */
   h1 {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900;
+    @apply text-h1 md:text-4xl lg:text-5xl font-bold text-slate-900;
+    /* 30px mobile / 36px tablet / 48px desktop */
   }
 
   h2 {
-    @apply text-2xl md:text-3xl font-bold text-slate-900;
+    @apply text-h2 md:text-3xl font-bold text-slate-900;
+    /* 24px mobile / 30px desktop */
   }
 
   h3 {
-    @apply text-xl md:text-2xl font-bold text-slate-900;
+    @apply text-h3 md:text-2xl font-bold text-slate-900;
+    /* 20px mobile / 24px desktop */
   }
 
   h4 {
