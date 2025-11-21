@@ -6,8 +6,14 @@ import { User, UserX } from 'lucide-react';
 export function AuthModeToggle() {
   const { authMode, toggleAuthMode, isAuthenticated } = useAuthMode();
 
-  // Показываем только в development режиме
-  if (process.env.NODE_ENV === 'production') {
+  // Показываем если:
+  // 1. Development режим (NODE_ENV !== 'production')
+  // 2. Или включена переменная окружения NEXT_PUBLIC_ENABLE_AUTH_TOGGLE
+  const shouldShow = 
+    process.env.NODE_ENV !== 'production' || 
+    process.env.NEXT_PUBLIC_ENABLE_AUTH_TOGGLE === 'true';
+
+  if (!shouldShow) {
     return null;
   }
 
