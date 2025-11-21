@@ -221,22 +221,13 @@ function UnauthenticatedHomePage() {
 // Компонент для авторизованных пользователей
 function AuthenticatedHomePage() {
   const router = useRouter();
-  const { user } = useUser();
-
-  // Получаем инициалы из имени пользователя
-  const getInitials = (name: string | null | undefined) => {
-    if (!name) return 'U';
-    const parts = name.split(' ');
-    if (parts.length >= 2) {
-      return (parts[0][0] + parts[1][0]).toUpperCase();
-    }
-    return name.substring(0, 2).toUpperCase();
-  };
 
   // Mock данные для демонстрации (в будущем из API)
+  // В development режиме всегда используем mock данные
+  // Когда Clerk будет настроен, данные будут приходить из API
   const userStats = {
-    name: user?.fullName || user?.firstName || 'Пользователь',
-    initials: getInitials(user?.fullName || user?.firstName),
+    name: 'Иван Петров',
+    initials: 'ИП',
     location: 'Бангкок, Таиланд',
     level: 5,
     progress: 65,
