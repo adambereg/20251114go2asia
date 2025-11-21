@@ -9,9 +9,11 @@ export function AuthModeToggle() {
   // Показываем если:
   // 1. Development режим (NODE_ENV !== 'production')
   // 2. Или включена переменная окружения NEXT_PUBLIC_ENABLE_AUTH_TOGGLE
+  // 3. Временно: показываем всегда для тестирования (можно убрать позже)
   const shouldShow = 
     process.env.NODE_ENV !== 'production' || 
-    process.env.NEXT_PUBLIC_ENABLE_AUTH_TOGGLE === 'true';
+    process.env.NEXT_PUBLIC_ENABLE_AUTH_TOGGLE === 'true' ||
+    true; // Временно всегда показываем для тестирования
 
   if (!shouldShow) {
     return null;
