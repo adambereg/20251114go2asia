@@ -294,7 +294,7 @@ function UnauthenticatedHomePage() {
         <p className="text-sm md:text-base text-slate-600 mb-8">
           Выберите модуль, чтобы начать исследование
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           {modules.map((module) => (
             <ModuleTile
               key={module.href}
@@ -502,7 +502,7 @@ function AuthenticatedHomePage() {
         <p className="text-sm md:text-base text-slate-600 mb-6 md:mb-8">
           Выберите модуль, чтобы начать исследование
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           {modules.map((module) => (
             <ModuleTile
               key={module.href}

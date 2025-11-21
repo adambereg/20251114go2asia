@@ -95,6 +95,12 @@ font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI',
 - Отступы между элементами: `gap-3 md:gap-4` (12px mobile / 16px desktop)
 - Отступы в карточках: `p-4 md:p-6` (16px mobile / 24px desktop)
 
+### Grid модулей экосистемы
+- **Классы**: `grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4`
+- **Mobile**: 2 колонки (9 модулей = 5 рядов)
+- **Tablet/Desktop**: 3 колонки (9 модулей = 3 ряда)
+- **Использование**: Секция "Модули экосистемы" на стартовой странице
+
 ## Радиусы скругления
 
 - **xs**: `rounded` (4px) — инпуты, мелкие элементы
