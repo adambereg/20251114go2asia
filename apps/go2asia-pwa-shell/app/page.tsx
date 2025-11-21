@@ -312,7 +312,7 @@ function UnauthenticatedHomePage() {
       {/* Популярно сейчас */}
       <section className="bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
             Популярно сейчас
           </h2>
           <p className="text-sm md:text-base text-slate-600 mb-6">
@@ -333,7 +333,7 @@ function UnauthenticatedHomePage() {
                 </div>
                 <CardContent className="p-0">
                   <p className="text-xs text-slate-500 mb-1">{place.type}</p>
-                  <h3 className="text-lg font-bold text-slate-900 mb-1">
+                  <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-1">
                     {place.title}
                   </h3>
                   <p className="text-sm text-slate-600">{place.subtitle}</p>
@@ -376,7 +376,7 @@ function UnauthenticatedHomePage() {
                 <p className="text-xs text-slate-500 mb-1">
                   {event.date} • {event.location}
                 </p>
-                <h3 className="text-lg font-bold text-slate-900">
+                <h3 className="text-xl md:text-2xl font-bold text-slate-900">
                   {event.title}
                 </h3>
               </CardContent>
@@ -518,7 +518,7 @@ function AuthenticatedHomePage() {
 
       {/* Рядом с вами */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
-        <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
           Рядом с вами
         </h2>
         <p className="text-sm md:text-base text-slate-600 mb-6">
@@ -531,7 +531,7 @@ function AuthenticatedHomePage() {
                 <MapPinned className="w-6 h-6 text-blue-600" />
               </div>
               <div className="flex-1">
-                <h3 className="font-bold text-slate-900 mb-2">
+                <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">
                   Включите определение местоположения
                 </h3>
                 <p className="text-sm text-slate-600 mb-4">
@@ -566,7 +566,7 @@ function AuthenticatedHomePage() {
       {/* Ваши награды */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
         <div className="flex items-center justify-between mb-2">
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
             Ваши награды
           </h2>
           <button
@@ -630,7 +630,7 @@ function AuthenticatedHomePage() {
                 </div>
                 <CardContent className="p-0">
                   <p className="text-xs text-slate-500 mb-1">{place.type}</p>
-                  <h3 className="text-lg font-bold text-slate-900 mb-1">
+                  <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-1">
                     {place.title}
                   </h3>
                   <p className="text-sm text-slate-600">{place.subtitle}</p>
@@ -673,7 +673,7 @@ function AuthenticatedHomePage() {
                 <p className="text-xs text-slate-500 mb-1">
                   {event.date} • {event.location}
                 </p>
-                <h3 className="text-lg font-bold text-slate-900">
+                <h3 className="text-xl md:text-2xl font-bold text-slate-900">
                   {event.title}
                 </h3>
               </CardContent>
