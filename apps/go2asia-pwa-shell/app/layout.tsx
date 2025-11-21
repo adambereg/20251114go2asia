@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
+import { AuthModeProvider } from '../contexts/AuthModeContext';
 import { TopAppBar } from '../components/app-shell/TopAppBar';
 import { BottomNav } from '../components/app-shell/BottomNav';
+import { AuthModeToggle } from '../components/dev/AuthModeToggle';
 
 export const metadata: Metadata = {
   title: {
@@ -40,15 +42,18 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="ru">
-        <body>
-          <TopAppBar />
-          <main className="min-h-screen pb-20 pt-16">
-            {children}
-          </main>
-          <BottomNav />
-        </body>
-      </html>
+      <AuthModeProvider>
+        <html lang="ru">
+          <body>
+            <TopAppBar />
+            <main className="min-h-screen pb-20 pt-16">
+              {children}
+            </main>
+            <BottomNav />
+            <AuthModeToggle />
+          </body>
+        </html>
+      </AuthModeProvider>
     </ClerkProvider>
   );
 }

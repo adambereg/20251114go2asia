@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
+import { useAuthMode } from '../contexts/AuthModeContext';
 import {
   MapPin,
   Calendar,
@@ -311,9 +312,14 @@ function AuthenticatedHomePage() {
 
 export default function HomePage() {
   const { isLoaded, isSignedIn } = useUser();
+  const { isAuthenticated: devModeAuthenticated } = useAuthMode();
 
-  // Показываем загрузку пока проверяется статус авторизации
-  if (!isLoaded) {
+  // В development режиме используем переключатель, в production - реальный Clerk
+  const isAuthenticated =
+    process.env.NODE_ENV === 'production' ? isSignedIn : devModeAuthenticated;
+
+  // Показываем загрузку только в production режиме при проверке Clerk
+  if (process.env.NODE_ENV === 'production' && !isLoaded) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-slate-600">Загрузка...</div>
@@ -322,5 +328,5 @@ export default function HomePage() {
   }
 
   // Условный рендеринг в зависимости от статуса авторизации
-  return isSignedIn ? <AuthenticatedHomePage /> : <UnauthenticatedHomePage />;
+  return isAuthenticated ? <AuthenticatedHomePage /> : <UnauthenticatedHomePage />;
 }
