@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
 import { useAuthMode } from '../contexts/AuthModeContext';
 import {
   MapPin,
