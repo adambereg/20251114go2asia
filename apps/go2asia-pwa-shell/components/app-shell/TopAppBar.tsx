@@ -5,7 +5,8 @@ import { useUser, SignInButton } from '@clerk/nextjs';
 import { useAuthMode } from '../../contexts/AuthModeContext';
 import { TopAppBar as UITopAppBar } from '@go2asia/ui';
 
-const isClerkConfigured = typeof window !== 'undefined' && !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+// В Next.js NEXT_PUBLIC_* переменные доступны и на сервере, и на клиенте
+const isClerkConfigured = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 // Компонент-обертка для условного использования Clerk
 function ClerkUserWrapper({ children }: { children: (user: ReturnType<typeof useUser>) => React.ReactNode }) {

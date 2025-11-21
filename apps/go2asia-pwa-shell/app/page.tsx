@@ -310,7 +310,8 @@ function AuthenticatedHomePage() {
   );
 }
 
-const isClerkConfigured = typeof window !== 'undefined' && !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+// В Next.js NEXT_PUBLIC_* переменные доступны и на сервере, и на клиенте
+const isClerkConfigured = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 // Компонент-обертка для условного использования Clerk
 function ClerkAuthWrapper({ children }: { children: (auth: { isLoaded: boolean; isSignedIn: boolean }) => React.ReactNode }) {
