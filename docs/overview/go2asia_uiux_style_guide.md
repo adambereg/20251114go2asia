@@ -53,10 +53,10 @@
 ### 1.2 Типографика
 
 **Размеры и высоты строк (соответствуют прототипу Bolt.New):**
-- **Display**: `text-2xl md:text-3xl` (24px mobile / 30px desktop) / `leading-tight` (1.25), `font-bold`
-- **H1**: `text-2xl md:text-3xl` (24px mobile / 30px desktop) / `leading-8` (32px), `font-bold`
-- **H2**: `text-xl md:text-2xl` (20px mobile / 24px desktop) / `leading-7` (28px), `font-bold`
-- **H3**: `text-lg md:text-xl` (18px mobile / 20px desktop) / `leading-6` (24px), `font-bold`
+- **Display**: `text-3xl md:text-4xl lg:text-5xl` (30px mobile / 36px tablet / 48px desktop) / `leading-tight` (1.25), `font-bold`
+- **H1**: `text-3xl md:text-4xl lg:text-5xl` (30px mobile / 36px tablet / 48px desktop) / `leading-8` (32px), `font-bold`, `mb-3 md:mb-4`
+- **H2**: `text-2xl md:text-3xl` (24px mobile / 30px desktop) / `leading-7` (28px), `font-bold`
+- **H3**: `text-xl md:text-2xl` (20px mobile / 24px desktop) / `leading-6` (24px), `font-bold`
 - **Body**: `text-base` (16px) / `leading-6` (24px), `font-normal`
 - **Small**: `text-sm md:text-base` (14px mobile / 16px desktop) / `leading-5` (20px), `font-normal`
 - **Tiny**: `text-xs md:text-sm` (12px mobile / 14px desktop) / `leading-4` (16px), `font-normal`
@@ -69,13 +69,13 @@ font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI',
 ```
 
 **Применение (соответствует прототипу Bolt.New):**
-- Заголовки страниц: H1 (`text-2xl md:text-3xl`) + `text-slate-900` (или `text-white` на цветном фоне)
-- Подзаголовки секций: H2 (`text-xl md:text-2xl`) + `text-slate-900`
-- Карточки: H3 (`text-lg md:text-xl`) для title + `text-base` для excerpt
+- Заголовки страниц: H1 (`text-3xl md:text-4xl lg:text-5xl`) + `text-slate-900` (или `text-white` на цветном фоне) + `mb-3 md:mb-4`
+- Подзаголовки секций: H2 (`text-2xl md:text-3xl`) + `text-slate-900`
+- Карточки: H3 (`text-xl md:text-2xl`) для title + `text-base` для excerpt
 - Мета-информация: `text-sm md:text-base` + `text-slate-600`
 - Бейджи и чипы: `text-xs md:text-sm` + `font-medium`
 
-**Важно:** Все размеры шрифтов приведены в соответствие с прототипом Bolt.New. Заголовки уменьшены для лучшей визуальной иерархии и читаемости.
+**Важно:** Все размеры шрифтов приведены в соответствие с прототипом Bolt.New согласно скриншотам DevTools.
 
 ### 1.3 Радиусы и тени
 

@@ -9,17 +9,18 @@
 ### Размеры шрифтов (соответствуют прототипу Bolt.New)
 
 #### Заголовки
-- **H1**: `text-2xl md:text-3xl` (24px mobile / 30px desktop)
+- **H1**: `text-3xl md:text-4xl lg:text-5xl` (30px mobile / 36px tablet / 48px desktop)
   - Line height: `leading-8` (32px)
   - Font weight: `font-bold` (700)
+  - Margin bottom: `mb-3 md:mb-4`
   - Использование: Главные заголовки страниц, Hero секции
 
-- **H2**: `text-xl md:text-2xl` (20px mobile / 24px desktop)
+- **H2**: `text-2xl md:text-3xl` (24px mobile / 30px desktop)
   - Line height: `leading-7` (28px)
   - Font weight: `font-bold` (700)
   - Использование: Заголовки секций, подразделы
 
-- **H3**: `text-lg md:text-xl` (18px mobile / 20px desktop)
+- **H3**: `text-xl md:text-2xl` (20px mobile / 24px desktop)
   - Line height: `leading-6` (24px)
   - Font weight: `font-bold` (700)
   - Использование: Заголовки карточек, модулей, элементов списка
@@ -72,11 +73,11 @@ font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI',
 
 ### ModuleTile
 - Размеры иконки: `w-6 h-6 md:w-7 md:h-7` (24px mobile / 28px desktop)
-- Заголовок: `text-base md:text-lg` (H3)
+- Заголовок: `text-xl md:text-2xl` (H3)
 - Описание: `text-xs md:text-sm`
 
 ### FeatureCard
-- Заголовок: `text-lg md:text-xl` (H3)
+- Заголовок: `text-xl md:text-2xl` (H3)
 - Описание: `text-sm md:text-base`
 
 ### UserSummary

@@ -242,7 +242,7 @@ function UnauthenticatedHomePage() {
             </p>
             <div className="flex items-center gap-3 mb-4">
               <Globe className="w-8 h-8 md:w-10 md:h-10 text-white" />
-              <h1 className="text-2xl md:text-3xl font-bold text-white">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 text-white">
                 Go2Asia
               </h1>
             </div>
@@ -288,7 +288,7 @@ function UnauthenticatedHomePage() {
 
       {/* Модули экосистемы */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
           Модули экосистемы
         </h2>
         <p className="text-sm md:text-base text-slate-600 mb-8">
@@ -347,7 +347,7 @@ function UnauthenticatedHomePage() {
       {/* События этой недели */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex items-center justify-between mb-2">
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
             События этой недели
           </h2>
           <button
@@ -388,7 +388,7 @@ function UnauthenticatedHomePage() {
       {/* Зачем вступать в экосистему Go2Asia? */}
       <section className="bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
             Зачем вступать в экосистему Go2Asia?
           </h2>
           <p className="text-sm md:text-base text-slate-600 mb-8">
@@ -415,7 +415,7 @@ function UnauthenticatedHomePage() {
       <section className="bg-gradient-to-br from-sky-600 to-sky-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 text-white">
           <div className="max-w-3xl">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
               Присоединяйтесь к сообществу
             </h2>
             <p className="text-lg md:text-xl mb-8 opacity-95 text-white">
@@ -496,7 +496,7 @@ function AuthenticatedHomePage() {
 
       {/* Модули экосистемы */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
-        <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
           Модули экосистемы
         </h2>
         <p className="text-sm md:text-base text-slate-600 mb-6 md:mb-8">
@@ -601,9 +601,9 @@ function AuthenticatedHomePage() {
       <section className="bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-xl md:text-2xl font-bold text-slate-900">
-              Популярно сейчас
-            </h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+            Популярно сейчас
+          </h2>
             <button
               onClick={() => router.push('/atlas')}
               className="text-sky-600 hover:text-sky-700 font-medium text-sm md:text-base flex items-center gap-1"
@@ -644,7 +644,7 @@ function AuthenticatedHomePage() {
       {/* События этой недели */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex items-center justify-between mb-2">
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
             События этой недели
           </h2>
           <button
@@ -685,7 +685,7 @@ function AuthenticatedHomePage() {
       {/* Зачем вступать в экосистему Go2Asia? */}
       <section className="bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
             Зачем вступать в экосистему Go2Asia?
           </h2>
           <p className="text-sm md:text-base text-slate-600 mb-8">
@@ -712,7 +712,7 @@ function AuthenticatedHomePage() {
       <section className="bg-gradient-to-br from-sky-600 to-sky-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 text-white">
           <div className="max-w-3xl">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
               Присоединяйтесь к сообществу
             </h2>
             <p className="text-lg md:text-xl mb-8 opacity-95 text-white">
