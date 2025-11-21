@@ -319,7 +319,7 @@ function ClerkAuthWrapper({ children }: { children: (auth: { isLoaded: boolean; 
     return <>{children({ isLoaded: true, isSignedIn: false })}</>;
   }
   const auth = useUser();
-  return <>{children({ isLoaded: auth.isLoaded, isSignedIn: auth.isSignedIn })}</>;
+  return <>{children({ isLoaded: auth.isLoaded ?? true, isSignedIn: auth.isSignedIn ?? false })}</>;
 }
 
 export default function HomePage() {
