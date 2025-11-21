@@ -234,8 +234,8 @@ function UnauthenticatedHomePage() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Hero Section - Синий градиент */}
-      <section className="bg-gradient-to-br from-sky-500 to-sky-600">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 text-white">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="bg-gradient-to-br from-sky-500 to-sky-600 rounded-2xl p-6 md:p-12 text-white overflow-hidden relative">
           <div className="max-w-3xl">
             <p className="text-sm md:text-base mb-2 opacity-90 text-white">
               Добро пожаловать в экосистему
@@ -412,8 +412,8 @@ function UnauthenticatedHomePage() {
       </section>
 
       {/* Присоединяйтесь к сообществу */}
-      <section className="bg-gradient-to-br from-sky-600 to-sky-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 text-white">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="bg-gradient-to-br from-sky-600 to-sky-700 rounded-2xl p-6 md:p-12 text-white overflow-hidden relative">
           <div className="max-w-3xl">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
               Присоединяйтесь к сообществу
@@ -709,8 +709,8 @@ function AuthenticatedHomePage() {
       </section>
 
       {/* Присоединяйтесь к сообществу */}
-      <section className="bg-gradient-to-br from-sky-600 to-sky-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 text-white">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="bg-gradient-to-br from-sky-600 to-sky-700 rounded-2xl p-6 md:p-12 text-white overflow-hidden relative">
           <div className="max-w-3xl">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
               Присоединяйтесь к сообществу
