@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { ClerkProvider } from '@clerk/nextjs';
 import { TopAppBar } from '../components/app-shell/TopAppBar';
 import { BottomNav } from '../components/app-shell/BottomNav';
 
@@ -38,14 +39,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ru">
-      <body>
-        <TopAppBar />
-        <main className="min-h-screen pb-20 pt-16">
-          {children}
-        </main>
-        <BottomNav />
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="ru">
+        <body>
+          <TopAppBar />
+          <main className="min-h-screen pb-20 pt-16">
+            {children}
+          </main>
+          <BottomNav />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

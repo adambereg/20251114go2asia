@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
 import {
   MapPin,
   Calendar,
@@ -16,6 +17,7 @@ import {
   ModuleTile,
   Button,
   FeatureCard,
+  UserSummary,
 } from '@go2asia/ui';
 
 const modules = [
@@ -134,7 +136,8 @@ const benefits = [
   },
 ];
 
-export default function HomePage() {
+// Компонент для неавторизованных пользователей
+function UnauthenticatedHomePage() {
   const router = useRouter();
 
   return (
@@ -212,4 +215,112 @@ export default function HomePage() {
       </section>
     </div>
   );
+}
+
+// Компонент для авторизованных пользователей
+function AuthenticatedHomePage() {
+  const router = useRouter();
+  const { user } = useUser();
+
+  // Получаем инициалы из имени пользователя
+  const getInitials = (name: string | null | undefined) => {
+    if (!name) return 'U';
+    const parts = name.split(' ');
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
+  };
+
+  // Mock данные для демонстрации (в будущем из API)
+  const userStats = {
+    name: user?.fullName || user?.firstName || 'Пользователь',
+    initials: getInitials(user?.fullName || user?.firstName),
+    location: 'Бангкок, Таиланд',
+    level: 5,
+    progress: 65,
+    pointsToNextLevel: 350,
+    stats: {
+      points: 1250,
+      nfts: 3,
+      teamMembers: 2,
+      vouchers: 1,
+    },
+    isPro: false,
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      {/* User Dashboard Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+        <UserSummary
+          name={userStats.name}
+          initials={userStats.initials}
+          location={userStats.location}
+          level={userStats.level}
+          progress={userStats.progress}
+          pointsToNextLevel={userStats.pointsToNextLevel}
+          stats={userStats.stats}
+          isPro={userStats.isPro}
+        />
+      </section>
+
+      {/* Quick Launch Grid */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 md:mb-8">
+          Модули экосистемы
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+          {modules.map((module) => (
+            <ModuleTile
+              key={module.href}
+              module={module.module}
+              icon={module.icon}
+              title={module.title}
+              description={module.description}
+              onClick={() => router.push(module.href)}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="bg-white border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-8 text-center">
+            Преимущества Go2Asia
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {benefits.map((benefit, index) => (
+              <FeatureCard
+                key={index}
+                type={benefit.type}
+                icon={benefit.icon}
+                title={benefit.title}
+                description={benefit.description}
+                cta={benefit.cta}
+                onClick={() => router.push(benefit.href)}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+export default function HomePage() {
+  const { isLoaded, isSignedIn } = useUser();
+
+  // Показываем загрузку пока проверяется статус авторизации
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-slate-600">Загрузка...</div>
+      </div>
+    );
+  }
+
+  // Условный рендеринг в зависимости от статуса авторизации
+  return isSignedIn ? <AuthenticatedHomePage /> : <UnauthenticatedHomePage />;
 }
