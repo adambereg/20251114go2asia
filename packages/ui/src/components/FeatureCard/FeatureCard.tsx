@@ -64,7 +64,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
       <div className="mb-4">
         <Icon className={`w-8 h-8 md:w-10 md:h-10 ${styles.text}`} />
       </div>
-      <h3 className="font-bold text-slate-900 mb-2 text-xl md:text-2xl">{title}</h3>
+      <h3 className="font-bold text-slate-900 mb-2 text-lg md:text-xl">{title}</h3>
       <p className="text-sm md:text-base text-slate-700 mb-4 leading-relaxed">{description}</p>
       <button
         onClick={onClick}
