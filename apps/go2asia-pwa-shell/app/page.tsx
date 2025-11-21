@@ -309,8 +309,14 @@ function ClerkAuthWrapper({ children }: { children: (auth: { isLoaded: boolean; 
   if (!isClerkConfigured) {
     return <>{children({ isLoaded: true, isSignedIn: false })}</>;
   }
-  const auth = useUser();
-  return <>{children({ isLoaded: auth.isLoaded ?? true, isSignedIn: auth.isSignedIn ?? false })}</>;
+  
+  // Внутренний компонент для безопасного вызова useUser
+  function ClerkAuthInner() {
+    const auth = useUser();
+    return <>{children({ isLoaded: auth.isLoaded ?? true, isSignedIn: auth.isSignedIn ?? false })}</>;
+  }
+  
+  return <ClerkAuthInner />;
 }
 
 export default function HomePage() {
