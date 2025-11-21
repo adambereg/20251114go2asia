@@ -1,35 +1,87 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { X, Home, MapPin, Calendar, BookOpen, Users, Target, Handshake, Building, Wallet, Settings, HelpCircle, LogOut } from 'lucide-react';
+import { X, Globe, MapPin, Trophy, Building, Handshake, Link2, Briefcase, Settings, HelpCircle, Info, BookOpen } from 'lucide-react';
 import { cn } from '@go2asia/ui';
+import { useAppShell } from './AppShellProvider';
 
-interface SideDrawerProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+interface SideDrawerProps {}
 
-const menuItems = [
-  { href: '/', icon: Home, label: 'Главная' },
-  { href: '/atlas', icon: MapPin, label: 'Atlas Asia' },
-  { href: '/pulse', icon: Calendar, label: 'Pulse Asia' },
-  { href: '/blog', icon: BookOpen, label: 'Blog Asia' },
-  { href: '/space', icon: Users, label: 'Space Asia' },
-  { href: '/quest', icon: Target, label: 'Quest Asia' },
-  { href: '/rf', icon: Handshake, label: 'Russian Friendly' },
-  { href: '/rielt', icon: Building, label: 'Rielt.Market' },
-  { href: '/connect', icon: Wallet, label: 'Connect Asia' },
+// Модули для бокового меню (согласно скриншотам)
+const modules = [
+  {
+    href: '/blog',
+    icon: BookOpen,
+    title: 'Blog Asia',
+    description: 'Статьи и гайды',
+    color: 'blue',
+    bgColor: 'bg-blue-50',
+    borderColor: 'border-blue-200',
+    textColor: 'text-blue-600',
+  },
+  {
+    href: '/guru',
+    icon: MapPin,
+    title: 'Guru Asia',
+    description: 'Рекомендации от гидов',
+    color: 'blue',
+    bgColor: 'bg-blue-50',
+    borderColor: 'border-blue-200',
+    textColor: 'text-blue-600',
+  },
+  {
+    href: '/quest',
+    icon: Trophy,
+    title: 'Quest Asia',
+    description: 'Квесты и челленджи',
+    color: 'purple',
+    bgColor: 'bg-purple-50',
+    borderColor: 'border-purple-200',
+    textColor: 'text-purple-600',
+  },
+  {
+    href: '/rielt',
+    icon: Building,
+    title: 'Rielt.Market',
+    description: 'Поиск жилья',
+    color: 'green',
+    bgColor: 'bg-green-50',
+    borderColor: 'border-green-200',
+    textColor: 'text-green-600',
+  },
+  {
+    href: '/rf',
+    icon: Handshake,
+    title: 'Russian Friendly',
+    description: 'Партнёры и скидки',
+    color: 'blue',
+    bgColor: 'bg-blue-50',
+    borderColor: 'border-blue-200',
+    textColor: 'text-blue-600',
+  },
+  {
+    href: '/connect',
+    icon: Link2,
+    title: 'Connect Asia',
+    description: 'Баланс и награды',
+    color: 'orange',
+    bgColor: 'bg-orange-50',
+    borderColor: 'border-orange-200',
+    textColor: 'text-orange-600',
+  },
 ];
 
-const footerItems = [
+const quickLinks = [
   { href: '/settings', icon: Settings, label: 'Настройки' },
   { href: '/help', icon: HelpCircle, label: 'Помощь' },
+  { href: '/about', icon: Info, label: 'О проекте' },
 ];
 
-export function SideDrawer({ isOpen, onClose }: SideDrawerProps) {
+export function SideDrawer({}: SideDrawerProps) {
   const pathname = usePathname();
+  const { isSideDrawerOpen: isOpen, closeSideDrawer: onClose } = useAppShell();
 
   useEffect(() => {
     if (isOpen) {
@@ -65,27 +117,26 @@ export function SideDrawer({ isOpen, onClose }: SideDrawerProps) {
     <>
       {/* Overlay */}
       <div
-        className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+        className="fixed inset-0 bg-black/50 z-40"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* Drawer */}
+      {/* Drawer - открывается справа */}
       <aside
         className={cn(
-          'fixed top-0 left-0 h-full w-64 bg-white shadow-xl z-50',
+          'fixed top-0 right-0 h-full w-80 md:w-96 bg-white shadow-xl z-50',
           'transform transition-transform duration-300 ease-in-out',
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+          'flex flex-col',
+          isOpen ? 'translate-x-0' : 'translate-x-full'
         )}
       >
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-slate-200">
+          <div className="flex items-center justify-between p-4 md:p-6 border-b border-slate-200 flex-shrink-0">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-sky-600 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">G</span>
-              </div>
-              <span className="text-lg font-bold text-slate-900">Go2Asia</span>
+              <Globe className="w-6 h-6 text-sky-600" />
+              <span className="text-lg font-bold text-slate-900">Все модули</span>
             </div>
             <button
               onClick={onClose}
@@ -96,60 +147,96 @@ export function SideDrawer({ isOpen, onClose }: SideDrawerProps) {
             </button>
           </div>
 
-          {/* Menu Items */}
-          <nav className="flex-1 overflow-y-auto p-4">
-            <ul className="space-y-1">
-              {menuItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+          {/* Scrollable Content */}
+          <div className="flex-1 overflow-y-auto">
+            <div className="p-4 md:p-6 space-y-4">
+              {/* Модули */}
+              {modules.map((module) => {
+                const Icon = module.icon;
+                const isActive = pathname === module.href || pathname.startsWith(module.href + '/');
 
                 return (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      onClick={onClose}
-                      className={cn(
-                        'flex items-center gap-3 px-3 py-2 rounded-lg',
-                        'transition-colors',
-                        isActive
-                          ? 'bg-sky-100 text-sky-700 font-medium'
-                          : 'text-slate-700 hover:bg-slate-50'
-                      )}
-                    >
-                      <Icon size={20} />
-                      <span>{item.label}</span>
-                    </Link>
-                  </li>
+                  <Link
+                    key={module.href}
+                    href={module.href}
+                    onClick={onClose}
+                    className={cn(
+                      'block rounded-xl border-2 p-4 transition-all',
+                      'hover:shadow-md hover:-translate-y-0.5',
+                      module.bgColor,
+                      module.borderColor,
+                      isActive && 'ring-2 ring-sky-500 ring-offset-2'
+                    )}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className={cn('p-2 rounded-lg', module.bgColor)}>
+                        <Icon className={cn('w-6 h-6', module.textColor)} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className={cn('font-bold text-base mb-1', module.textColor)}>
+                          {module.title}
+                        </h3>
+                        <p className="text-sm text-slate-600">
+                          {module.description}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
                 );
               })}
-            </ul>
-          </nav>
+
+              {/* Партнёрская панель */}
+              <div className="pt-4 border-t border-slate-200">
+                <Link
+                  href="/partner"
+                  onClick={onClose}
+                  className="block rounded-xl border-2 border-slate-200 bg-slate-50 p-4 transition-all hover:shadow-md hover:-translate-y-0.5"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="p-2 rounded-lg bg-slate-100">
+                      <Briefcase className="w-6 h-6 text-slate-600" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-bold text-base text-slate-900 mb-1">
+                        Партнёрская панель
+                      </h3>
+                      <p className="text-sm text-slate-600">
+                        Управление заведением
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+
+              {/* Быстрые ссылки */}
+              <div className="pt-4 border-t border-slate-200">
+                <h4 className="text-sm font-semibold text-slate-900 mb-3">Быстрые ссылки</h4>
+                <ul className="space-y-2">
+                  {quickLinks.map((link) => {
+                    const Icon = link.icon;
+                    return (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          onClick={onClose}
+                          className="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-50 transition-colors"
+                        >
+                          <Icon size={18} />
+                          <span className="text-sm">{link.label}</span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          </div>
 
           {/* Footer */}
-          <div className="border-t border-slate-200 p-4">
-            <ul className="space-y-1">
-              {footerItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      onClick={onClose}
-                      className="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-50 transition-colors"
-                    >
-                      <Icon size={20} />
-                      <span>{item.label}</span>
-                    </Link>
-                  </li>
-                );
-              })}
-              <li>
-                <button className="flex items-center gap-3 px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 transition-colors w-full">
-                  <LogOut size={20} />
-                  <span>Выйти</span>
-                </button>
-              </li>
-            </ul>
+          <div className="border-t border-slate-200 p-4 md:p-6 flex-shrink-0">
+            <p className="text-xs text-slate-500 text-center">
+              Go2Asia v1.0. © 2024
+            </p>
           </div>
         </div>
       </aside>

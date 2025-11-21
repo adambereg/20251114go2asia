@@ -4,7 +4,9 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { AuthModeProvider } from '../contexts/AuthModeContext';
 import { TopAppBar } from '../components/app-shell/TopAppBar';
 import { BottomNav } from '../components/app-shell/BottomNav';
+import { SideDrawer } from '../components/app-shell/SideDrawer';
 import { AuthModeToggle } from '../components/dev/AuthModeToggle';
+import { AppShellProvider } from '../components/app-shell/AppShellProvider';
 
 export const metadata: Metadata = {
   title: {
@@ -42,16 +44,19 @@ const isClerkConfigured = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 function AppContent({ children }: { children: React.ReactNode }) {
   return (
     <AuthModeProvider>
-      <html lang="ru">
-        <body>
-          <TopAppBar />
-          <main className="min-h-screen pb-20 pt-16">
-            {children}
-          </main>
-          <BottomNav />
-          <AuthModeToggle />
-        </body>
-      </html>
+      <AppShellProvider>
+        <html lang="ru">
+          <body>
+            <TopAppBar />
+            <SideDrawer />
+            <main className="min-h-screen pb-20 pt-16">
+              {children}
+            </main>
+            <BottomNav />
+            <AuthModeToggle />
+          </body>
+        </html>
+      </AppShellProvider>
     </AuthModeProvider>
   );
 }

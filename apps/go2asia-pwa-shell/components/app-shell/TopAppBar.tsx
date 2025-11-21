@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useUser, SignInButton } from '@clerk/nextjs';
 import { useAuthMode } from '../../contexts/AuthModeContext';
+import { useAppShell } from './AppShellProvider';
 import { TopAppBar as UITopAppBar } from '@go2asia/ui';
 
 // В Next.js NEXT_PUBLIC_* переменные доступны и на сервере, и на клиенте
@@ -20,6 +21,7 @@ function ClerkUserWrapper({ children }: { children: (user: ReturnType<typeof use
 export function TopAppBar() {
   const router = useRouter();
   const { isAuthenticated: devModeAuthenticated } = useAuthMode();
+  const { openSideDrawer } = useAppShell();
 
   const getInitials = (name: string | null | undefined) => {
     if (!name) return 'U';
@@ -61,9 +63,7 @@ export function TopAppBar() {
 
         const topAppBar = (
           <UITopAppBar
-            onMenuClick={() => {
-              // TODO: открыть меню модулей
-            }}
+            onMenuClick={openSideDrawer}
             onHomeClick={() => router.push('/')}
             onSearchClick={() => {
               // TODO: открыть поиск
