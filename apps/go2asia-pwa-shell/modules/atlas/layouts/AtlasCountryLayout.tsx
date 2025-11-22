@@ -92,34 +92,8 @@ export const AtlasCountryLayout: FC<AtlasCountryLayoutProps> = ({
         </div>
       </section>
 
-      {/* Tabs */}
-      <section className="bg-white border-b border-slate-200 sticky top-16 z-40">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex gap-6 -mb-px overflow-x-auto">
-            {tabs.map((tab) => {
-              const isActive = tab.id === activeTabId;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  className={`py-3 px-1 border-b-2 text-sm font-medium whitespace-nowrap transition-colors ${
-                    isActive
-                      ? 'border-sky-600 text-sky-600'
-                      : 'border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300'
-                  }`}
-                  // Фактическая логика смены вкладок будет добавлена позже
-                  aria-current={isActive ? 'page' : undefined}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
-          </nav>
-        </div>
-      </section>
-
       {/* Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {children}
       </main>
     </div>
