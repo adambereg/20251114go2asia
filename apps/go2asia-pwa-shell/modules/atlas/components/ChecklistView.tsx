@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Card, CardContent, Checkbox } from '@go2asia/ui';
+import { Card, CardContent } from '@go2asia/ui';
 
 export interface ChecklistItem {
   id: string;
@@ -52,7 +52,12 @@ export const ChecklistView: FC<ChecklistViewProps> = ({
               <ul className="space-y-2">
                 {items.map((item) => (
                   <li key={item.id} className="flex items-start gap-3">
-                    <Checkbox disabled className="mt-1" />
+                    <span
+                      aria-hidden="true"
+                      className="mt-1 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border border-slate-300 bg-slate-50"
+                    >
+                      {/* Заглушка под будущий чекбокс из @go2asia/ui */}
+                    </span>
                     <span className="text-sm text-slate-800">
                       {item.label}
                     </span>
