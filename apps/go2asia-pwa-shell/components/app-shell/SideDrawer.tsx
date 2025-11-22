@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { X, Globe, MapPin, Trophy, Building, Handshake, Link2, Briefcase, Settings, HelpCircle, Info, BookOpen } from 'lucide-react';
+import { X, Globe, MapPin, Trophy, Building, Handshake, Link2, Briefcase, Settings, HelpCircle, Info, BookOpen, Users, Calendar } from 'lucide-react';
 import { cn } from '@go2asia/ui';
 import { useAppShell } from './AppShellProvider';
 
@@ -11,6 +11,26 @@ interface SideDrawerProps {}
 
 // Модули для бокового меню (согласно скриншотам)
 const modules = [
+  {
+    href: '/atlas',
+    icon: Globe,
+    title: 'Atlas Asia',
+    description: 'Энциклопедия мест',
+    color: 'blue',
+    bgColor: 'bg-blue-50',
+    borderColor: 'border-blue-200',
+    textColor: 'text-blue-600',
+  },
+  {
+    href: '/pulse',
+    icon: Calendar,
+    title: 'Pulse Asia',
+    description: 'События и афиша',
+    color: 'blue',
+    bgColor: 'bg-blue-50',
+    borderColor: 'border-blue-200',
+    textColor: 'text-blue-600',
+  },
   {
     href: '/blog',
     icon: BookOpen,
@@ -26,6 +46,16 @@ const modules = [
     icon: MapPin,
     title: 'Guru Asia',
     description: 'Рекомендации от гидов',
+    color: 'blue',
+    bgColor: 'bg-blue-50',
+    borderColor: 'border-blue-200',
+    textColor: 'text-blue-600',
+  },
+  {
+    href: '/space',
+    icon: Users,
+    title: 'Space Asia',
+    description: 'Социальная сеть',
     color: 'blue',
     bgColor: 'bg-blue-50',
     borderColor: 'border-blue-200',
