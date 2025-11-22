@@ -5,6 +5,11 @@
   # Next.js собирает standalone в .next/standalone, но для Netlify нужен .next
   publish = "apps/go2asia-pwa-shell/.next"
 
+[[plugins]]
+  # Включаем официальный плагин Netlify для Next.js,
+  # чтобы правильно настраивались функции и маршрутизация (без 404 от Netlify).
+  package = "@netlify/plugin-nextjs"
+
 [build.environment]
   NODE_VERSION = "20"
   PNPM_VERSION = "8"
