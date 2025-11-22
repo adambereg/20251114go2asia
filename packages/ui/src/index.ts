@@ -44,3 +44,9 @@ export type { EmptyStateProps } from './components/EmptyState';
 export { Skeleton, SkeletonCard } from './components/Skeleton';
 export type { SkeletonProps } from './components/Skeleton';
 
+export { HeroSection } from './components/HeroSection';
+export type { HeroSectionProps } from './components/HeroSection';
+
+export { CTABanner } from './components/CTABanner';
+export type { CTABannerProps } from './components/CTABanner';
+
