@@ -4,6 +4,8 @@ export type {
   AtlasHomeCountry,
   AtlasHomePopularPlace,
 } from './components/AtlasHomeView';
+export { AtlasMainNav } from './components/AtlasMainNav';
+export { AtlasSearchBar } from './components/AtlasSearchBar';
 
 export { default as AtlasCountryLayout } from './layouts/AtlasCountryLayout';
 export type {
@@ -39,5 +41,6 @@ export type {
 } from './components/CalculatorScaffold';
 
 export { COUNTRY_TABS } from './utils/constants';
+export { default as EmptyStateAtlas } from './components/EmptyStateAtlas';
 
 

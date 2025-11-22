@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { Card, CardContent } from '@go2asia/ui';
 import { ModuleHero } from '@/components/modules';
 import { Globe, MapPin } from 'lucide-react';
+import { AtlasMainNav } from './AtlasMainNav';
+import { AtlasSearchBar } from './AtlasSearchBar';
 
 export interface AtlasHomeCountry {
   id: string;
@@ -43,8 +45,14 @@ export const AtlasHomeView: FC<AtlasHomeViewProps> = ({
         gradientTo="to-sky-600"
       />
 
+      {/* Top controls: internal nav + search */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
+        <AtlasMainNav />
+        <AtlasSearchBar />
+      </section>
+
       {/* Countries Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <h2 className="text-h2 md:text-3xl font-bold text-slate-900 mb-6">
           Страны
         </h2>
