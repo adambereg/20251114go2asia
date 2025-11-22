@@ -26,6 +26,9 @@ import {
 const mockCountry = {
   name: 'Вьетнам',
   flagEmoji: '🇻🇳',
+  heroImageUrl:
+    'https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg',
+  heroImageAlt: 'Вьетнам',
 };
 
 const sideNavItems = [
@@ -60,6 +63,8 @@ export default function CountryLayout({
       flagEmoji={mockCountry.flagEmoji}
       lastUpdatedAt="Последнее обновление: 17.11.2025"
       viewsCount={1234}
+      heroImageUrl={mockCountry.heroImageUrl}
+      heroImageAlt={mockCountry.heroImageAlt}
     >
       <div className="space-y-6">
         {/* Горизонтальное меню для мобильных */}
