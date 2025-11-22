@@ -14,6 +14,11 @@ function ClerkUserWrapper({ children }: { children: (user: ReturnType<typeof use
   if (!isClerkConfigured) {
     return <>{children({ isLoaded: true, isSignedIn: false, user: null })}</>;
   }
+  // Если Clerk настроен, используем отдельный компонент, который всегда вызывает хук
+  return <ClerkUserWrapperInner>{children}</ClerkUserWrapperInner>;
+}
+
+function ClerkUserWrapperInner({ children }: { children: (user: ReturnType<typeof useUser>) => React.ReactNode }) {
   const user = useUser();
   return <>{children(user)}</>;
 }
