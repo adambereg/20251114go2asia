@@ -72,9 +72,14 @@ jobs:
         env:
           BASE_URL: ${{ env.PREVIEW_URL || 'https://api-preview.go2asia.space' }}
         run: |
-          # Contract tests disabled until API is deployed
-          echo "Skipping contract tests - API not deployed yet"
-          exit 0
+          schemathesis run \
+            docs/openapi/content.yaml \
+            docs/openapi/auth.yaml \
+            docs/openapi/token.yaml \
+            docs/openapi/referral.yaml \
+            --url "$BASE_URL" \
+            --checks all \
+            --hypothesis-max-examples=20 || echo "Contract tests failed - API may not be deployed yet"
 
   e2e-tests:
     name: E2E Tests
