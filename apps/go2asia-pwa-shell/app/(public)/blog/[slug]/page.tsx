@@ -98,7 +98,7 @@ export default async function ArticlePage({
           </nav>
 
           {/* Title & Meta */}
-          <h1 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
+          <h1 className="text-h1 md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
             {article.title}
           </h1>
 

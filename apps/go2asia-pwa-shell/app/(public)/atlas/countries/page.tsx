@@ -43,11 +43,11 @@ export default async function CountriesPage() {
 
           <div className="flex items-center gap-3 mb-2">
             <Globe className="w-8 h-8 lg:w-10 lg:h-10 text-sky-600" />
-            <h1 className="text-3xl lg:text-4xl font-bold text-slate-900">
+            <h1 className="text-h1 md:text-4xl lg:text-5xl font-bold text-slate-900">
               Страны Юго-Восточной Азии
             </h1>
           </div>
-          <p className="text-lg text-slate-600">
+          <p className="text-body text-slate-600">
             Исследуйте страны региона и их уникальные особенности
           </p>
         </div>
@@ -66,11 +66,11 @@ export default async function CountriesPage() {
                         <div className="text-4xl flex-shrink-0">{country.flag}</div>
                       )}
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-xl font-bold text-slate-900 mb-1">
+                        <h3 className="text-h3 md:text-2xl font-bold text-slate-900 mb-1">
                           {country.name}
                         </h3>
                         {country.description && (
-                          <p className="text-sm text-slate-600 mb-3 line-clamp-2">
+                          <p className="text-small text-slate-600 mb-3 line-clamp-2">
                             {country.description}
                           </p>
                         )}

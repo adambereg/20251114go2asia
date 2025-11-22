@@ -73,7 +73,7 @@ export default async function CountryPage({
           <div className="flex items-start gap-4 mb-4">
             <div className="text-5xl">{country.flag}</div>
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-slate-900 mb-2">
+              <h1 className="text-h1 md:text-4xl lg:text-5xl font-bold text-slate-900 mb-2">
                 {country.name}
               </h1>
               <div className="flex flex-wrap gap-2 mb-4">
@@ -120,7 +120,7 @@ export default async function CountryPage({
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Editorial Content */}
         <section className="bg-white rounded-xl border border-slate-200 p-6 mb-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-4">Обзор</h2>
+          <h2 className="text-h2 md:text-3xl font-bold text-slate-900 mb-4">Обзор</h2>
           <div className="prose prose-slate max-w-none">
             <p className="text-slate-700 leading-relaxed mb-4">
               {country.description}
@@ -134,7 +134,7 @@ export default async function CountryPage({
 
           {/* Основные города */}
           <div className="mt-8">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">
+            <h3 className="text-h3 md:text-2xl font-bold text-slate-900 mb-4">
               Основные города
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -147,17 +147,17 @@ export default async function CountryPage({
 
         {/* Popular Places */}
         <section className="mb-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">
+          <h2 className="text-h2 md:text-3xl font-bold text-slate-900 mb-6">
             Популярные места
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {country.popularPlaces.map((place: any) => (
               <Card key={place.id} hover>
                 <CardContent className="p-5">
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  <h3 className="text-h3 md:text-2xl font-bold text-slate-900 mb-2">
                     {place.title}
                   </h3>
-                  <p className="text-sm text-slate-600 mb-3">{place.city}</p>
+                  <p className="text-small text-slate-600 mb-3">{place.city}</p>
                   <div className="flex items-center gap-4 text-sm text-slate-500">
                     <span className="flex items-center gap-1">
                       <span className="text-amber-500">⭐</span>
