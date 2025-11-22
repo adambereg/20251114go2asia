@@ -1,4 +1,141 @@
-# Cursor Rules для Go2Asia Monorepo
+# ===========================
+# Cursor Rules for Go2Asia
+# ===========================
+
+version: 1
+
+# ---------------------------
+# CAPSULES CONFIG
+# ---------------------------
+
+capsules:
+  # ---- MAIN APP SHELL ----
+  - name: app-shell
+    root: apps/go2asia-pwa-shell
+    readOnly: false
+    description: >
+      Основной фронтенд Go2Asia. Разрешено редактирование,
+      создание компонентов, страниц и интеграций.
+    priority: high
+
+  # ---- BACKEND SERVICES ----
+  - name: services
+    root: services
+    readOnly: false
+    description: >
+      Все микросервисы Phase 0–1 (Auth, Token, Referral, Content).
+      Cursor может обновлять логику, роуты, миграции и тесты.
+    priority: high
+
+  # ---- PROTOTYPES (BOLT.NEW) ----
+  - name: prototypes
+    root: prototypes
+    readOnly: true
+    ignoreGit: true
+    description: >
+      READ-ONLY. Прототипы Bolt.New.
+      Cursor может читать эти файлы, анализировать их, брать UI/UX паттерны,
+      Tailwind-классы, компоненты, структуры, но НЕ должен изменять файлы.
+      Используется только как эталонный источник UI.
+    priority: reference
+
+  # ---- SHARED PACKAGES ----
+  - name: packages
+    root: packages
+    readOnly: false
+    description: >
+      Общие пакеты: SDK, types, UI-компоненты и утилиты.
+      Можно расширять, но аккуратно — важно не ломать публичный API.
+    priority: medium
+
+  # ---- DOCUMENTATION ----
+  - name: docs
+    root: docs
+    readOnly: false
+    description: >
+      Документация проекта. Cursor может обновлять и расширять.
+    priority: low
+
+
+# ---------------------------
+# GLOBAL RULES
+# ---------------------------
+
+rules:
+
+  # ---- GIT IGNORED CONTENT ----
+  - pattern: "/prototypes/**"
+    action: allow-read
+    description: >
+      Прототипы Bolt.New можно читать, анализировать и использовать
+      как визуальный и структурный reference.
+      Изменять — нельзя.
+
+  # ---- PROTECT PROTOTYPES ----
+  - pattern: "/prototypes/**"
+    action: prevent-write
+    description: >
+      Категорически запрещено изменять, переименовывать, удалять
+      или создавать файлы в prototypes/.
+
+  # ---- PROTECT PROTOTYPES FROM COMMITS ----
+  - pattern: "/prototypes/**"
+    action: prevent-commit
+    description: >
+      Файлы прототипов никогда не должны попасть в GitHub.
+
+  # ---- FRONTEND APP SHELL RULES ----
+  - pattern: "apps/go2asia-pwa-shell/**"
+    action: allow-edit
+    description: >
+      Разрешено создавать/модифицировать компоненты, страницы,
+      layout, хелперы, хуки и интеграции.
+
+  # ---- BACKEND SERVICES RULES ----
+  - pattern: "services/**"
+    action: allow-edit
+    description: >
+      Разрешено менять код микросервисов, типы, роуты и тесты.
+
+  # ---- SHARED PACKAGES RULES ----
+  - pattern: "packages/**"
+    action: allow-edit
+    description: >
+      Cursor может обновлять SDK, types и UI kit.
+
+  # ---- DOCUMENTATION RULES ----
+  - pattern: "docs/**"
+    action: allow-edit
+    description: >
+      Документация может свободно редактироваться Cursor.
+
+
+# ---------------------------
+# SAFETY & SANITY RULES
+# ---------------------------
+
+sanity:
+
+  # Не трогать node_modules
+  - pattern: "**/node_modules/**"
+    action: prevent-any
+
+  # Не трогать билд артефакты
+  - pattern: "**/dist/**"
+    action: prevent-any
+
+  # Не генерировать ненужные lock-файлы
+  - pattern: "**/package-lock.json"
+    action: prevent-write
+
+  # Только pnpm
+  - pattern: "*"
+    enforce:
+      - "использовать pnpm во всех командах"
+
+# ---------------------------
+# DESIGN SYSTEM RULES
+# ---------------------------
 
 ## 🎨 Дизайн-система: Единственный источник правды
 
@@ -112,9 +249,9 @@ import { User } from './types/user'; // Локальные типы
 
 ### Размеры заголовков:
 
-•H1: `text-3xl md:text-4xl lg:text-5xl` (30px / 36px / 48px) + `mb-3 md:mb-4`
-•H2: `text-2xl md:text-3xl` (24px / 30px)
-•H3: `text-xl md:text-2xl` (20px / 24px)
+•H1: `text-h1 md:text-4xl lg:text-5xl` (30px / 36px / 48px) + `mb-3 md:mb-4`
+•H2: `text-h2 md:text-3xl` (24px / 30px)
+•H3: `text-h3 md:text-2xl` (20px / 24px)
 
 ### Grid модулей:
 
@@ -144,3 +281,19 @@ import { User } from './types/user'; // Локальные типы
 - [ ] Grid модулей: `grid-cols-2 md:grid-cols-3`
 - [ ] Проверил линтинг: `pnpm lint`
 - [ ] Проверил типы: `pnpm typecheck`
+
+# ---------------------------
+# DESIGN SYSTEM CAPSULE
+# ---------------------------
+
+capsule: design-system
+readonly: true
+ignore_in_git: true
+description: |
+  This capsule contains external design-token files generated by Bolt.New.
+  Cursor must NEVER modify or rewrite these files.
+  Cursor may only READ them as reference for UI implementation.
+
+When building or modifying UI components, always copy exact styles, typography, spacing,
+colors and structure from the design-system capsule. Never rely on default Tailwind.
+Never improvise. Always match pixel-perfect Bolt.New design.

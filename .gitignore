@@ -54,3 +54,5 @@ Thumbs.db
 # Storybook
 storybook-static/
 
+# Design
+/design-system/*

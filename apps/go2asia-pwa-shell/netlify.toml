@@ -1,8 +1,8 @@
 [build]
   # Команда сборки через Turbo с фильтром только для pwa-shell
   command = "pnpm turbo build --filter=@go2asia/pwa-shell"
-  # Publish directory относительно корня репозитория
-  # Next.js собирает проект в apps/go2asia-pwa-shell/.next
+  # Publish directory для Next.js 15 App Router
+  # Next.js собирает standalone в .next/standalone, но для Netlify нужен .next
   publish = "apps/go2asia-pwa-shell/.next"
 
 [build.environment]
@@ -20,7 +20,12 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
-# Cache headers для статических ресурсов
+# Cache headers - минимальная конфигурация
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 [[headers]]
   for = "/_next/static/*"
   [headers.values]

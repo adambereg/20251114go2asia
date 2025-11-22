@@ -32,7 +32,7 @@ export function EmptyState({
       <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">{title}</h3>
 
       {description && (
-        <p className="text-sm text-slate-600 mb-6 max-w-sm mx-auto">
+        <p className="text-sm md:text-base text-slate-600 mb-6 max-w-sm mx-auto">
           {description}
         </p>
       )}
