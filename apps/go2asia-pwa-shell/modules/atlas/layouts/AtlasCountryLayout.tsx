@@ -66,8 +66,8 @@ export const AtlasCountryLayout: FC<AtlasCountryLayoutProps> = ({
             <div
               className="
                 relative w-full overflow-hidden rounded-2xl mb-6
-                h-[137px] sm:h-[180px] md:h-[220px] lg:h-[260px]
-                xl:h-[347px]
+                h-36 sm:h-44 md:h-56 lg:h-64
+                xl:h-96
               "
             >
               <img
