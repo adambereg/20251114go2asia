@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Hono } from 'hono';
 import { balanceRoutes } from './balance';
+import type { TokenServiceEnv } from '../types';
 
 // Mock database
 const mockDb = {
@@ -15,11 +16,13 @@ const mockAuthMiddleware = async (c: any, next: any) => {
   await next();
 };
 
+type TestEnv = TokenServiceEnv;
+
 describe('Balance API', () => {
-  let app: Hono;
+  let app: Hono<TestEnv>;
 
   beforeEach(() => {
-    app = new Hono();
+    app = new Hono<TestEnv>();
     app.use('*', async (c, next) => {
       c.set('db', mockDb);
       c.set('requestId', 'test-request-id');
@@ -49,7 +52,7 @@ describe('Balance API', () => {
 
       const res = await app.request('/');
       expect(res.status).toBe(200);
-      const data = await res.json();
+      const data = (await res.json()) as { points: number; g2a: number };
       expect(data).toEqual({
         points: 100,
         g2a: 50.0,
@@ -86,7 +89,7 @@ describe('Balance API', () => {
 
       const res = await app.request('/');
       expect(res.status).toBe(200);
-      const data = await res.json();
+      const data = (await res.json()) as { points: number; g2a: number };
       expect(data).toEqual({
         points: 0,
         g2a: 0,
@@ -138,7 +141,7 @@ describe('Balance API', () => {
       });
 
       expect(res.status).toBe(200);
-      const data = await res.json();
+      const data = (await res.json()) as { type: string; amount: number };
       expect(data.type).toBe('points_add');
       expect(data.amount).toBe(100);
     });
@@ -201,7 +204,7 @@ describe('Balance API', () => {
       });
 
       expect(res.status).toBe(200);
-      const data = await res.json();
+      const data = (await res.json()) as { type: string; amount: number };
       expect(data.type).toBe('points_subtract');
       expect(data.amount).toBe(50);
     });
@@ -231,7 +234,7 @@ describe('Balance API', () => {
       });
 
       expect(res.status).toBe(409);
-      const data = await res.json();
+      const data = (await res.json()) as { error: { code: string } };
       expect(data.error.code).toBe('CONFLICT');
     });
   });

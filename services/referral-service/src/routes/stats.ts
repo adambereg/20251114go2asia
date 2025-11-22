@@ -2,8 +2,9 @@ import { Hono } from 'hono';
 import { referrals, referralCodes } from '../db';
 import { eq, sql, and } from 'drizzle-orm';
 import { authMiddleware } from '../middleware/auth';
+import type { ReferralServiceEnv } from '../types';
 
-const app = new Hono();
+const app = new Hono<ReferralServiceEnv>();
 
 // GET /v1/stats - получить статистику рефералов
 app.get('/', authMiddleware, async (c) => {

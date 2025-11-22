@@ -1,7 +1,8 @@
 import { Hono } from 'hono';
 import { sql } from 'drizzle-orm';
+import type { TokenServiceEnv } from '../types';
 
-const app = new Hono();
+const app = new Hono<TokenServiceEnv>();
 
 app.get('/', (c) => {
   return c.json({

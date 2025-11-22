@@ -2,8 +2,9 @@ import { Hono } from 'hono';
 import { Webhook } from 'svix';
 import { users } from '../db';
 import { eq } from 'drizzle-orm';
+import type { AuthServiceEnv } from '../types';
 
-const app = new Hono();
+const app = new Hono<AuthServiceEnv>();
 
 // POST /v1/webhook - webhook от Clerk
 app.post('/', async (c) => {

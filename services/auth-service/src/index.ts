@@ -6,10 +6,16 @@ import { createDb } from './db';
 import { healthRoutes } from './routes/health';
 import { profileRoutes } from './routes/profile';
 import { webhookRoutes } from './routes/webhook';
+import type { AuthServiceEnv } from './types';
 
-const app = new Hono();
+const app = new Hono<AuthServiceEnv>();
 
 // Middleware
+app.use('*', async (c, next) => {
+  const db = createDb(c.env ?? {});
+  c.set('db', db);
+  await next();
+});
 app.use('*', honoLogger());
 app.use('*', requestIdMiddleware);
 app.use(
@@ -23,13 +29,6 @@ app.use(
     credentials: true,
   })
 );
-
-// Database middleware - инъекция БД в контекст
-app.use('*', async (c, next) => {
-  const db = createDb(c.env);
-  c.set('db', db);
-  await next();
-});
 
 // Routes
 app.route('/health', healthRoutes);

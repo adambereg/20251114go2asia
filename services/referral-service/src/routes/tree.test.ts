@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Hono } from 'hono';
 import { treeRoutes } from './tree';
+import type { ReferralServiceEnv } from '../types';
 
 // Mock database
 const mockDb = {
@@ -13,11 +14,13 @@ const mockAuthMiddleware = async (c: any, next: any) => {
   await next();
 };
 
+type TestEnv = ReferralServiceEnv;
+
 describe('Referral Tree API', () => {
-  let app: Hono;
+  let app: Hono<TestEnv>;
 
   beforeEach(() => {
-    app = new Hono();
+    app = new Hono<TestEnv>();
     app.use('*', async (c, next) => {
       c.set('db', mockDb);
       c.set('requestId', 'test-request-id');
@@ -46,7 +49,7 @@ describe('Referral Tree API', () => {
 
       const res = await app.request('/?depth=2');
       expect(res.status).toBe(200);
-      const data = await res.json();
+      const data = (await res.json()) as { sponsorId: string; referrals: unknown[] };
       expect(data.sponsorId).toBe('test-user-id');
       expect(data.referrals).toBeDefined();
     });

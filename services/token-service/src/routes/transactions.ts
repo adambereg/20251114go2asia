@@ -3,8 +3,11 @@ import { z } from 'zod';
 import { transactions } from '../db';
 import { eq, desc, lt, and } from 'drizzle-orm';
 import { authMiddleware } from '../middleware/auth';
+import type { TokenServiceEnv } from '../types';
 
-const app = new Hono();
+type TransactionRow = typeof transactions.$inferSelect;
+
+const app = new Hono<TokenServiceEnv>();
 
 // Валидационные схемы
 const getTransactionsQuerySchema = z.object({
@@ -68,6 +71,7 @@ app.get('/', authMiddleware, async (c) => {
     // Определяем, есть ли следующая страница
     const hasMore = result.length > limit;
     const items = hasMore ? result.slice(0, limit) : result;
+    const itemsTyped = items as TransactionRow[];
 
     // Формируем nextCursor
     const nextCursor = hasMore && items.length > 0 ? items[items.length - 1].id : null;
@@ -78,7 +82,7 @@ app.get('/', authMiddleware, async (c) => {
     c.header('Expires', '0');
 
     return c.json({
-      items: items.map((item) => ({
+      items: itemsTyped.map((item) => ({
         id: item.id,
         userId: item.userId,
         type: item.type,

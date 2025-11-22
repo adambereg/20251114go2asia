@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { balances, transactions } from '../db';
 import { eq } from 'drizzle-orm';
 import { authMiddleware } from '../middleware/auth';
+import type { TokenServiceEnv } from '../types';
 
 // Генерация UUID для Cloudflare Workers
 function generateUUID(): string {
@@ -13,7 +14,7 @@ function generateUUID(): string {
   });
 }
 
-const app = new Hono();
+const app = new Hono<TokenServiceEnv>();
 
 // Валидационные схемы
 const addPointsSchema = z.object({

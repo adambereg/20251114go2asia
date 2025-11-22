@@ -4,6 +4,11 @@ import { countries, cities, places } from '../db';
 import { eq, sql, gt } from 'drizzle-orm';
 import type { ContentServiceEnv } from '../types';
 
+type CountryWithCounts = typeof countries.$inferSelect & {
+  citiesCount: number;
+  placesCount: number;
+};
+
 const app = new Hono<ContentServiceEnv>();
 
 // Валидационные схемы
@@ -96,6 +101,7 @@ app.get('/', async (c) => {
     // Определяем, есть ли следующая страница
     const hasMore = result.length > limit;
     const items = hasMore ? result.slice(0, limit) : result;
+    const itemsTyped = items as CountryWithCounts[];
 
     // Формируем nextCursor
     const nextCursor = hasMore && items.length > 0 ? items[items.length - 1].id : null;
@@ -105,7 +111,7 @@ app.get('/', async (c) => {
     c.header('Vary', 'Accept, Accept-Encoding');
 
     return c.json({
-      items: items.map((item) => ({
+      items: itemsTyped.map((item) => ({
         id: item.id,
         name: item.name,
         code: item.code,

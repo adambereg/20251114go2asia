@@ -4,6 +4,8 @@ import { articles } from '../db';
 import { eq, sql, gt, and, lte, isNotNull } from 'drizzle-orm';
 import type { ContentServiceEnv } from '../types';
 
+type ArticleRow = typeof articles.$inferSelect;
+
 const app = new Hono<ContentServiceEnv>();
 
 // Валидационные схемы
@@ -115,6 +117,7 @@ app.get('/', async (c) => {
     // Определяем, есть ли следующая страница
     const hasMore = result.length > limit;
     const items = hasMore ? result.slice(0, limit) : result;
+    const itemsTyped = items as ArticleRow[];
 
     // Формируем nextCursor
     const nextCursor = hasMore && items.length > 0 ? items[items.length - 1].id : null;
@@ -124,7 +127,7 @@ app.get('/', async (c) => {
     c.header('Vary', 'Accept, Accept-Encoding');
 
     return c.json({
-      items: items.map((item) => ({
+      items: itemsTyped.map((item) => ({
         id: item.id,
         slug: item.slug,
         title: item.title,

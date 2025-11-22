@@ -7,10 +7,16 @@ import { healthRoutes } from './routes/health';
 import { statsRoutes } from './routes/stats';
 import { treeRoutes } from './routes/tree';
 import { registerRoutes } from './routes/register';
+import type { ReferralServiceEnv } from './types';
 
-const app = new Hono();
+const app = new Hono<ReferralServiceEnv>();
 
 // Middleware
+app.use('*', async (c, next) => {
+  const db = createDb(c.env ?? {});
+  c.set('db', db);
+  await next();
+});
 app.use('*', honoLogger());
 app.use('*', requestIdMiddleware);
 app.use(
@@ -24,13 +30,6 @@ app.use(
     credentials: true,
   })
 );
-
-// Database middleware - инъекция БД в контекст
-app.use('*', async (c, next) => {
-  const db = createDb(c.env);
-  c.set('db', db);
-  await next();
-});
 
 // Routes
 app.route('/health', healthRoutes);

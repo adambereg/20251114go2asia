@@ -102,13 +102,13 @@ importers:
 
   packages/logger:
     dependencies:
+      '@go2asia/config':
+        specifier: workspace:*
+        version: link:../config
       jose:
         specifier: ^5.2.0
         version: 5.10.0
     devDependencies:
-      '@go2asia/config':
-        specifier: '*'
-        version: link:../config
       '@types/node':
         specifier: ^20.10.0
         version: 20.19.25
