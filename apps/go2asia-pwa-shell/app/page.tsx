@@ -244,7 +244,7 @@ function UnauthenticatedHomePage() {
               <Globe className="w-8 h-8 md:w-10 md:h-10 text-white" />
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 text-white">
                 Go2Asia
-              </h1>
+            </h1>
             </div>
             <p className="text-base md:text-lg mb-6 opacity-95 text-white">
               Всё для жизни, путешествий и работы в Юго-Восточной Азии
@@ -757,7 +757,7 @@ function ClerkAuthWrapper({
   if (!isClerkConfigured) {
     return <>{children({ isLoaded: true, isSignedIn: false })}</>;
   }
-
+  
   // Внутренний компонент для безопасного вызова useUser
   function ClerkAuthInner() {
     const auth = useUser();
@@ -765,7 +765,7 @@ function ClerkAuthWrapper({
       <>{children({ isLoaded: auth.isLoaded ?? true, isSignedIn: auth.isSignedIn ?? false })}</>
     );
   }
-
+  
   return <ClerkAuthInner />;
 }
 
@@ -778,8 +778,8 @@ export default function HomePage() {
         // Если Clerk настроен и в production - используем его, иначе используем dev mode toggle
         const isAuthenticated =
           isClerkConfigured && process.env.NODE_ENV === 'production'
-            ? isSignedIn
-            : devModeAuthenticated;
+          ? isSignedIn
+          : devModeAuthenticated;
 
         // Показываем загрузку только если Clerk настроен и еще загружается
         if (isClerkConfigured && !isLoaded) {

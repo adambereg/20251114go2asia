@@ -45,17 +45,17 @@ function AppContent({ children }: { children: React.ReactNode }) {
   return (
     <AuthModeProvider>
       <AppShellProvider>
-        <html lang="ru">
-          <body>
-            <TopAppBar />
+      <html lang="ru">
+        <body>
+          <TopAppBar />
             <SideDrawer />
-            <main className="min-h-screen pb-20 pt-16">
-              {children}
-            </main>
-            <BottomNav />
-            <AuthModeToggle />
-          </body>
-        </html>
+          <main className="min-h-screen pb-20 pt-16">
+            {children}
+          </main>
+          <BottomNav />
+          <AuthModeToggle />
+        </body>
+      </html>
       </AppShellProvider>
     </AuthModeProvider>
   );
