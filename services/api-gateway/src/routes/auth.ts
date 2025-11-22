@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
+import type { ApiGatewayEnv } from '../types';
 
-const app = new Hono();
+const app = new Hono<ApiGatewayEnv>();
 
 // Placeholder routes - будут реализованы позже
 app.get('/profile', async (c) => {

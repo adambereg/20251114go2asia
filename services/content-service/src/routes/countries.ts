@@ -2,8 +2,9 @@ import { Hono } from 'hono';
 import { z } from 'zod';
 import { countries, cities, places } from '../db';
 import { eq, sql, gt } from 'drizzle-orm';
+import type { ContentServiceEnv } from '../types';
 
-const app = new Hono();
+const app = new Hono<ContentServiceEnv>();
 
 // Валидационные схемы
 const getCountriesQuerySchema = z.object({

@@ -8,8 +8,9 @@ import { contentRoutes } from './routes/content';
 import { authRoutes } from './routes/auth';
 import { tokenRoutes } from './routes/token';
 import { referralRoutes } from './routes/referral';
+import type { ApiGatewayEnv } from './types';
 
-const app = new Hono();
+const app = new Hono<ApiGatewayEnv>();
 
 // Middleware
 app.use('*', honoLogger());

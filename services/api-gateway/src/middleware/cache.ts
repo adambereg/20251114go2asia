@@ -1,10 +1,11 @@
 import { Context, Next } from 'hono';
 import { setCacheHeaders } from '../utils/cache';
+import type { ApiGatewayEnv } from '../types';
 
 /**
  * Middleware для установки заголовков кэширования
  */
-export async function cacheMiddleware(c: Context, next: Next) {
+export async function cacheMiddleware(c: Context<ApiGatewayEnv>, next: Next) {
   await next();
 
   const response = c.res;

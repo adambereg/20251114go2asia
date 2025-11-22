@@ -1,11 +1,12 @@
 import { z } from 'zod';
 import { Context, Next } from 'hono';
+import type { ApiGatewayEnv } from '../types';
 
 /**
  * Middleware для валидации тела запроса с использованием Zod схемы
  */
 export function validateBody<T extends z.ZodType>(schema: T) {
-  return async (c: Context, next: Next) => {
+  return async (c: Context<ApiGatewayEnv>, next: Next) => {
     try {
       const body = await c.req.json();
       const validated = schema.parse(body);
@@ -37,9 +38,10 @@ export function validateBody<T extends z.ZodType>(schema: T) {
  * Middleware для валидации query параметров
  */
 export function validateQuery<T extends z.ZodType>(schema: T) {
-  return async (c: Context, next: Next) => {
+  return async (c: Context<ApiGatewayEnv>, next: Next) => {
     try {
-      const query = Object.fromEntries(c.req.query());
+      const queryEntries = Object.entries(c.req.query());
+      const query = Object.fromEntries(queryEntries);
       const validated = schema.parse(query);
       c.set('validatedQuery', validated);
       await next();
