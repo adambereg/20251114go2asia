@@ -1,5 +1,5 @@
 import React from 'react';
-import { LucideIcon, ArrowRight } from 'lucide-react';
+import { LucideIcon, ArrowRight, Users, Gift, TrendingUp, Award, Target } from 'lucide-react';
 
 type FeatureType = 'community' | 'teams' | 'rf' | 'referral' | 'rewards' | 'quests';
 

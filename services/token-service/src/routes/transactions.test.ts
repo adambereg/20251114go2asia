@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Hono } from 'hono';
 import { transactionsRoutes } from './transactions';
+import type { TokenServiceEnv } from '../types';
 
 // Mock database
 const mockDb = {
@@ -13,11 +14,13 @@ const mockAuthMiddleware = async (c: any, next: any) => {
   await next();
 };
 
+type TestEnv = TokenServiceEnv;
+
 describe('Transactions API', () => {
-  let app: Hono;
+  let app: Hono<TestEnv>;
 
   beforeEach(() => {
-    app = new Hono();
+    app = new Hono<TestEnv>();
     app.use('*', async (c, next) => {
       c.set('db', mockDb);
       c.set('requestId', 'test-request-id');
@@ -63,7 +66,7 @@ describe('Transactions API', () => {
 
       const res = await app.request('/?limit=20');
       expect(res.status).toBe(200);
-      const data = await res.json();
+      const data = (await res.json()) as { items: unknown[]; hasMore: boolean; nextCursor: string | null };
       expect(data.items).toHaveLength(2);
       expect(data.hasMore).toBe(false);
     });
@@ -81,7 +84,7 @@ describe('Transactions API', () => {
 
       const res = await app.request('/?limit=20&cursor=tx-1');
       expect(res.status).toBe(200);
-      const data = await res.json();
+      const data = (await res.json()) as { items: unknown[]; hasMore: boolean; nextCursor: string | null };
       expect(data.items).toHaveLength(0);
     });
 

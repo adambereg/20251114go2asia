@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
+import type { ApiGatewayEnv } from '../types';
 
-const app = new Hono();
+const app = new Hono<ApiGatewayEnv>();
 
 app.get('/health', (c) => {
   return c.json({

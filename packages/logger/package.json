@@ -8,6 +8,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@go2asia/config": "workspace:*",
     "jose": "^5.2.0"
   },
   "devDependencies": {

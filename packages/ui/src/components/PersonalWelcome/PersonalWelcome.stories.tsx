@@ -24,9 +24,9 @@ export const Default: Story = {
     unfinishedNFTs: 5,
     teamMembers: 7,
     activeQuests: 2,
-    onContinueQuest: () => alert('Продолжить квест'),
-    onNewVouchers: () => alert('Новые ваучеры'),
-    onReferralLink: () => alert('Реферальная ссылка'),
+    onContinueQuest: () => console.log('Продолжить квест'),
+    onNewVouchers: () => console.log('Новые ваучеры'),
+    onReferralLink: () => console.log('Реферальная ссылка'),
   },
 };
 

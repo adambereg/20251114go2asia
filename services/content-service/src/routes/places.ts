@@ -2,8 +2,11 @@ import { Hono } from 'hono';
 import { z } from 'zod';
 import { places } from '../db';
 import { eq, sql, gt, and, inArray } from 'drizzle-orm';
+import type { ContentServiceEnv } from '../types';
 
-const app = new Hono();
+type PlaceRow = typeof places.$inferSelect;
+
+const app = new Hono<ContentServiceEnv>();
 
 // Валидационные схемы
 const getPlacesQuerySchema = z.object({
@@ -111,6 +114,7 @@ app.get('/', async (c) => {
     // Определяем, есть ли следующая страница
     const hasMore = result.length > limit;
     const items = hasMore ? result.slice(0, limit) : result;
+    const itemsTyped = items as PlaceRow[];
 
     // Формируем nextCursor
     const nextCursor = hasMore && items.length > 0 ? items[items.length - 1].id : null;
@@ -120,7 +124,7 @@ app.get('/', async (c) => {
     c.header('Vary', 'Accept, Accept-Encoding');
 
     return c.json({
-      items: items.map((item) => ({
+      items: itemsTyped.map((item) => ({
         id: item.id,
         name: item.name,
         cityId: item.cityId,

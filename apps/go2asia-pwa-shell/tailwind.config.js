@@ -131,7 +131,19 @@ module.exports = {
         '4xl': ['2.25rem', { lineHeight: '2.5rem' }], // 36px - H1 tablet
         '5xl': ['3rem', { lineHeight: '1.2' }], // 48px - H1 desktop
 
-        // Кастомные размеры (для справки, но используются стандартные классы)
+        // ⚠️ ВНИМАНИЕ: Дефолтные размеры Tailwind (text-3xl, text-4xl, text-5xl и т.д.)
+        // ЗАПРЕЩЕНО использовать напрямую для заголовков!
+        // Используйте типографические токены: text-h1, text-h2, text-h3, text-body, text-small
+
+        // Типографические токены (соответствуют прототипу Bolt.New)
+        // Использование: text-h1, text-h2, text-h3, text-body, text-small
+        'h1': ['1.875rem', { lineHeight: '2.25rem' }], // 30px mobile (base)
+        'h2': ['1.5rem', { lineHeight: '2rem' }], // 24px mobile (base)
+        'h3': ['1.25rem', { lineHeight: '1.75rem' }], // 20px mobile (base)
+        'body': ['1rem', { lineHeight: '1.5rem' }], // 16px
+        'small': ['0.875rem', { lineHeight: '1.25rem' }], // 14px mobile (base)
+
+        // Кастомные размеры (для справки, не использовать напрямую)
         'h1-mobile': ['1.875rem', { lineHeight: '2.25rem', fontWeight: '700' }], // 30px
         'h1-tablet': ['2.25rem', { lineHeight: '2.5rem', fontWeight: '700' }], // 36px
         'h1-desktop': ['3rem', { lineHeight: '1.2', fontWeight: '700' }], // 48px

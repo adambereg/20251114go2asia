@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Hono } from 'hono';
 import { profileRoutes } from './profile';
+import type { AuthServiceEnv } from '../types';
 
 // Mock database
 const mockDb = {
@@ -16,11 +17,13 @@ const mockAuthMiddleware = async (c: any, next: any) => {
   await next();
 };
 
+type TestEnv = AuthServiceEnv;
+
 describe('Profile API', () => {
-  let app: Hono;
+  let app: Hono<TestEnv>;
 
   beforeEach(() => {
-    app = new Hono();
+    app = new Hono<TestEnv>();
     app.use('*', async (c, next) => {
       c.set('db', mockDb);
       c.set('requestId', 'test-request-id');
@@ -54,7 +57,7 @@ describe('Profile API', () => {
 
       const res = await app.request('/');
       expect(res.status).toBe(200);
-      const data = await res.json();
+      const data = (await res.json()) as { id: string; email: string };
       expect(data.id).toBe('test-user-id');
       expect(data.email).toBe('test@example.com');
     });
@@ -142,7 +145,7 @@ describe('Profile API', () => {
       });
 
       expect(res.status).toBe(200);
-      const data = await res.json();
+      const data = (await res.json()) as { firstName: string | null; lastName: string | null };
       expect(data.firstName).toBe('Jane');
       expect(data.lastName).toBe('Smith');
     });

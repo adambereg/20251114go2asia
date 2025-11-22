@@ -19,7 +19,7 @@ export const Default: Story = {
       </Button>
     ),
     secondaryAction: (
-      <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20">
+      <Button variant="ghost" className="bg-white/10 text-white border-white/30 hover:bg-white/20">
         Посмотреть контент
       </Button>
     ),

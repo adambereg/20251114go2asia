@@ -1,10 +1,11 @@
 import { Context, Next } from 'hono';
 import { verifyToken } from '@clerk/backend';
+import type { AuthServiceEnv } from '../types';
 
 /**
  * Middleware для аутентификации через Clerk JWT
  */
-export async function authMiddleware(c: Context, next: Next) {
+export async function authMiddleware(c: Context<AuthServiceEnv>, next: Next) {
   const requestId = c.get('requestId');
   
   try {
@@ -42,13 +43,21 @@ export async function authMiddleware(c: Context, next: Next) {
 
     // Верифицируем токен через Clerk
     try {
-      const payload = await verifyToken(token, {
+      const rawPayload = await verifyToken(token, {
         secretKey: env.CLERK_SECRET_KEY,
       });
-      
+
+      type ClerkJwtPayload = {
+        sub: string;
+        email?: string;
+        primaryEmailAddressId?: string;
+      };
+
+      const payload = rawPayload as ClerkJwtPayload;
+
       // Сохраняем данные пользователя в контексте
       c.set('userId', payload.sub);
-      c.set('userEmail', payload.email || payload.primaryEmailAddressId);
+      c.set('userEmail', payload.email ?? payload.primaryEmailAddressId);
       
       await next();
     } catch (error) {

@@ -3,8 +3,9 @@ import { z } from 'zod';
 import { referrals } from '../db';
 import { eq } from 'drizzle-orm';
 import { authMiddleware } from '../middleware/auth';
+import type { ReferralServiceEnv } from '../types';
 
-const app = new Hono();
+const app = new Hono<ReferralServiceEnv>();
 
 // Валидационные схемы
 const getTreeQuerySchema = z.object({

@@ -1,16 +1,14 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { BottomNav as DesignSystemBottomNav } from '@go2asia/ui';
-
-type ModuleType = 'home' | 'atlas' | 'pulse' | 'blog' | 'space';
+import { BottomNav as UIBottomNav } from '@go2asia/ui';
 
 export function BottomNav() {
   const pathname = usePathname();
   const router = useRouter();
 
   // Определяем активный модуль на основе pathname
-  const getActiveModule = (): ModuleType => {
+  const getActiveModule = (): 'home' | 'atlas' | 'pulse' | 'blog' | 'space' => {
     if (pathname === '/') return 'home';
     if (pathname.startsWith('/atlas')) return 'atlas';
     if (pathname.startsWith('/pulse')) return 'pulse';
@@ -19,19 +17,19 @@ export function BottomNav() {
     return 'home';
   };
 
-  const handleModuleChange = (module: ModuleType) => {
-    const routes: Record<ModuleType, string> = {
+  const handleModuleChange = (module: 'home' | 'atlas' | 'pulse' | 'blog' | 'space') => {
+    const routes: Record<string, string> = {
       home: '/',
       atlas: '/atlas',
       pulse: '/pulse',
       blog: '/blog',
       space: '/space',
     };
-    router.push(routes[module]);
+    router.push(routes[module] || '/');
   };
 
   return (
-    <DesignSystemBottomNav
+    <UIBottomNav
       activeModule={getActiveModule()}
       onModuleChange={handleModuleChange}
     />

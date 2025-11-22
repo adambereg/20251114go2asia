@@ -41,7 +41,7 @@ export const WithHeader: Story = {
   render: () => (
     <Card>
       <CardHeader>
-        <h3 className="text-lg font-bold">Заголовок карточки</h3>
+        <h3 className="text-xl md:text-2xl font-bold">Заголовок карточки</h3>
       </CardHeader>
       <CardContent>
         <p className="text-slate-600">
@@ -72,7 +72,7 @@ export const Complete: Story = {
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold">Название места</h3>
+          <h3 className="text-xl md:text-2xl font-bold">Название места</h3>
           <Badge variant="verified">Проверено</Badge>
         </div>
       </CardHeader>

@@ -1,10 +1,11 @@
 import { Context, Next } from 'hono';
 import { verifyToken } from '@clerk/backend';
+import type { ReferralServiceEnv } from '../types';
 
 /**
  * Middleware для аутентификации через Clerk JWT
  */
-export async function authMiddleware(c: Context, next: Next) {
+export async function authMiddleware(c: Context<ReferralServiceEnv>, next: Next) {
   const requestId = c.get('requestId');
   
   try {

@@ -3,8 +3,9 @@ import { z } from 'zod';
 import { users } from '../db';
 import { eq } from 'drizzle-orm';
 import { authMiddleware } from '../middleware/auth';
+import type { AuthServiceEnv } from '../types';
 
-const app = new Hono();
+const app = new Hono<AuthServiceEnv>();
 
 // Валидационные схемы
 const updateProfileSchema = z.object({

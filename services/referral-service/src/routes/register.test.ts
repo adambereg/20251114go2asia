@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Hono } from 'hono';
 import { registerRoutes } from './register';
+import type { ReferralServiceEnv } from '../types';
 
 // Mock database
 const mockDb = {
@@ -14,11 +15,13 @@ const mockAuthMiddleware = async (c: any, next: any) => {
   await next();
 };
 
+type TestEnv = ReferralServiceEnv;
+
 describe('Register Referral API', () => {
-  let app: Hono;
+  let app: Hono<TestEnv>;
 
   beforeEach(() => {
-    app = new Hono();
+    app = new Hono<TestEnv>();
     app.use('*', async (c, next) => {
       c.set('db', mockDb);
       c.set('requestId', 'test-request-id');
@@ -75,7 +78,7 @@ describe('Register Referral API', () => {
       });
 
       expect(res.status).toBe(200);
-      const data = await res.json();
+      const data = (await res.json()) as { success: boolean; sponsorId: string };
       expect(data.success).toBe(true);
       expect(data.sponsorId).toBe('sponsor-id');
     });
@@ -99,7 +102,7 @@ describe('Register Referral API', () => {
       });
 
       expect(res.status).toBe(404);
-      const data = await res.json();
+      const data = (await res.json()) as { error: { code: string } };
       expect(data.error.code).toBe('NOT_FOUND');
     });
 
@@ -127,7 +130,7 @@ describe('Register Referral API', () => {
       });
 
       expect(res.status).toBe(409);
-      const data = await res.json();
+      const data = (await res.json()) as { error: { code: string } };
       expect(data.error.code).toBe('CONFLICT');
     });
 
@@ -163,7 +166,7 @@ describe('Register Referral API', () => {
       });
 
       expect(res.status).toBe(400);
-      const data = await res.json();
+      const data = (await res.json()) as { error: { code: string } };
       expect(data.error.code).toBe('BAD_REQUEST');
     });
   });

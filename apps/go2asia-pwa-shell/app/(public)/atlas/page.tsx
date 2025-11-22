@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Card, CardContent } from '@go2asia/ui';
-import { MapPin } from 'lucide-react';
+import { ModuleHero } from '@/components/modules';
+import { MapPin, Globe } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Atlas Asia - Путеводитель по Юго-Восточной Азии | Go2Asia',
@@ -68,21 +69,17 @@ const popularPlaces = [
 export default function AtlasPage() {
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Hero Section */}
-      <section className="bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-          <h1 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-2">
-            🌏 Atlas Asia
-          </h1>
-          <p className="text-lg text-slate-600">
-            Справочник мест Юго-Восточной Азии
-          </p>
-        </div>
-      </section>
+      <ModuleHero
+        icon={Globe}
+        title="Atlas Asia"
+        description="Справочник мест Юго-Восточной Азии"
+        gradientFrom="from-sky-500"
+        gradientTo="to-sky-600"
+      />
 
       {/* Countries Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h2 className="text-2xl font-bold text-slate-900 mb-6">Страны</h2>
+        <h2 className="text-h2 md:text-3xl font-bold text-slate-900 mb-6">Страны</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {countries.map((country) => (
             <Link key={country.id} href={`/atlas/countries/${country.id}`}>
@@ -91,10 +88,10 @@ export default function AtlasPage() {
                   <div className="flex items-start gap-4">
                     <div className="text-4xl">{country.flag}</div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold text-slate-900 mb-1">
+                      <h3 className="text-h3 md:text-2xl font-bold text-slate-900 mb-1">
                         {country.name}
                       </h3>
-                      <p className="text-sm text-slate-600 mb-3">
+                      <p className="text-small text-slate-600 mb-3">
                         {country.description}
                       </p>
                       <div className="flex items-center gap-2 text-sm text-slate-500">
@@ -112,7 +109,7 @@ export default function AtlasPage() {
 
       {/* Popular Places */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h2 className="text-2xl font-bold text-slate-900 mb-6">
+        <h2 className="text-h2 md:text-3xl font-bold text-slate-900 mb-6">
           Популярные места
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -120,10 +117,10 @@ export default function AtlasPage() {
             <Link key={place.id} href={`/atlas/places/${place.id}`}>
               <Card hover>
                 <CardContent className="p-5">
-                  <h3 className="text-lg font-bold text-slate-900 mb-2 line-clamp-2">
+                  <h3 className="text-h3 md:text-2xl font-bold text-slate-900 mb-2 line-clamp-2">
                     {place.title}
                   </h3>
-                  <p className="text-sm text-slate-600 mb-3">
+                  <p className="text-small text-slate-600 mb-3">
                     {place.city}, {place.country}
                   </p>
                   <div className="flex items-center gap-4 text-sm text-slate-500">

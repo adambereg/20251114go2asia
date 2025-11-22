@@ -1,7 +1,12 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { ClerkProvider } from '@clerk/nextjs';
+import { AuthModeProvider } from '../contexts/AuthModeContext';
 import { TopAppBar } from '../components/app-shell/TopAppBar';
 import { BottomNav } from '../components/app-shell/BottomNav';
+import { SideDrawer } from '../components/app-shell/SideDrawer';
+import { AuthModeToggle } from '../components/dev/AuthModeToggle';
+import { AppShellProvider } from '../components/app-shell/AppShellProvider';
 
 export const metadata: Metadata = {
   title: {
@@ -32,23 +37,44 @@ export const metadata: Metadata = {
   themeColor: '#1677FF',
 };
 
+// Проверяем, настроен ли Clerk (есть ли publishableKey)
+// В Next.js NEXT_PUBLIC_* переменные доступны и на сервере, и на клиенте
+const isClerkConfigured = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+function AppContent({ children }: { children: React.ReactNode }) {
+  return (
+    <AuthModeProvider>
+      <AppShellProvider>
+        <html lang="ru">
+          <body>
+            <TopAppBar />
+            <SideDrawer />
+            <main className="min-h-screen pb-20 pt-16">
+              {children}
+            </main>
+            <BottomNav />
+            <AuthModeToggle />
+          </body>
+        </html>
+      </AppShellProvider>
+    </AuthModeProvider>
+  );
+}
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <html lang="ru">
-      <head>
-        {/* Шрифты подключаются через globals.css с системным fallback */}
-      </head>
-      <body>
-        <TopAppBar />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <BottomNav />
-      </body>
-    </html>
-  );
+  // Если Clerk настроен, используем его, иначе только AuthModeProvider
+  if (isClerkConfigured) {
+    return (
+      <ClerkProvider>
+        <AppContent>{children}</AppContent>
+      </ClerkProvider>
+    );
+  }
+
+  // В development режиме без Clerk используем только AuthModeProvider
+  return <AppContent>{children}</AppContent>;
 }

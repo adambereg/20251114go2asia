@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Card, CardContent, Chip, Badge } from '@go2asia/ui';
-import { Calendar, MapPin, Users, Clock } from 'lucide-react';
+import { ModuleHero } from '@/components/modules';
+import { Calendar, MapPin, Users, Clock, Globe } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Pulse Asia - События и мероприятия | Go2Asia',
@@ -74,17 +75,13 @@ function formatEventDate(date: string, time: string) {
 export default function PulsePage() {
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Hero Section */}
-      <section className="bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">
-            📅 Pulse Asia
-          </h1>
-          <p className="text-lg text-slate-600">
-            События и мероприятия в Юго-Восточной Азии
-          </p>
-        </div>
-      </section>
+      <ModuleHero
+        icon={Globe}
+        title="Pulse Asia"
+        description="События и мероприятия в Юго-Восточной Азии"
+        gradientFrom="from-sky-500"
+        gradientTo="to-sky-600"
+      />
 
       {/* Filters */}
       <section className="bg-white border-b border-slate-200 sticky top-16 z-40">
@@ -127,7 +124,7 @@ export default function PulsePage() {
                   </Badge>
 
                   {/* Title */}
-                  <h3 className="text-lg font-bold text-slate-900 line-clamp-2 mb-3">
+                  <h3 className="text-h3 md:text-2xl font-bold text-slate-900 line-clamp-2 mb-3">
                     {event.title}
                   </h3>
 

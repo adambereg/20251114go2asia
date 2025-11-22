@@ -9,17 +9,13 @@ import { placesRoutes } from './routes/places';
 import { eventsRoutes } from './routes/events';
 import { articlesRoutes } from './routes/articles';
 import { createDb } from './db';
+import type { ContentServiceEnv } from './types';
 
-export interface Env {
-  DATABASE_URL?: string;
-  NODE_ENV?: string;
-}
-
-const app = new Hono<{ Bindings: Env }>();
+const app = new Hono<ContentServiceEnv>();
 
 // Middleware to inject database instance
 app.use('*', async (c, next) => {
-  const db = createDb(c.env);
+  const db = createDb(c.env ?? {});
   c.set('db', db);
   await next();
 });

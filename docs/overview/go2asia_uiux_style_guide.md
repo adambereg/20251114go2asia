@@ -52,15 +52,49 @@
 
 ### 1.2 Типографика
 
-**Размеры и высоты строк:**
-- **Display**: `text-3xl` (30px) / `leading-tight` (1.25), `font-bold`
-- **H1**: `text-2xl` (24px) / `leading-8` (32px), `font-bold`
-- **H2**: `text-xl` (20px) / `leading-7` (28px), `font-semibold`
-- **H3**: `text-lg` (18px) / `leading-6` (24px), `font-medium`
-- **Body**: `text-base` (16px) / `leading-6` (24px), `font-normal`
-- **Small**: `text-sm` (14px) / `leading-5` (20px), `font-normal`
-- **Tiny**: `text-xs` (12px) / `leading-4` (16px), `font-normal`
-- **Mono** (коды, даты): `text-sm font-mono`
+**Размеры и высоты строк (зафиксированы согласно прототипу Bolt.New):**
+
+#### Заголовки
+- **H1**: `text-3xl md:text-4xl lg:text-5xl` 
+  - Размеры: 30px (mobile) / 36px (tablet) / 48px (desktop)
+  - Line height: `leading-8` (32px)
+  - Font weight: `font-bold` (700)
+  - Margin bottom: `mb-3 md:mb-4`
+  - Использование: Главные заголовки страниц, Hero секции
+
+- **H2**: `text-2xl md:text-3xl`
+  - Размеры: 24px (mobile) / 30px (desktop)
+  - Line height: `leading-7` (28px)
+  - Font weight: `font-bold` (700)
+  - Использование: Заголовки секций, подразделы
+
+- **H3**: `text-xl md:text-2xl`
+  - Размеры: 20px (mobile) / 24px (desktop)
+  - Line height: `leading-6` (24px)
+  - Font weight: `font-bold` (700)
+  - Использование: Заголовки карточек, модулей, элементов списка
+
+#### Текст
+- **Body**: `text-base`
+  - Размер: 16px
+  - Line height: `leading-6` (24px)
+  - Font weight: `font-normal` (400)
+  - Использование: Основной текст, описания
+
+- **Small**: `text-sm md:text-base`
+  - Размеры: 14px (mobile) / 16px (desktop)
+  - Line height: `leading-5` (20px)
+  - Font weight: `font-normal` (400)
+  - Использование: Подзаголовки секций, мета-информация
+
+- **Tiny**: `text-xs md:text-sm`
+  - Размеры: 12px (mobile) / 14px (desktop)
+  - Line height: `leading-4` (16px)
+  - Font weight: `font-normal` (400)
+  - Использование: Бейджи, чипы, мелкие метки
+
+- **Mono**: `text-sm font-mono`
+  - Использование: Коды, даты, техническая информация
 
 **Шрифты:**
 ```css
@@ -68,12 +102,28 @@ font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI',
              system-ui, sans-serif;
 ```
 
-**Применение:**
-- Заголовки страниц: H1 + text-slate-900
-- Подзаголовки секций: H2 + text-slate-700
-- Карточки: H3 для title + text-base для excerpt
-- Мета-информация: text-sm + text-slate-500
-- Бейджи и чипы: text-xs + font-medium
+**Применение (соответствует прототипу Bolt.New):**
+- Заголовки страниц: H1 (`text-3xl md:text-4xl lg:text-5xl`) + `text-slate-900` (или `text-white` на цветном фоне) + `mb-3 md:mb-4`
+- Подзаголовки секций: H2 (`text-2xl md:text-3xl`) + `text-slate-900`
+- Карточки: H3 (`text-xl md:text-2xl`) для title + `text-base` для excerpt
+- Мета-информация: `text-sm md:text-base` + `text-slate-600`
+- Бейджи и чипы: `text-xs md:text-sm` + `font-medium`
+
+**Важно:** Все размеры шрифтов зафиксированы согласно прототипу Bolt.New и скриншотам DevTools. Эти значения являются эталонными для всех модулей экосистемы.
+
+**⚠️ ЗАПРЕТ на использование дефолтных классов Tailwind для заголовков:**
+
+Запрещено использовать дефолтные размеры Tailwind напрямую без указания breakpoints:
+- ❌ `text-3xl` (только один размер)
+- ❌ `text-4xl` (только один размер)
+- ❌ `text-5xl` (только один размер)
+
+Обязательно использовать responsive классы:
+- ✅ `text-3xl md:text-4xl lg:text-5xl` для H1
+- ✅ `text-2xl md:text-3xl` для H2
+- ✅ `text-xl md:text-2xl` для H3
+
+Это обеспечивает правильную адаптивность типографики на всех устройствах.
 
 ### 1.3 Радиусы и тени
 
@@ -148,7 +198,16 @@ ring-2 ring-sky-500 ring-offset-2
 
 // Cards плотная сетка
 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+// Модули экосистемы (9 модулей: 3x3 на десктопе, 2 колонки на мобильных)
+<div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+  {/* 9 ModuleTile компонентов */}
+</div>
 ```
+
+**Важно:** Grid модулей экосистемы зафиксирован как `grid-cols-2 md:grid-cols-3`:
+- **Mobile**: 2 колонки (9 модулей = 5 рядов)
+- **Tablet/Desktop**: 3 колонки (9 модулей = 3 ряда)
 
 ### 1.5 Адаптивные брейкпоинты
 

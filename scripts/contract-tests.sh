@@ -16,14 +16,14 @@ fi
 
 # Run contract tests for all OpenAPI specs
 schemathesis run \
-  --base-url "$BASE_URL" \
-  --checks all \
-  --hypothesis-max-examples=20 \
-  --show-errors-tracebacks \
   docs/openapi/content.yaml \
   docs/openapi/auth.yaml \
   docs/openapi/token.yaml \
-  docs/openapi/referral.yaml
+  docs/openapi/referral.yaml \
+  --url "$BASE_URL" \
+  --checks all \
+  --hypothesis-max-examples=20 \
+  --show-errors-tracebacks
 
 echo "Contract tests completed successfully!"
 

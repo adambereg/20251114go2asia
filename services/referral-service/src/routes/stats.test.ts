@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Hono } from 'hono';
 import { statsRoutes } from './stats';
+import type { ReferralServiceEnv } from '../types';
 
 // Mock database
 const mockDb = {
@@ -15,11 +16,13 @@ const mockAuthMiddleware = async (c: any, next: any) => {
   await next();
 };
 
+type TestEnv = ReferralServiceEnv;
+
 describe('Referral Stats API', () => {
-  let app: Hono;
+  let app: Hono<TestEnv>;
 
   beforeEach(() => {
-    app = new Hono();
+    app = new Hono<TestEnv>();
     app.use('*', async (c, next) => {
       c.set('db', mockDb);
       c.set('requestId', 'test-request-id');
@@ -70,7 +73,7 @@ describe('Referral Stats API', () => {
 
       const res = await app.request('/');
       expect(res.status).toBe(200);
-      const data = await res.json();
+      const data = (await res.json()) as { totalReferrals: number };
       expect(data).toHaveProperty('totalReferrals');
       expect(data).toHaveProperty('activeReferrals');
       expect(data).toHaveProperty('totalSubReferrals');
@@ -113,7 +116,7 @@ describe('Referral Stats API', () => {
 
       const res = await app.request('/');
       expect(res.status).toBe(200);
-      const data = await res.json();
+      const data = (await res.json()) as { totalReferrals: number; referralCode: string };
       expect(data.referralCode).toBe('GENERATED');
     });
   });
