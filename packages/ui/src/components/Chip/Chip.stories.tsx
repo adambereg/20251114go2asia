@@ -54,7 +54,7 @@ export const Small: Story = {
 export const WithRemove: Story = {
   args: {
     children: 'С удалением',
-    onRemove: () => alert('Удалено'),
+    onRemove: () => console.log('Удалено'),
   },
 };
 

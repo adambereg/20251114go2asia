@@ -52,7 +52,7 @@ export const WithAction: Story = {
     description: 'Станьте первым, кто поделится опытом',
     action: {
       label: 'Создать пост',
-      onClick: () => alert('Создать пост'),
+      onClick: () => console.log('Создать пост'),
     },
   },
 };
@@ -64,7 +64,7 @@ export const NoPlaces: Story = {
     description: 'Попробуйте изменить фильтры поиска',
     action: {
       label: 'Сбросить фильтры',
-      onClick: () => alert('Сбросить фильтры'),
+      onClick: () => console.log('Сбросить фильтры'),
     },
   },
 };
@@ -84,7 +84,7 @@ export const NoUsers: Story = {
     description: 'Пригласите друзей присоединиться',
     action: {
       label: 'Пригласить',
-      onClick: () => alert('Пригласить'),
+      onClick: () => console.log('Пригласить'),
     },
   },
 };

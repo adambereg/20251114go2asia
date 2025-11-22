@@ -8,8 +8,8 @@ export type { BadgeProps } from './components/Badge';
 export { Button } from './components/Button';
 export type { ButtonProps } from './components/Button';
 
-export { Card, CardContent } from './components/Card';
-export type { CardProps, CardContentProps } from './components/Card';
+export { Card, CardContent, CardHeader, CardFooter } from './components/Card';
+export type { CardProps, CardContentProps, CardHeaderProps, CardFooterProps } from './components/Card';
 
 export { GradientCard } from './components/GradientCard';
 export type { GradientCardProps } from './components/GradientCard';

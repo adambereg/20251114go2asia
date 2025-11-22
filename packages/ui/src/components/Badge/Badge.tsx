@@ -3,13 +3,19 @@ import { Lock, Crown, CheckCircle, CheckCircle2, Info } from 'lucide-react';
 
 export interface BadgeProps {
   type?: 'lock' | 'pro' | 'rf' | 'rf-full';
-  variant?: 'verified' | 'info' | 'ugc' | 'editor' | 'russian-friendly' | 'new' | 'popular';
+  variant?: 'verified' | 'info' | 'ugc' | 'editor' | 'russian-friendly' | 'new' | 'popular' | 'prices' | 'dates' | 'photos';
   icon?: React.ReactNode;
+  size?: 'sm' | 'md';
   children?: React.ReactNode;
   className?: string;
 }
 
-export const Badge: React.FC<BadgeProps> = ({ type, variant, icon, children, className = '' }) => {
+export const Badge: React.FC<BadgeProps> = ({ type, variant, icon, size = 'md', children, className = '' }) => {
+  const sizeStyles = {
+    sm: 'px-1.5 py-0.5 text-xs',
+    md: 'px-2.5 py-1 text-xs',
+  };
+  const sizeClass = sizeStyles[size];
   // Новый API для модулей (type)
   if (type === 'lock') {
     return (
@@ -49,7 +55,7 @@ export const Badge: React.FC<BadgeProps> = ({ type, variant, icon, children, cla
   // Старый API для контента (variant)
   if (variant === 'verified') {
     return (
-      <span className={`inline-flex items-center gap-1 px-2.5 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium ${className}`}>
+      <span className={`inline-flex items-center gap-1 ${sizeClass} bg-green-100 text-green-700 rounded-full font-medium ${className}`}>
         {icon || <CheckCircle2 size={12} />}
         {children}
       </span>
@@ -58,7 +64,7 @@ export const Badge: React.FC<BadgeProps> = ({ type, variant, icon, children, cla
 
   if (variant === 'info') {
     return (
-      <span className={`inline-flex items-center gap-1 px-2.5 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium ${className}`}>
+      <span className={`inline-flex items-center gap-1 ${sizeClass} bg-blue-100 text-blue-700 rounded-full font-medium ${className}`}>
         {icon || <Info size={12} />}
         {children}
       </span>
@@ -67,7 +73,7 @@ export const Badge: React.FC<BadgeProps> = ({ type, variant, icon, children, cla
 
   if (variant === 'ugc') {
     return (
-      <span className={`inline-flex items-center gap-1 px-2.5 py-1 bg-sky-100 text-sky-700 rounded-full text-xs font-medium ${className}`}>
+      <span className={`inline-flex items-center gap-1 ${sizeClass} bg-sky-100 text-sky-700 rounded-full font-medium ${className}`}>
         {icon}
         {children}
       </span>
@@ -76,7 +82,7 @@ export const Badge: React.FC<BadgeProps> = ({ type, variant, icon, children, cla
 
   if (variant === 'editor') {
     return (
-      <span className={`inline-flex items-center gap-1 px-2.5 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium ${className}`}>
+      <span className={`inline-flex items-center gap-1 ${sizeClass} bg-purple-100 text-purple-700 rounded-full font-medium ${className}`}>
         {icon}
         {children}
       </span>
@@ -85,7 +91,7 @@ export const Badge: React.FC<BadgeProps> = ({ type, variant, icon, children, cla
 
   if (variant === 'russian-friendly') {
     return (
-      <span className={`inline-flex items-center gap-1 px-2.5 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium ${className}`}>
+      <span className={`inline-flex items-center gap-1 ${sizeClass} bg-blue-100 text-blue-700 rounded-full font-medium ${className}`}>
         {icon}
         {children}
       </span>
@@ -94,7 +100,7 @@ export const Badge: React.FC<BadgeProps> = ({ type, variant, icon, children, cla
 
   if (variant === 'new') {
     return (
-      <span className={`inline-flex items-center gap-1 px-2.5 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium ${className}`}>
+      <span className={`inline-flex items-center gap-1 ${sizeClass} bg-amber-100 text-amber-700 rounded-full font-medium ${className}`}>
         {icon}
         {children}
       </span>
@@ -103,7 +109,34 @@ export const Badge: React.FC<BadgeProps> = ({ type, variant, icon, children, cla
 
   if (variant === 'popular') {
     return (
-      <span className={`inline-flex items-center gap-1 px-2.5 py-1 bg-rose-100 text-rose-700 rounded-full text-xs font-medium ${className}`}>
+      <span className={`inline-flex items-center gap-1 ${sizeClass} bg-rose-100 text-rose-700 rounded-full font-medium ${className}`}>
+        {icon}
+        {children}
+      </span>
+    );
+  }
+
+  if (variant === 'prices') {
+    return (
+      <span className={`inline-flex items-center gap-1 ${sizeClass} bg-green-100 text-green-700 rounded-full font-medium ${className}`}>
+        {icon}
+        {children}
+      </span>
+    );
+  }
+
+  if (variant === 'dates') {
+    return (
+      <span className={`inline-flex items-center gap-1 ${sizeClass} bg-blue-100 text-blue-700 rounded-full font-medium ${className}`}>
+        {icon}
+        {children}
+      </span>
+    );
+  }
+
+  if (variant === 'photos') {
+    return (
+      <span className={`inline-flex items-center gap-1 ${sizeClass} bg-purple-100 text-purple-700 rounded-full font-medium ${className}`}>
         {icon}
         {children}
       </span>

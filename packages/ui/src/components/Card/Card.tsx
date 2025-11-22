@@ -28,3 +28,19 @@ export interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {
 export function CardContent({ children, className }: CardContentProps) {
   return <div className={className}>{children}</div>;
 }
+
+export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+}
+
+export function CardHeader({ children, className }: CardHeaderProps) {
+  return <div className={className}>{children}</div>;
+}
+
+export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+}
+
+export function CardFooter({ children, className }: CardFooterProps) {
+  return <div className={className}>{children}</div>;
+}
