@@ -1,6 +1,7 @@
 extends: ["spectral:oas"]
 
 rules:
+  "@stoplight/spectral-core/ruleset": false
   operation-description:
     severity: error
   operation-tags:
