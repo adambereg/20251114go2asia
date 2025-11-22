@@ -33,10 +33,10 @@ const mockCountry = {
 
 const sideNavItems = [
   { key: 'overview', label: 'Обзор', icon: Info, href: '' },
-  { key: 'gallery', label: 'Фотогалерея', icon: Image, href: '#' },
-  { key: 'map', label: 'Карта', icon: Map, href: '#' },
-  { key: 'cities', label: 'Города', icon: Building2, href: '#' },
-  { key: 'weather', label: 'Погода и климат', icon: CloudSun, href: '#' },
+  { key: 'gallery', label: 'Фотогалерея', icon: Image, href: 'gallery' },
+  { key: 'map', label: 'Карта', icon: Map, href: 'map' },
+  { key: 'cities', label: 'Города', icon: Building2, href: 'cities' },
+  { key: 'weather', label: 'Погода и климат', icon: CloudSun, href: 'weather' },
   { key: 'history', label: 'История', icon: History, href: 'history' },
   { key: 'geography', label: 'География', icon: Globe2, href: 'geography' },
   { key: 'culture', label: 'Культура', icon: Palette, href: 'culture' },
@@ -44,9 +44,9 @@ const sideNavItems = [
   { key: 'visas', label: 'Визы', icon: BadgeCheck, href: 'visas' },
   { key: 'business', label: 'Бизнес', icon: Briefcase, href: 'business' },
   { key: 'sights', label: 'Достопримечательности', icon: Landmark, href: 'places' },
-  { key: 'phrasebook', label: 'Разговорник', icon: MessageCircle, href: '#' },
-  { key: 'reviews', label: 'Отзывы экспатов', icon: Star, href: '#' },
-  { key: 'calculator', label: 'Калькулятор стоимости', icon: Calculator, href: '#' },
+  { key: 'phrasebook', label: 'Разговорник', icon: MessageCircle, href: 'phrasebook' },
+  { key: 'reviews', label: 'Отзывы экспатов', icon: Star, href: 'reviews' },
+  { key: 'calculator', label: 'Калькулятор стоимости', icon: Calculator, href: 'calculator' },
 ] as const;
 
 export default function CountryLayout({
