@@ -63,11 +63,18 @@ export const AtlasCountryLayout: FC<AtlasCountryLayoutProps> = ({
 
           {/* Hero Image Block */}
           {heroImageUrl ? (
-            <div className="relative rounded-2xl overflow-hidden mb-6 h-[300px] sm:h-[400px] lg:h-[450px]">
+            <div
+              className="
+                relative w-full overflow-hidden rounded-2xl mb-6
+                aspect-[16/5] sm:aspect-[16/6] md:aspect-[16/7] lg:aspect-[16/8]
+                xl:aspect-auto xl:h-[347px]
+              "
+            >
               <img
                 src={heroImageUrl}
                 alt={heroImageAlt || countryName}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-center"
+                sizes="(min-width: 1280px) 1200px, 100vw"
               />
               {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
