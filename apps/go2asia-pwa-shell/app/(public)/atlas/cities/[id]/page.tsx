@@ -1,57 +1,69 @@
-import type { Metadata } from 'next';
-import { AtlasCityLayout } from '@/modules/atlas';
-
-export const metadata: Metadata = {
-  title: 'Город Юго-Восточной Азии | Atlas Asia',
-  description:
-    'Гид по городам Юго-Восточной Азии: районы, транспорт, стоимость жизни и цифровые сервисы.',
-};
-
-export default async function CityPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
-
-  // Пока без реальных данных; позже сюда придёт SDK (@go2asia/sdk).
-  const cityName = 'Город в разработке';
-
+export default function CityOverviewPage() {
   return (
-    <AtlasCityLayout cityName={cityName}>
-      <section className="space-y-6">
-        <div>
-          <h2 className="text-h2 md:text-2xl font-bold text-slate-900 mb-2">
-            Районы
-          </h2>
-          <p className="text-sm text-slate-600">
-            Здесь появятся описания районов, уровень шума и трафика, близость к
-            школам и коворкингам, а также интеграция с Rielt.Market / AIRent.
-          </p>
+    <div className="space-y-6">
+      <h2 className="text-xl font-semibold text-slate-900">Обзор</h2>
+
+      <section className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+        {/* TL;DR полоса */}
+        <div className="border-b border-slate-100 bg-sky-50 px-4 py-3 text-sm text-slate-800">
+          Краткое описание города и почему стоит посетить.
         </div>
 
-        <div>
-          <h2 className="text-h2 md:text-2xl font-bold text-slate-900 mb-2">
-            Транспорт и цифровые сервисы
-          </h2>
-          <p className="text-sm text-slate-600">
-            Блоки для транспорта, супер-аппов, доставки, такси и местных
-            приложений будут подключены через SDK.
+        {/* Основное описание */}
+        <div className="px-4 py-4 text-sm text-slate-700 space-y-4">
+          <p>
+            Динамично развивающийся город с богатой историей, потрясающей
+            архитектурой и доступными ценами. Популярное направление для цифровых
+            кочевников и экспатов.
           </p>
-        </div>
 
-        <div>
-          <h2 className="text-h2 md:text-2xl font-bold text-slate-900 mb-2">
-            Русскофрендли-карта
-          </h2>
-          <p className="text-sm text-slate-600">
-            Здесь появится карта Russian Friendly, коворкингов, кафе и местных
-            сервисов с UGC-отзывами и бейджами PRO-спейсеров.
-          </p>
+          {/* Ключевые факты */}
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-xl bg-slate-50 px-4 py-3">
+              <div className="text-xs uppercase tracking-wide text-slate-500">
+                Население
+              </div>
+              <div className="mt-1 font-semibold">8.3M</div>
+            </div>
+            <div className="rounded-xl bg-slate-50 px-4 py-3">
+              <div className="text-xs uppercase tracking-wide text-slate-500">
+                Площадь
+              </div>
+              <div className="mt-1 font-semibold">1,568 км²</div>
+            </div>
+            <div className="rounded-xl bg-slate-50 px-4 py-3">
+              <div className="text-xs uppercase tracking-wide text-slate-500">
+                Часовой пояс
+              </div>
+              <div className="mt-1 font-semibold">UTC+7</div>
+            </div>
+            <div className="rounded-xl bg-slate-50 px-4 py-3">
+              <div className="text-xs uppercase tracking-wide text-slate-500">
+                GDP на душу
+              </div>
+              <div className="mt-1 font-semibold">$18,000</div>
+            </div>
+          </div>
+
+          {/* Топ-3 достопримечательности */}
+          <div>
+            <h3 className="font-semibold text-slate-900 mb-2">Топ-3 достопримечательности</h3>
+            <ul className="space-y-2 text-sm">
+              <li>• Главная достопримечательность города</li>
+              <li>• Вторая популярная локация</li>
+              <li>• Третье место для посещения</li>
+            </ul>
+          </div>
+
+          {/* Сезонность */}
+          <div>
+            <h3 className="font-semibold text-slate-900 mb-2">Лучшее время для посещения</h3>
+            <p className="text-sm text-slate-600">
+              Ноябрь — март: сухой сезон, комфортная температура. Апрель — октябрь: сезон дождей, но меньше туристов.
+            </p>
+          </div>
         </div>
       </section>
-    </AtlasCityLayout>
+    </div>
   );
 }
-
-
