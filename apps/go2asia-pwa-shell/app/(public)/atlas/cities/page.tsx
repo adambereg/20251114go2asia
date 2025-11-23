@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Card, CardContent } from '@go2asia/ui';
-import { MapPin, Building2 } from 'lucide-react';
+import { ModuleHero } from '@/components/modules';
+import { Globe, MapPin } from 'lucide-react';
+import { AtlasMainNav } from '@/modules/atlas';
+import { AtlasSearchBar } from '@/modules/atlas';
 
 export const metadata: Metadata = {
   title: 'Города Юго-Восточной Азии | Go2Asia Atlas',
@@ -29,32 +32,25 @@ export default async function CitiesPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Hero Section */}
-      <section className="bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-          {/* Breadcrumbs */}
-          <nav className="flex items-center gap-2 text-sm text-slate-600 mb-4">
-            <Link href="/atlas" className="hover:text-sky-600">
-              Atlas
-            </Link>
-            <span>/</span>
-            <span className="text-slate-900">Города</span>
-          </nav>
+      <ModuleHero
+        icon={Globe}
+        title="Atlas Asia"
+        description="«Живой» вики-справочник по странам Юго-Восточной Азии с UGC и редакционной поддержкой"
+        gradientFrom="from-sky-500"
+        gradientTo="to-sky-600"
+      />
 
-          <div className="flex items-center gap-3 mb-2">
-            <Building2 className="w-8 h-8 lg:w-10 lg:h-10 text-sky-600" />
-            <h1 className="text-h1 md:text-4xl lg:text-5xl font-bold text-slate-900">
-              Города Юго-Восточной Азии
-            </h1>
-          </div>
-          <p className="text-body text-slate-600">
-            Исследуйте города региона и их уникальные особенности
-          </p>
-        </div>
+      {/* Top controls: internal nav + search */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
+        <AtlasMainNav />
+        <AtlasSearchBar />
       </section>
 
       {/* Cities Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <h2 className="text-h2 md:text-3xl font-bold text-slate-900 mb-6">
+          Города
+        </h2>
         {cities.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {cities.map((city: any) => (
