@@ -25,6 +25,9 @@ export type {
 export { default as AtlasGuideLayout } from './layouts/AtlasGuideLayout';
 export type { AtlasGuideLayoutProps } from './layouts/AtlasGuideLayout';
 
+export { default as AtlasThemeLayout } from './layouts/AtlasThemeLayout';
+export type { AtlasThemeLayoutProps } from './layouts/AtlasThemeLayout';
+
 export { default as TopicHubView } from './components/TopicHubView';
 export type { TopicHubViewProps } from './components/TopicHubView';
 
