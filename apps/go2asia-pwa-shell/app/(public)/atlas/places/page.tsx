@@ -114,14 +114,14 @@ export default function PlacesIndexPage() {
       {/* Filters */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex flex-wrap gap-2 mb-6">
-          <Chip variant="outline">Все типы</Chip>
-          <Chip variant="outline">Природа</Chip>
-          <Chip variant="outline">Храмы</Chip>
-          <Chip variant="outline">Рынки</Chip>
-          <Chip variant="outline">Парки</Chip>
-          <Chip variant="outline">Viewpoint</Chip>
-          <Chip variant="outline">Пляжи</Chip>
-          <Chip variant="outline">Музеи</Chip>
+          <Chip>Все типы</Chip>
+          <Chip>Природа</Chip>
+          <Chip>Храмы</Chip>
+          <Chip>Рынки</Chip>
+          <Chip>Парки</Chip>
+          <Chip>Viewpoint</Chip>
+          <Chip>Пляжи</Chip>
+          <Chip>Музеи</Chip>
         </div>
       </section>
 
@@ -168,7 +168,7 @@ export default function PlacesIndexPage() {
                   {place.tags && place.tags.length > 0 && (
                     <div className="flex flex-wrap gap-2 mb-3">
                       {place.tags.map((tag, index) => (
-                        <Chip key={index} variant="outline" className="text-xs">
+                        <Chip key={index} size="sm" className="text-xs">
                           {tag}
                         </Chip>
                       ))}

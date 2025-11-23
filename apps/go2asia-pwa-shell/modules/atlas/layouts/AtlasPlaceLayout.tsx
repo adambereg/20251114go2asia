@@ -119,7 +119,7 @@ export const AtlasPlaceLayout: FC<AtlasPlaceLayoutProps> = ({
             {tags.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {tags.map((tag, index) => (
-                  <Chip key={index} variant="outline">
+                  <Chip key={index}>
                     {tag}
                   </Chip>
                 ))}
