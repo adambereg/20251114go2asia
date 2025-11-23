@@ -61,6 +61,24 @@ const mockCountries: Record<string, { name: string; flagEmoji: string; heroImage
     heroImageUrl: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
     heroImageAlt: 'Филиппины',
   },
+  cambodia: {
+    name: 'Камбоджа',
+    flagEmoji: '🇰🇭',
+    heroImageUrl: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
+    heroImageAlt: 'Камбоджа',
+  },
+  laos: {
+    name: 'Лаос',
+    flagEmoji: '🇱🇦',
+    heroImageUrl: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
+    heroImageAlt: 'Лаос',
+  },
+  myanmar: {
+    name: 'Мьянма',
+    flagEmoji: '🇲🇲',
+    heroImageUrl: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
+    heroImageAlt: 'Мьянма',
+  },
 };
 
 const sideNavItems = [

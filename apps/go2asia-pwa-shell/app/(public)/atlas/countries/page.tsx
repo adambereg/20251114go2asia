@@ -59,29 +59,45 @@ export default async function CountriesPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {countries.map((country: any) => (
               <Link key={country.id} href={`/atlas/countries/${country.id}`}>
-                <Card hover className="h-full">
-                  <CardContent className="p-6">
-                    <div className="flex items-start gap-4">
+                <Card hover className="h-full overflow-hidden">
+                  {country.heroImage && (
+                    <div className="relative w-full h-48 overflow-hidden">
+                      <img
+                        src={country.heroImage}
+                        alt={country.name}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                       {country.flag && (
-                        <div className="text-4xl flex-shrink-0">{country.flag}</div>
+                        <div className="absolute top-4 left-4 text-4xl">{country.flag}</div>
                       )}
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-h3 md:text-2xl font-bold text-slate-900 mb-1">
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <h3 className="text-xl font-bold text-white mb-1">{country.name}</h3>
+                      </div>
+                    </div>
+                  )}
+                  <CardContent className="p-6">
+                    {!country.heroImage && (
+                      <div className="flex items-start gap-4 mb-4">
+                        {country.flag && (
+                          <div className="text-4xl flex-shrink-0">{country.flag}</div>
+                        )}
+                        <h3 className="text-h3 md:text-2xl font-bold text-slate-900">
                           {country.name}
                         </h3>
-                        {country.description && (
-                          <p className="text-small text-slate-600 mb-3 line-clamp-2">
-                            {country.description}
-                          </p>
-                        )}
-                        <div className="flex items-center gap-2 text-sm text-slate-500">
-                          <MapPin size={16} className="flex-shrink-0" />
-                          <span>
-                            {country.citiesCount || 0} городов
-                            {country.placesCount ? ` • ${country.placesCount} мест` : ''}
-                          </span>
-                        </div>
                       </div>
+                    )}
+                    {country.description && (
+                      <p className="text-small text-slate-600 mb-3 line-clamp-2">
+                        {country.description}
+                      </p>
+                    )}
+                    <div className="flex items-center gap-2 text-sm text-slate-500">
+                      <MapPin size={16} className="flex-shrink-0" />
+                      <span>
+                        {country.citiesCount || 0} городов
+                        {country.placesCount ? ` • ${country.placesCount} мест` : ''}
+                      </span>
                     </div>
                   </CardContent>
                 </Card>
