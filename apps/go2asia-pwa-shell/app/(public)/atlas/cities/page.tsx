@@ -22,13 +22,30 @@ export const revalidate = 3600;
 export default async function CitiesPage() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.go2asia.space';
   
-  // Fetch cities from API
-  const cities = await fetch(`${apiUrl}/v1/api/content/cities`, {
-    next: { revalidate: 3600 },
-  })
-    .then((res) => res.json())
-    .then((data) => data.items || [])
-    .catch(() => []);
+  // Fetch cities from API with timeout
+  let cities: any[] = [];
+  
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 секунды таймаут
+    
+    const response = await fetch(`${apiUrl}/v1/api/content/cities`, {
+      next: { revalidate: 3600 },
+      signal: controller.signal,
+    });
+    
+    clearTimeout(timeoutId);
+    
+    if (response.ok) {
+      const data = await response.json();
+      if (data.items && Array.isArray(data.items)) {
+        cities = data.items;
+      }
+    }
+  } catch (error) {
+    // Используем пустой массив при любой ошибке (таймаут, сеть, etc.)
+    console.warn('Failed to fetch cities from API:', error);
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">

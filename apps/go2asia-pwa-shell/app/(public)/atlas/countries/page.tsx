@@ -19,16 +19,91 @@ export const metadata: Metadata = {
 // SSG с revalidation каждый час
 export const revalidate = 3600;
 
+// Fallback моковые данные для стран
+const fallbackCountries = [
+  {
+    id: 'thailand',
+    name: 'Таиланд',
+    flag: '🇹🇭',
+    placesCount: 245,
+    citiesCount: 12,
+    description: 'Королевство Таиланд',
+    heroImage: 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg',
+  },
+  {
+    id: 'vietnam',
+    name: 'Вьетнам',
+    flag: '🇻🇳',
+    placesCount: 189,
+    citiesCount: 10,
+    description: 'Социалистическая Республика Вьетнам',
+    heroImage: 'https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg',
+  },
+  {
+    id: 'indonesia',
+    name: 'Индонезия',
+    flag: '🇮🇩',
+    placesCount: 312,
+    citiesCount: 15,
+    description: 'Республика Индонезия',
+    heroImage: 'https://images.pexels.com/photos/2491286/pexels-photo-2491286.jpeg',
+  },
+  {
+    id: 'malaysia',
+    name: 'Малайзия',
+    flag: '🇲🇾',
+    placesCount: 156,
+    citiesCount: 8,
+    description: 'Высокий уровень жизни, отличное медобслуживание, программа ММ2Н',
+    heroImage: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
+  },
+  {
+    id: 'singapore',
+    name: 'Сингапур',
+    flag: '🇸🇬',
+    placesCount: 98,
+    citiesCount: 1,
+    description: 'Современный мегаполис, высокий уровень жизни, бизнес-хаб Азии',
+    heroImage: 'https://images.pexels.com/photos/774691/pexels-photo-774691.jpeg',
+  },
+  {
+    id: 'cambodia',
+    name: 'Камбоджа',
+    flag: '🇰🇭',
+    placesCount: 87,
+    citiesCount: 5,
+    description: 'Самые низкие цены в регионе, простое получение долгосрочных виз',
+    heroImage: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
+  },
+];
+
 export default async function CountriesPage() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.go2asia.space';
   
-  // Fetch countries from API
-  const countries = await fetch(`${apiUrl}/v1/api/content/countries`, {
-    next: { revalidate: 3600 },
-  })
-    .then((res) => res.json())
-    .then((data) => data.items || [])
-    .catch(() => []);
+  // Fetch countries from API with timeout
+  let countries = fallbackCountries;
+  
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 секунды таймаут
+    
+    const response = await fetch(`${apiUrl}/v1/api/content/countries`, {
+      next: { revalidate: 3600 },
+      signal: controller.signal,
+    });
+    
+    clearTimeout(timeoutId);
+    
+    if (response.ok) {
+      const data = await response.json();
+      if (data.items && Array.isArray(data.items) && data.items.length > 0) {
+        countries = data.items;
+      }
+    }
+  } catch (error) {
+    // Используем fallback данные при любой ошибке (таймаут, сеть, etc.)
+    console.warn('Failed to fetch countries from API, using fallback data:', error);
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">
