@@ -75,6 +75,24 @@ const fallbackCountries = [
     description: 'Самые низкие цены в регионе, простое получение долгосрочных виз',
     heroImage: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
   },
+  {
+    id: 'laos',
+    name: 'Лаос',
+    flag: '🇱🇦',
+    placesCount: 45,
+    citiesCount: 3,
+    description: 'Тихая жизнь среди гор и джунглей, минимальный туристический поток',
+    heroImage: 'https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg',
+  },
+  {
+    id: 'myanmar',
+    name: 'Мьянма',
+    flag: '🇲🇲',
+    placesCount: 32,
+    citiesCount: 4,
+    description: 'Аутентичная Азия, минимум иностранцев, очень низкие цены',
+    heroImage: 'https://images.pexels.com/photos/2491286/pexels-photo-2491286.jpeg',
+  },
 ];
 
 export default async function CountriesPage() {
