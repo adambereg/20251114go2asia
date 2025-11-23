@@ -148,7 +148,7 @@ export default function PlacesIndexPage() {
                         </Badge>
                       )}
                       {place.isPopular && (
-                        <Badge variant="default" className="bg-amber-100 text-amber-800 text-xs">
+                        <Badge variant="popular" className="bg-amber-100 text-amber-800 text-xs">
                           Популярно
                         </Badge>
                       )}

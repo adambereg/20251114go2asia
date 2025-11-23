@@ -129,15 +129,15 @@ export const AtlasPlaceLayout: FC<AtlasPlaceLayoutProps> = ({
               <Badge variant="verified">Партнёр Russian Friendly</Badge>
             )}
             {isPartner && (
-              <Badge variant="default">Партнёр</Badge>
+              <Badge variant="russian-friendly">Партнёр</Badge>
             )}
             {isPopular && (
-              <Badge variant="default" className="bg-amber-100 text-amber-800">
+              <Badge variant="popular" className="bg-amber-100 text-amber-800">
                 Популярно
               </Badge>
             )}
             {isPowerPlace && (
-              <Badge variant="default" className="bg-purple-100 text-purple-800">
+              <Badge variant="editor" className="bg-purple-100 text-purple-800">
                 Место силы
               </Badge>
             )}
