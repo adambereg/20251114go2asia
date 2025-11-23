@@ -22,6 +22,9 @@ export type {
   AtlasPlaceAttribute,
 } from './layouts/AtlasPlaceLayout';
 
+export { default as AtlasGuideLayout } from './layouts/AtlasGuideLayout';
+export type { AtlasGuideLayoutProps } from './layouts/AtlasGuideLayout';
+
 export { default as TopicHubView } from './components/TopicHubView';
 export type { TopicHubViewProps } from './components/TopicHubView';
 
