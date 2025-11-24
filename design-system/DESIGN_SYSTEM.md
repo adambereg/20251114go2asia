@@ -126,7 +126,7 @@ font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI',
 **Пример правильной реализации:**
 
 ```tsx
-<Card hover className="h-full overflow-hidden p-0 border-0">
+<Card hover className="h-full overflow-hidden p-0 !border-0">
   <div className="relative w-full h-48 overflow-hidden">
     <img
       src={imageUrl}
@@ -143,8 +143,10 @@ font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI',
 **Важно:**
 - `overflow-hidden` — обрезает содержимое по скругленным углам Card
 - `p-0` — убирает padding у Card, чтобы изображение было на первом уровне
-- `border-0` — убирает border у Card, чтобы рамка не была видна вокруг изображения
+- `!border-0` — **обязательно с `!` (important)** убирает border у Card, чтобы переопределить `border-2` из базовых стилей компонента
 - Padding применяется только к `CardContent`, где находится текст
+
+**Примечание:** Использование `!border-0` (с `!important`) необходимо, так как Card компонент имеет `border-2 border-slate-200` в базовых стилях, и обычный `border-0` может не переопределить их из-за порядка классов.
 
 **Обоснование:**
 - Единообразие визуального стиля во всех модулях
