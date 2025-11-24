@@ -263,7 +263,7 @@ export default async function CitiesPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {capitalCities.map((city) => (
             <Link key={city.id} href={`/atlas/cities/${city.id}`}>
-              <Card hover className="h-full overflow-hidden">
+              <Card hover className="h-full overflow-hidden p-0 !border-0">
                 <div className="relative w-full h-64 overflow-hidden">
                   <img
                     src={city.image}

@@ -148,7 +148,7 @@ export default async function CountriesPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {countries.map((country: any) => (
               <Link key={country.id} href={`/atlas/countries/${country.id}`}>
-                <Card hover className="h-full overflow-hidden">
+                <Card hover className="h-full overflow-hidden p-0 !border-0">
                   {country.heroImage && (
                     <div className="relative w-full h-48 overflow-hidden">
                       <img

@@ -323,7 +323,7 @@ function UnauthenticatedHomePage() {
               <Card
                 key={place.id}
                 hover
-                className="min-w-[280px] md:min-w-[320px] flex-shrink-0 overflow-hidden"
+                className="min-w-[280px] md:min-w-[320px] flex-shrink-0 overflow-hidden border-2 border-slate-200"
               >
                 <div className="aspect-video bg-slate-200 relative mb-3">
                   {/* Placeholder для изображения */}
@@ -620,7 +620,7 @@ function AuthenticatedHomePage() {
               <Card
                 key={place.id}
                 hover
-                className="min-w-[280px] md:min-w-[320px] flex-shrink-0 overflow-hidden"
+                className="min-w-[280px] md:min-w-[320px] flex-shrink-0 overflow-hidden border-2 border-slate-200"
               >
                 <div className="aspect-video bg-slate-200 relative mb-3">
                   {/* Placeholder для изображения */}

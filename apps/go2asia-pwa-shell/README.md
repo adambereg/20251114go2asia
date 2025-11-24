@@ -1,6 +1,6 @@
 # Go2Asia PWA Shell
 
-Next.js 15 приложение с App Router для Go2Asia платформы.
+Next.js 15 приложение с App Router для Go2Asia платформы. 
 
 ## Установка
 

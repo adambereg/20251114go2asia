@@ -116,6 +116,12 @@
 
   /* ========== CARDS ========== */
 
+  /* Глобальное правило: карточки с изображениями не должны иметь border */
+  [class*="Card"][class*="overflow-hidden"][class*="p-0"],
+  .card-with-image {
+    border: none !important;
+  }
+
   .card-base {
     @apply bg-white rounded-xl border-2 border-slate-200 p-4 hover:shadow-lg hover:border-sky-300 hover:-translate-y-0.5 transition-all;
   }
