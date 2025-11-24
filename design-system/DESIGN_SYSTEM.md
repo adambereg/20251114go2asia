@@ -126,7 +126,7 @@ font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI',
 **Пример правильной реализации:**
 
 ```tsx
-<Card hover className="h-full overflow-hidden">
+<Card hover className="h-full overflow-hidden p-0 border-0">
   <div className="relative w-full h-48 overflow-hidden">
     <img
       src={imageUrl}
@@ -134,11 +134,17 @@ font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI',
       className="w-full h-full object-cover"
     />
   </div>
-  <CardContent className="p-5">
+  <CardContent className="p-0>
     {/* контент */}
   </CardContent>
 </Card>
 ```
+
+**Важно:**
+- `overflow-hidden` — обрезает содержимое по скругленным углам Card
+- `p-0` — убирает padding у Card, чтобы изображение было на первом уровне
+- `border-0` — убирает border у Card, чтобы рамка не была видна вокруг изображения
+- Padding применяется только к `CardContent`, где находится текст
 
 **Обоснование:**
 - Единообразие визуального стиля во всех модулях
