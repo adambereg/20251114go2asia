@@ -149,7 +149,7 @@ export default function GuidesIndexPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {mockGuides.map((guide) => (
             <Link key={guide.id} href={`/atlas/guides/${guide.id}`}>
-              <Card hover className="h-full overflow-hidden p-0 border-0">
+              <Card hover className="h-full overflow-hidden p-0 !border-0">
                 {guide.heroImage && (
                   <div className="relative w-full h-48 overflow-hidden">
                     <img
