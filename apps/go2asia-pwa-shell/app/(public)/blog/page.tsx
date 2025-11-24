@@ -310,7 +310,7 @@ export default function BlogPage() {
             <Link key={article.id} href={`/blog/${article.slug}`}>
               <Card hover className="h-full flex flex-col">
                 {article.cover && (
-                  <div className="relative w-full h-48 overflow-hidden rounded-t-lg">
+                  <div className="relative w-full h-48 overflow-hidden">
                     <img
                       src={article.cover}
                       alt={article.title}
@@ -362,7 +362,7 @@ export default function BlogPage() {
             <Link key={article.id} href={`/blog/${article.slug}`}>
               <Card hover className="h-full flex flex-col">
                 {article.cover && (
-                  <div className="relative w-full h-64 overflow-hidden rounded-t-lg">
+                  <div className="relative w-full h-64 overflow-hidden">
                     <img
                       src={article.cover}
                       alt={article.title}
@@ -420,7 +420,7 @@ export default function BlogPage() {
             <Link key={category.id} href={`/blog/category/${category.id}`}>
               <Card hover className="h-full">
                 {category.cover && (
-                  <div className="relative w-full h-40 overflow-hidden rounded-t-lg">
+                  <div className="relative w-full h-40 overflow-hidden">
                     <img
                       src={category.cover}
                       alt={category.title}
@@ -453,7 +453,7 @@ export default function BlogPage() {
             <Link key={event.id} href={`/pulse/${event.id}`}>
               <Card hover className="h-full">
                 {event.cover && (
-                  <div className="relative w-full h-48 overflow-hidden rounded-t-lg">
+                  <div className="relative w-full h-48 overflow-hidden">
                     <img
                       src={event.cover}
                       alt={event.title}
@@ -499,7 +499,7 @@ export default function BlogPage() {
             <Link key={place.id} href={`/atlas/places/${place.id}`}>
               <Card hover className="h-full">
                 {place.cover && (
-                  <div className="relative w-full h-40 overflow-hidden rounded-t-lg">
+                  <div className="relative w-full h-40 overflow-hidden">
                     <img
                       src={place.cover}
                       alt={place.title}
@@ -534,7 +534,7 @@ export default function BlogPage() {
             <Link key={story.id} href={`/blog/${story.slug}`}>
               <Card hover className="h-full">
                 {story.cover && (
-                  <div className="relative w-full h-64 overflow-hidden rounded-t-lg">
+                  <div className="relative w-full h-64 overflow-hidden">
                     <img
                       src={story.cover}
                       alt={story.title}

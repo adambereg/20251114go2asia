@@ -135,7 +135,7 @@ export default function PlacesIndexPage() {
             <Link key={place.id} href={`/atlas/places/${place.id}`}>
               <Card hover className="h-full">
                 {place.heroImage && (
-                  <div className="relative w-full h-48 overflow-hidden rounded-t-lg">
+                  <div className="relative w-full h-48 overflow-hidden">
                     <img
                       src={place.heroImage}
                       alt={place.title}

@@ -89,7 +89,7 @@ export default function ThemesIndexPage() {
             <Link key={theme.id} href={`/atlas/themes/${theme.id}`}>
               <Card hover className="h-full">
                 {theme.heroImage && (
-                  <div className="relative w-full h-48 overflow-hidden rounded-t-lg">
+                  <div className="relative w-full h-48 overflow-hidden">
                     <img
                       src={theme.heroImage}
                       alt={theme.title}

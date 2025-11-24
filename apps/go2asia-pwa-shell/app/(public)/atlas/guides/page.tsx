@@ -151,7 +151,7 @@ export default function GuidesIndexPage() {
             <Link key={guide.id} href={`/atlas/guides/${guide.id}`}>
               <Card hover className="h-full">
                 {guide.heroImage && (
-                  <div className="relative w-full h-48 overflow-hidden rounded-t-lg">
+                  <div className="relative w-full h-48 overflow-hidden">
                     <img
                       src={guide.heroImage}
                       alt={guide.title}
