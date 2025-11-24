@@ -87,7 +87,7 @@ export default function ThemesIndexPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {themes.map((theme) => (
             <Link key={theme.id} href={`/atlas/themes/${theme.id}`}>
-              <Card hover className="h-full">
+              <Card hover className="h-full overflow-hidden p-0">
                 {theme.heroImage && (
                   <div className="relative w-full h-48 overflow-hidden">
                     <img

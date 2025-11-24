@@ -133,7 +133,7 @@ export default function PlacesIndexPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {mockPlaces.map((place) => (
             <Link key={place.id} href={`/atlas/places/${place.id}`}>
-              <Card hover className="h-full">
+              <Card hover className="h-full overflow-hidden p-0">
                 {place.heroImage && (
                   <div className="relative w-full h-48 overflow-hidden">
                     <img
