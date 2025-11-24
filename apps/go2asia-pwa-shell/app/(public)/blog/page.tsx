@@ -308,7 +308,7 @@ export default function BlogPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {editorialArticles.map((article) => (
             <Link key={article.id} href={`/blog/${article.slug}`}>
-              <Card hover className="h-full flex flex-col overflow-hidden p-0">
+              <Card hover className="h-full flex flex-col overflow-hidden p-0 border-0">
                 {article.cover && (
                   <div className="relative w-full h-48 overflow-hidden">
                     <img
@@ -360,7 +360,7 @@ export default function BlogPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {ugcArticles.map((article) => (
             <Link key={article.id} href={`/blog/${article.slug}`}>
-              <Card hover className="h-full flex flex-col overflow-hidden p-0">
+              <Card hover className="h-full flex flex-col overflow-hidden p-0 border-0">
                 {article.cover && (
                   <div className="relative w-full h-64 overflow-hidden">
                     <img
@@ -418,7 +418,7 @@ export default function BlogPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {categories.map((category) => (
             <Link key={category.id} href={`/blog/category/${category.id}`}>
-              <Card hover className="h-full overflow-hidden p-0">
+              <Card hover className="h-full overflow-hidden p-0 border-0">
                 {category.cover && (
                   <div className="relative w-full h-40 overflow-hidden">
                     <img
@@ -451,7 +451,7 @@ export default function BlogPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {weeklyEvents.map((event) => (
             <Link key={event.id} href={`/pulse/${event.id}`}>
-              <Card hover className="h-full overflow-hidden p-0">
+              <Card hover className="h-full overflow-hidden p-0 border-0">
                 {event.cover && (
                   <div className="relative w-full h-48 overflow-hidden">
                     <img
@@ -497,7 +497,7 @@ export default function BlogPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {atlasPlaces.map((place) => (
             <Link key={place.id} href={`/atlas/places/${place.id}`}>
-              <Card hover className="h-full overflow-hidden p-0">
+              <Card hover className="h-full overflow-hidden p-0 border-0">
                 {place.cover && (
                   <div className="relative w-full h-40 overflow-hidden">
                     <img
@@ -532,7 +532,7 @@ export default function BlogPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {partnerStories.map((story) => (
             <Link key={story.id} href={`/blog/${story.slug}`}>
-              <Card hover className="h-full overflow-hidden p-0">
+              <Card hover className="h-full overflow-hidden p-0 border-0">
                 {story.cover && (
                   <div className="relative w-full h-64 overflow-hidden">
                     <img
