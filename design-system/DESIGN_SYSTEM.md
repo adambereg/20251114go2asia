@@ -134,7 +134,7 @@ font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI',
       className="w-full h-full object-cover"
     />
   </div>
-  <CardContent className="p-0>
+  <CardContent className="p-5">
     {/* контент */}
   </CardContent>
 </Card>
