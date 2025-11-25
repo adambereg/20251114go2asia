@@ -5,29 +5,25 @@
 
 import type {
   GuruObject,
+  GuruObjectWithDistance,
   GuruFilters,
   PlaceObject,
   EventObject,
   HousingObject,
   PersonObject,
   QuestObject,
-  isPlaceObject,
-  isEventObject,
-  isHousingObject,
-  isPersonObject,
-  isQuestObject,
 } from '../types';
 
 /**
  * Применяет все фильтры к массиву объектов
- * @param objects Массив объектов
+ * @param objects Массив объектов с расстоянием
  * @param filters Фильтры
  * @returns Отфильтрованные объекты
  */
 export function applyFilters(
-  objects: GuruObject[],
+  objects: GuruObjectWithDistance[],
   filters: GuruFilters
-): GuruObject[] {
+): GuruObjectWithDistance[] {
   let filtered = objects;
 
   // 1. Фильтр по типам
@@ -71,9 +67,9 @@ export function applyFilters(
  * Применяет временной фильтр
  */
 function applyTimeFilter(
-  objects: GuruObject[],
+  objects: GuruObjectWithDistance[],
   time: GuruFilters['time']
-): GuruObject[] {
+): GuruObjectWithDistance[] {
   if (time === 'all') return objects;
 
   const now = new Date();
@@ -132,9 +128,9 @@ function applyTimeFilter(
  * Применяет фильтр по атрибутам мест
  */
 function applyPlaceAttrsFilter(
-  objects: GuruObject[],
+  objects: GuruObjectWithDistance[],
   attrs: GuruFilters['placeAttrs']
-): GuruObject[] {
+): GuruObjectWithDistance[] {
   const hasActiveFilters = Object.values(attrs).some(Boolean);
   if (!hasActiveFilters) return objects;
 
@@ -158,9 +154,9 @@ function applyPlaceAttrsFilter(
  * Применяет фильтр по атрибутам жилья
  */
 function applyHousingAttrsFilter(
-  objects: GuruObject[],
+  objects: GuruObjectWithDistance[],
   attrs: GuruFilters['housingAttrs']
-): GuruObject[] {
+): GuruObjectWithDistance[] {
   const hasActiveFilters = Object.values(attrs).some((v) => v !== undefined);
   if (!hasActiveFilters) return objects;
 
@@ -180,9 +176,9 @@ function applyHousingAttrsFilter(
  * Применяет фильтр по атрибутам людей
  */
 function applyPersonAttrsFilter(
-  objects: GuruObject[],
+  objects: GuruObjectWithDistance[],
   attrs: GuruFilters['personAttrs']
-): GuruObject[] {
+): GuruObjectWithDistance[] {
   const hasActiveFilters = Object.values(attrs).some(Boolean);
   if (!hasActiveFilters) return objects;
 
@@ -203,9 +199,9 @@ function applyPersonAttrsFilter(
  * Применяет фильтр по атрибутам квестов
  */
 function applyQuestAttrsFilter(
-  objects: GuruObject[],
+  objects: GuruObjectWithDistance[],
   attrs: GuruFilters['questAttrs']
-): GuruObject[] {
+): GuruObjectWithDistance[] {
   const hasActiveFilters = Object.values(attrs).some((v) => v !== undefined);
   if (!hasActiveFilters) return objects;
 

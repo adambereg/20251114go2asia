@@ -27,10 +27,7 @@ const GuruMapView = dynamic(
 
 import { GuruFiltersComponent as GuruFilters } from '@/components/guru/GuruFilters';
 import { GuruListView } from '@/components/guru/GuruListView';
-import {
-  useGeolocation,
-  DEFAULT_POSITION,
-} from '@/components/guru/hooks/useGeolocation';
+import { useGeolocation } from '@/components/guru/hooks/useGeolocation';
 
 // Типы и утилиты
 import type {
@@ -40,7 +37,7 @@ import type {
 } from '@/components/guru/types';
 import { DEFAULT_FILTERS } from '@/components/guru/types';
 import { mockObjects, DEFAULT_CENTER } from '@/components/guru/mockObjects';
-import { filterByRadius, addDistanceToObjects } from '@/components/guru/utils/geo';
+import { addDistanceToObjects } from '@/components/guru/utils/geo';
 import { applyFilters, queryStringToFilters, filtersToQueryString } from '@/components/guru/utils/filters';
 import { applySorting } from '@/components/guru/utils/ranking';
 
@@ -102,7 +99,7 @@ export const GuruClient: React.FC = () => {
     );
 
     // 3. Применяем фильтры
-    const filtered = applyFilters(inRadius, filters) as GuruObjectWithDistance[];
+    const filtered = applyFilters(inRadius, filters);
 
     // 4. Сортируем
     const sorted = applySorting(filtered, filters.sortMode);
