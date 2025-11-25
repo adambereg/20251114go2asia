@@ -260,8 +260,8 @@ export const GuruClient: React.FC = () => {
             md:block
           `}
         >
-          {/* Фильтры */}
-          <div className="p-4 border-b border-slate-200 bg-white">
+          {/* Фильтры - компактные на мобильных */}
+          <div className="md:p-4 border-b border-slate-200 bg-white md:bg-transparent">
             <GuruFilters
               filters={filters}
               onFilterChange={handleFilterChange}
