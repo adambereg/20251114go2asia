@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Search, X, MapPin, Filter, Calendar, DollarSign, Globe, Tag } from 'lucide-react';
+import { Search, X, MapPin, Calendar, DollarSign, Globe, Tag } from 'lucide-react';
 import { EventFilters as EventFiltersType } from './types';
 import { Chip, Button } from '@go2asia/ui';
 
@@ -77,7 +77,6 @@ export const EventFilters: React.FC<EventFiltersProps> = ({
   onFiltersChange,
 }) => {
   const [searchQuery, setSearchQuery] = useState(filters.search || '');
-  const [isExpanded, setIsExpanded] = useState(false);
   const [availableCities, setAvailableCities] = useState(cities);
 
   // Обновляем доступные города при изменении страны
@@ -91,6 +90,7 @@ export const EventFilters: React.FC<EventFiltersProps> = ({
     } else {
       setAvailableCities(cities);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters.country]);
 
   const handleSearchChange = (value: string) => {
@@ -290,10 +290,10 @@ export const EventFilters: React.FC<EventFiltersProps> = ({
           {/* Кнопка очистки */}
           {hasActiveFilters && (
             <Button
-              variant="outline"
+              variant="secondary"
               size="sm"
               onClick={handleClearFilters}
-              className="ml-auto"
+              className="ml-auto border border-slate-300"
             >
               <X className="w-4 h-4 mr-1" />
               Очистить
