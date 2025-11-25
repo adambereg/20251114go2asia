@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { Clock, MapPin, Calendar } from 'lucide-react';
 import { Event, EventFilters, CalendarDay } from './types';
 import { DayPopover } from './DayPopover';
+import { Card, CardContent, Badge } from '@go2asia/ui';
 
 export interface MonthViewProps {
   date: Date;
@@ -21,6 +23,71 @@ export const MonthView: React.FC<MonthViewProps> = ({
 }) => {
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
   const [popoverPosition, setPopoverPosition] = useState<{ x: number; y: number } | null>(null);
+
+  // Цветовая схема по категориям событий (та же, что в WeekView/DayView)
+  const categoryColorMap: Record<string, { dot: string; card: string; border: string }> = {
+    'Культура': {
+      dot: 'bg-cyan-400',
+      card: 'bg-cyan-50',
+      border: 'border-cyan-200',
+    },
+    'Музыка': {
+      dot: 'bg-purple-400',
+      card: 'bg-purple-50',
+      border: 'border-purple-200',
+    },
+    'Еда': {
+      dot: 'bg-green-400',
+      card: 'bg-green-50',
+      border: 'border-green-200',
+    },
+    'Спорт': {
+      dot: 'bg-orange-400',
+      card: 'bg-orange-50',
+      border: 'border-orange-200',
+    },
+    'Образование': {
+      dot: 'bg-blue-400',
+      card: 'bg-blue-50',
+      border: 'border-blue-200',
+    },
+    'IT': {
+      dot: 'bg-indigo-400',
+      card: 'bg-indigo-50',
+      border: 'border-indigo-200',
+    },
+    'Сообщество': {
+      dot: 'bg-indigo-400',
+      card: 'bg-indigo-50',
+      border: 'border-indigo-200',
+    },
+    'Семья': {
+      dot: 'bg-pink-400',
+      card: 'bg-pink-50',
+      border: 'border-pink-200',
+    },
+    'Ночная жизнь': {
+      dot: 'bg-amber-600',
+      card: 'bg-amber-50',
+      border: 'border-amber-200',
+    },
+  };
+
+  // Получить цвет для события на основе категории
+  const getEventColor = (category?: string) => {
+    if (!category) {
+      return {
+        dot: 'bg-slate-400',
+        card: 'bg-slate-50',
+        border: 'border-slate-200',
+      };
+    }
+    return categoryColorMap[category] || {
+      dot: 'bg-slate-400',
+      card: 'bg-slate-50',
+      border: 'border-slate-200',
+    };
+  };
 
   const daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
@@ -64,39 +131,58 @@ export const MonthView: React.FC<MonthViewProps> = ({
     return days;
   }, [date, events]);
 
+  // Получаем все события месяца, отсортированные по дате
+  const monthEvents = useMemo(() => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const monthStart = new Date(year, month, 1);
+    monthStart.setHours(0, 0, 0, 0);
+    const monthEnd = new Date(year, month + 1, 0);
+    monthEnd.setHours(23, 59, 59, 999);
+
+    return events
+      .filter((event) => {
+        const eventDate = new Date(event.startDate);
+        return eventDate >= monthStart && eventDate <= monthEnd;
+      })
+      .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+  }, [date, events]);
+
   const handleDayClick = (day: CalendarDay, event: React.MouseEvent<HTMLDivElement>) => {
     if (day.events.length === 0) {
-      onDateClick?.(day.date);
       return;
     }
 
     const rect = event.currentTarget.getBoundingClientRect();
+    setSelectedDay(day.date);
     setPopoverPosition({
       x: rect.left + rect.width / 2,
-      y: rect.bottom + 8,
+      y: rect.bottom,
     });
-    setSelectedDay(day.date);
   };
 
-  const handlePopoverClose = () => {
+  const handleClosePopover = () => {
     setSelectedDay(null);
     setPopoverPosition(null);
   };
 
-  const selectedDayData = selectedDay
-    ? calendarDays.find((day) => day.date.getTime() === selectedDay.getTime())
-    : null;
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString('ru-RU', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
 
   return (
-    <div className="relative">
-      {/* Calendar Grid */}
+    <div className="space-y-6">
+      {/* Календарная сетка */}
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         {/* Header with days of week */}
-        <div className="grid grid-cols-7 bg-slate-50 border-b border-slate-200">
+        <div className="grid grid-cols-7 gap-px bg-slate-200 border-b-2 border-slate-200">
           {daysOfWeek.map((day) => (
             <div
               key={day}
-              className="p-3 text-center text-sm font-medium text-slate-600 border-r border-slate-200 last:border-r-0"
+              className="bg-slate-50 py-2 text-center text-sm font-medium text-slate-600"
             >
               {day}
             </div>
@@ -131,23 +217,21 @@ export const MonthView: React.FC<MonthViewProps> = ({
                   {day.date.getDate()}
                 </div>
 
-                {/* Events indicators */}
-                <div className="space-y-1">
-                  {day.events.slice(0, 3).map((event) => (
-                    <div
-                      key={event.id}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onEventClick?.(event);
-                      }}
-                      className="text-xs bg-sky-100 text-sky-700 rounded px-1.5 py-0.5 truncate hover:bg-sky-200 transition-colors"
-                    >
-                      {event.title}
-                    </div>
-                  ))}
-                  {day.events.length > 3 && (
+                {/* Events indicators - точки по категориям */}
+                <div className="flex items-center justify-center gap-1 flex-wrap">
+                  {day.events.slice(0, 5).map((event) => {
+                    const color = getEventColor(event.category);
+                    return (
+                      <div
+                        key={event.id}
+                        className={`w-2 h-2 rounded-full ${color.dot}`}
+                        title={`${event.title}${event.category ? ` (${event.category})` : ''}`}
+                      />
+                    );
+                  })}
+                  {day.events.length > 5 && (
                     <div className="text-xs text-slate-500 font-medium">
-                      +{day.events.length - 3}
+                      +{day.events.length - 5}
                     </div>
                   )}
                 </div>
@@ -158,16 +242,141 @@ export const MonthView: React.FC<MonthViewProps> = ({
       </div>
 
       {/* Day Popover */}
-      {selectedDayData && popoverPosition && (
+      {selectedDay && popoverPosition && (
         <DayPopover
-          day={selectedDayData}
+          day={calendarDays.find((d) => d.date.getTime() === selectedDay.getTime())!}
           position={popoverPosition}
-          onClose={handlePopoverClose}
+          onClose={handleClosePopover}
           onEventClick={onEventClick}
           onDateClick={onDateClick}
         />
       )}
+
+      {/* Список событий месяца */}
+      {monthEvents.length === 0 ? (
+        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-12 text-center">
+          <Calendar className="w-16 h-16 mx-auto mb-4 text-slate-300" />
+          <h3 className="text-lg font-bold text-slate-900 mb-2">Нет событий в этом месяце</h3>
+          <p className="text-sm text-slate-600">
+            События появятся здесь, когда они будут добавлены
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {monthEvents.map((event) => {
+            const color = getEventColor(event.category);
+            const eventDate = new Date(event.startDate);
+            const isMultiDay = eventDate.toDateString() !== new Date(event.endDate).toDateString();
+            
+            return (
+              <Card
+                key={event.id}
+                hover
+                onClick={() => onEventClick?.(event)}
+                className={`cursor-pointer border-2 ${color.card} ${color.border} transition-all hover:shadow-md`}
+              >
+                <CardContent className="p-6">
+                  {/* Дата */}
+                  <div className="mb-3">
+                    <div className="text-sm font-bold text-slate-700 uppercase">
+                      {isMultiDay
+                        ? `${eventDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' })} - ${new Date(event.endDate).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' })}`
+                        : eventDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }).toUpperCase()}
+                    </div>
+                  </div>
+
+                  {/* Бейджи */}
+                  {event.badges && event.badges.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {event.badges.map((badge) => (
+                        <Badge
+                          key={badge}
+                          variant={
+                            badge === 'verified'
+                              ? 'verified'
+                              : badge === 'russian-friendly'
+                              ? 'russian-friendly'
+                              : badge === 'free'
+                              ? 'info'
+                              : 'info'
+                          }
+                        >
+                          {badge === 'verified' && '✓ Проверено'}
+                          {badge === 'russian-friendly' && '🇷🇺 RF'}
+                          {badge === 'free' && 'Бесплатно'}
+                          {badge === 'repeating' && 'Повторяется'}
+                          {badge === 'virtual-event' && 'Онлайн'}
+                          {badge === 'event-started' && 'Началось'}
+                          {badge === 'event-over' && 'Завершено'}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Заголовок */}
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">
+                    {event.title}
+                  </h3>
+
+                  {/* Описание */}
+                  {event.description && (
+                    <p className="text-slate-700 mb-4 line-clamp-2">
+                      {event.description}
+                    </p>
+                  )}
+
+                  {/* Время */}
+                  <div className="flex items-center gap-2 text-sm text-slate-600 mb-2">
+                    <Clock className="w-4 h-4" />
+                    <span>
+                      {formatTime(event.startDate)}
+                      {event.endDate && ` - ${formatTime(event.endDate)}`}
+                      {event.timezone && ` (${event.timezone})`}
+                    </span>
+                  </div>
+
+                  {/* Местоположение */}
+                  {event.location && (
+                    <div className="flex items-center gap-2 text-sm text-slate-600 mb-3">
+                      <MapPin className="w-4 h-4" />
+                      <span className="line-clamp-1">
+                        {event.location.name || event.location.address}
+                        {event.location.city && `, ${event.location.city}`}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Дополнительная информация */}
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-slate-600 pt-3 border-t border-slate-200">
+                    {event.organizer && (
+                      <div>
+                        Организатор: <span className="font-medium">{event.organizer.name}</span>
+                      </div>
+                    )}
+                    {event.attendeesCount !== undefined && (
+                      <div>
+                        Участников: <span className="font-medium">{event.attendeesCount}</span>
+                        {event.maxAttendees && ` / ${event.maxAttendees}`}
+                      </div>
+                    )}
+                    {event.price && (
+                      <div>
+                        {event.price.type === 'free' ? (
+                          <span className="font-medium text-green-600">Бесплатно</span>
+                        ) : (
+                          <span className="font-medium">
+                            {event.price.amount} {event.price.currency || 'THB'}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
-
