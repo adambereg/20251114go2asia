@@ -8,5 +8,6 @@ export { EventFilters as EventFiltersComponent } from './EventFilters';
 export { EventDetail } from './EventDetail';
 export { EventUGCBlock } from './EventUGCBlock';
 export { filterEvents } from './filterEvents';
+export { mockEvents, mockEventsById } from './mockEvents';
 export type { CalendarViewMode, Event, EventFilters, EventBadge, CalendarDay, CalendarWeek } from './types';
 
