@@ -3,7 +3,6 @@
 import React, { useState, useMemo } from 'react';
 import { Clock, MapPin, Calendar } from 'lucide-react';
 import { Event, EventFilters, CalendarDay } from './types';
-import { DayPopover } from './DayPopover';
 import { Card, CardContent, Badge } from '@go2asia/ui';
 
 export interface MonthViewProps {
@@ -22,7 +21,6 @@ export const MonthView: React.FC<MonthViewProps> = ({
   onDateClick,
 }) => {
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
-  const [popoverPosition, setPopoverPosition] = useState<{ x: number; y: number } | null>(null);
 
   // Цветовая схема по категориям событий (та же, что в WeekView/DayView)
   const categoryColorMap: Record<string, { dot: string; card: string; border: string }> = {
@@ -131,39 +129,54 @@ export const MonthView: React.FC<MonthViewProps> = ({
     return days;
   }, [date, events]);
 
-  // Получаем все события месяца, отсортированные по дате
-  const monthEvents = useMemo(() => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const monthStart = new Date(year, month, 1);
-    monthStart.setHours(0, 0, 0, 0);
-    const monthEnd = new Date(year, month + 1, 0);
-    monthEnd.setHours(23, 59, 59, 999);
+  // Получаем события для отображения (либо выбранного дня, либо всего месяца)
+  const displayEvents = useMemo(() => {
+    if (selectedDay) {
+      // Показываем события только выбранного дня
+      const selectedDayStart = new Date(selectedDay);
+      selectedDayStart.setHours(0, 0, 0, 0);
+      const selectedDayEnd = new Date(selectedDay);
+      selectedDayEnd.setHours(23, 59, 59, 999);
 
-    return events
-      .filter((event) => {
-        const eventDate = new Date(event.startDate);
-        return eventDate >= monthStart && eventDate <= monthEnd;
-      })
-      .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
-  }, [date, events]);
+      return events
+        .filter((event) => {
+          const eventDate = new Date(event.startDate);
+          return eventDate >= selectedDayStart && eventDate <= selectedDayEnd;
+        })
+        .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+    } else {
+      // Показываем все события месяца
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const monthStart = new Date(year, month, 1);
+      monthStart.setHours(0, 0, 0, 0);
+      const monthEnd = new Date(year, month + 1, 0);
+      monthEnd.setHours(23, 59, 59, 999);
 
-  const handleDayClick = (day: CalendarDay, event: React.MouseEvent<HTMLDivElement>) => {
+      return events
+        .filter((event) => {
+          const eventDate = new Date(event.startDate);
+          return eventDate >= monthStart && eventDate <= monthEnd;
+        })
+        .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+    }
+  }, [date, events, selectedDay]);
+
+  const handleDayClick = (day: CalendarDay) => {
     if (day.events.length === 0) {
+      // Если событий нет, сбрасываем выбор
+      setSelectedDay(null);
       return;
     }
 
-    const rect = event.currentTarget.getBoundingClientRect();
-    setSelectedDay(day.date);
-    setPopoverPosition({
-      x: rect.left + rect.width / 2,
-      y: rect.bottom,
-    });
-  };
-
-  const handleClosePopover = () => {
-    setSelectedDay(null);
-    setPopoverPosition(null);
+    // Переключение выбранного дня
+    if (selectedDay && selectedDay.getTime() === day.date.getTime()) {
+      // Если кликнули по уже выбранному дню, сбрасываем выбор
+      setSelectedDay(null);
+    } else {
+      // Выбираем новый день
+      setSelectedDay(day.date);
+    }
   };
 
   const formatTime = (date: Date) => {
@@ -194,15 +207,18 @@ export const MonthView: React.FC<MonthViewProps> = ({
           {calendarDays.map((day, index) => {
             const isWeekend = day.date.getDay() === 0 || day.date.getDay() === 6;
             
+            const isSelected = selectedDay && selectedDay.getTime() === day.date.getTime();
+            
             return (
               <div
                 key={index}
-                onClick={(e) => handleDayClick(day, e)}
+                onClick={() => handleDayClick(day)}
                 className={`
                   bg-white min-h-[100px] p-2 cursor-pointer
                   hover:bg-slate-50 transition-colors
                   ${!day.isCurrentMonth ? 'opacity-40' : ''}
                   ${day.isToday ? 'ring-2 ring-sky-600 ring-inset' : ''}
+                  ${isSelected ? 'ring-2 ring-sky-400 bg-sky-50' : ''}
                   ${isWeekend ? 'bg-slate-50' : ''}
                 `}
               >
@@ -241,29 +257,46 @@ export const MonthView: React.FC<MonthViewProps> = ({
         </div>
       </div>
 
-      {/* Day Popover */}
-      {selectedDay && popoverPosition && (
-        <DayPopover
-          day={calendarDays.find((d) => d.date.getTime() === selectedDay.getTime())!}
-          position={popoverPosition}
-          onClose={handleClosePopover}
-          onEventClick={onEventClick}
-          onDateClick={onDateClick}
-        />
-      )}
-
-      {/* Список событий месяца */}
-      {monthEvents.length === 0 ? (
+      {/* Список событий (выбранного дня или всего месяца) */}
+      {displayEvents.length === 0 ? (
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-12 text-center">
           <Calendar className="w-16 h-16 mx-auto mb-4 text-slate-300" />
-          <h3 className="text-lg font-bold text-slate-900 mb-2">Нет событий в этом месяце</h3>
+          <h3 className="text-lg font-bold text-slate-900 mb-2">
+            {selectedDay ? 'Нет событий на этот день' : 'Нет событий в этом месяце'}
+          </h3>
           <p className="text-sm text-slate-600">
-            События появятся здесь, когда они будут добавлены
+            {selectedDay ? 'Выберите другой день или посмотрите все события месяца' : 'События появятся здесь, когда они будут добавлены'}
           </p>
+          {selectedDay && (
+            <button
+              onClick={() => setSelectedDay(null)}
+              className="mt-4 px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-lg font-medium transition-colors"
+            >
+              Показать все события месяца
+            </button>
+          )}
         </div>
       ) : (
-        <div className="space-y-4">
-          {monthEvents.map((event) => {
+        <>
+          {/* Заголовок списка */}
+          {selectedDay && (
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-bold text-slate-900">
+                  События: {selectedDay.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </h3>
+                <button
+                  onClick={() => setSelectedDay(null)}
+                  className="px-3 py-1 text-sm text-sky-600 hover:bg-sky-50 rounded-lg transition-colors"
+                >
+                  Показать все события месяца
+                </button>
+              </div>
+            </div>
+          )}
+          
+          <div className="space-y-4">
+            {displayEvents.map((event) => {
             const color = getEventColor(event.category);
             const eventDate = new Date(event.startDate);
             const isMultiDay = eventDate.toDateString() !== new Date(event.endDate).toDateString();
