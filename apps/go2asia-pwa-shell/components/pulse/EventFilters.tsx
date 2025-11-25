@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Search, X, MapPin, Calendar, DollarSign, Globe, Tag } from 'lucide-react';
+import { Search, X, MapPin, Calendar, DollarSign, Globe, Tag, ChevronDown, ChevronUp, Filter } from 'lucide-react';
 import { EventFilters as EventFiltersType } from './types';
 import { Chip, Button } from '@go2asia/ui';
 
@@ -78,6 +78,7 @@ export const EventFilters: React.FC<EventFiltersProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState(filters.search || '');
   const [availableCities, setAvailableCities] = useState(cities);
+  const [isExpanded, setIsExpanded] = useState(false); // По умолчанию скрыто на мобильных
 
   // Обновляем доступные города при изменении страны
   useEffect(() => {
@@ -162,9 +163,79 @@ export const EventFilters: React.FC<EventFiltersProps> = ({
     filters.search
   );
 
+  // Компактное отображение активных фильтров
+  const activeFiltersList: string[] = [];
+  if (filters.country) activeFiltersList.push(filters.country);
+  if (filters.city) activeFiltersList.push(filters.city);
+  if (filters.category) activeFiltersList.push(filters.category);
+  if (filters.scale) {
+    const scaleLabel = scales.find(s => s.value === filters.scale)?.label;
+    if (scaleLabel) activeFiltersList.push(scaleLabel);
+  }
+  if (filters.price && filters.price !== 'all') {
+    const priceLabel = priceOptions.find(p => p.value === filters.price)?.label;
+    if (priceLabel) activeFiltersList.push(priceLabel);
+  }
+  if (filters.language && filters.language !== 'all') {
+    const langLabel = languages.find(l => l.value === filters.language)?.label;
+    if (langLabel) activeFiltersList.push(langLabel);
+  }
+  if (filters.timeFilter && filters.timeFilter !== 'all') {
+    const timeLabel = timeFilters.find(t => t.value === filters.timeFilter)?.label;
+    if (timeLabel) activeFiltersList.push(timeLabel);
+  }
+
   return (
-    <div className="bg-white border-b border-slate-200 sticky top-[120px] z-30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div className="bg-white border-b border-slate-200 sticky top-[64px] lg:top-[120px] z-30">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Компактная версия для мобильных (когда фильтры скрыты) */}
+        <div className="lg:hidden py-3">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              {hasActiveFilters ? (
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  <Filter className="w-4 h-4 text-sky-600 flex-shrink-0" />
+                  <div className="flex flex-wrap gap-1 flex-1 min-w-0">
+                    {activeFiltersList.slice(0, 2).map((filter, index) => (
+                      <span
+                        key={index}
+                        className="text-xs px-2 py-1 bg-sky-100 text-sky-700 rounded-full truncate"
+                      >
+                        {filter}
+                      </span>
+                    ))}
+                    {activeFiltersList.length > 2 && (
+                      <span className="text-xs px-2 py-1 bg-slate-100 text-slate-600 rounded-full">
+                        +{activeFiltersList.length - 2}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <span className="text-sm text-slate-600">Фильтры</span>
+              )}
+            </div>
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-sky-600 hover:bg-sky-50 rounded-lg transition-colors flex-shrink-0"
+            >
+              {isExpanded ? (
+                <>
+                  Скрыть
+                  <ChevronUp className="w-4 h-4" />
+                </>
+              ) : (
+                <>
+                  Показать
+                  <ChevronDown className="w-4 h-4" />
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Полная версия фильтров */}
+        <div className={`${isExpanded ? 'block' : 'hidden'} lg:block py-4`}>
         {/* Поиск */}
         <div className="mb-4">
           <div className="relative">
@@ -301,21 +372,22 @@ export const EventFilters: React.FC<EventFiltersProps> = ({
           )}
         </div>
 
-        {/* Расширенные фильтры: Категории */}
-        <div className="flex items-center gap-2">
-          <Tag className="w-4 h-4 text-slate-400" />
-          <span className="text-sm text-slate-600 mr-2">Категории:</span>
-          <div className="flex flex-wrap gap-2">
-            {categories.map((category) => (
-              <Chip
-                key={category.value}
-                selected={filters.category === category.value}
-                onClick={() => handleCategoryToggle(category.value)}
-                className="cursor-pointer"
-              >
-                {category.label}
-              </Chip>
-            ))}
+          {/* Расширенные фильтры: Категории */}
+          <div className="flex items-center gap-2">
+            <Tag className="w-4 h-4 text-slate-400" />
+            <span className="text-sm text-slate-600 mr-2">Категории:</span>
+            <div className="flex flex-wrap gap-2">
+              {categories.map((category) => (
+                <Chip
+                  key={category.value}
+                  selected={filters.category === category.value}
+                  onClick={() => handleCategoryToggle(category.value)}
+                  className="cursor-pointer"
+                >
+                  {category.label}
+                </Chip>
+              ))}
+            </div>
           </div>
         </div>
       </div>
