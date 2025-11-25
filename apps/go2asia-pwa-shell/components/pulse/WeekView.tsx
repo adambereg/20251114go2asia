@@ -18,8 +18,9 @@ export const WeekView: React.FC<WeekViewProps> = ({
   events,
   filters: _filters,
   onEventClick,
-  onDateClick,
+  onDateClick: _onDateClick, // Не используется, так как клик на день фильтрует события, а не переключает вид
 }) => {
+  const [selectedDay, setSelectedDay] = React.useState<Date | null>(null);
   // Вычисляем начало недели (понедельник)
   const weekStart = useMemo(() => {
     const start = new Date(date);
@@ -57,19 +58,35 @@ export const WeekView: React.FC<WeekViewProps> = ({
     return days;
   }, [weekStart, events]);
 
-  // Получаем все события недели, отсортированные по дате и времени
-  const weekEvents = useMemo(() => {
+  // Получаем события для отображения (либо выбранного дня, либо всей недели)
+  const displayEvents = useMemo(() => {
     const weekEnd = new Date(weekStart);
     weekEnd.setDate(weekStart.getDate() + 7);
     
-    return events
-      .filter((event) => {
-        const eventDate = new Date(event.startDate);
-        eventDate.setHours(0, 0, 0, 0);
-        return eventDate >= weekStart && eventDate < weekEnd;
-      })
-      .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
-  }, [weekStart, events]);
+    if (selectedDay) {
+      // Показываем события только выбранного дня
+      const selectedDayStart = new Date(selectedDay);
+      selectedDayStart.setHours(0, 0, 0, 0);
+      const selectedDayEnd = new Date(selectedDay);
+      selectedDayEnd.setHours(23, 59, 59, 999);
+
+      return events
+        .filter((event) => {
+          const eventDate = new Date(event.startDate);
+          return eventDate >= selectedDayStart && eventDate <= selectedDayEnd;
+        })
+        .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+    } else {
+      // Показываем все события недели
+      return events
+        .filter((event) => {
+          const eventDate = new Date(event.startDate);
+          eventDate.setHours(0, 0, 0, 0);
+          return eventDate >= weekStart && eventDate < weekEnd;
+        })
+        .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+    }
+  }, [weekStart, events, selectedDay]);
 
   // Цветовая схема по категориям событий
   const categoryColorMap: Record<string, { dot: string; card: string; border: string }> = {
@@ -153,20 +170,41 @@ export const WeekView: React.FC<WeekViewProps> = ({
     });
   };
 
+  const handleDayClick = (day: typeof weekDays[0]) => {
+    if (day.events.length === 0) {
+      // Если событий нет, сбрасываем выбор
+      setSelectedDay(null);
+      return;
+    }
+
+    // Переключение выбранного дня
+    if (selectedDay && selectedDay.getTime() === day.date.getTime()) {
+      // Если кликнули по уже выбранному дню, сбрасываем выбор
+      setSelectedDay(null);
+    } else {
+      // Выбираем новый день
+      setSelectedDay(day.date);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Компактная сетка дней недели */}
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="grid grid-cols-7 gap-px bg-slate-200">
-          {weekDays.map((day, index) => (
-            <div
-              key={index}
-              onClick={() => onDateClick?.(day.date)}
-              className={`
-                bg-white p-3 text-center cursor-pointer hover:bg-slate-50 transition-colors
-                ${day.isToday ? 'bg-sky-50 ring-2 ring-sky-600 ring-inset' : ''}
-              `}
-            >
+          {weekDays.map((day, index) => {
+            const isSelected = selectedDay && selectedDay.getTime() === day.date.getTime();
+            
+            return (
+              <div
+                key={index}
+                onClick={() => handleDayClick(day)}
+                className={`
+                  bg-white p-3 text-center cursor-pointer hover:bg-slate-50 transition-colors
+                  ${day.isToday ? 'bg-sky-50 ring-2 ring-sky-600 ring-inset' : ''}
+                  ${isSelected ? 'ring-2 ring-sky-400 bg-sky-50' : ''}
+                `}
+              >
               <div className="text-xs text-slate-600 mb-1">{dayNames[index]}</div>
               <div
                 className={`
@@ -198,22 +236,51 @@ export const WeekView: React.FC<WeekViewProps> = ({
                 </div>
               )}
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
-      {/* Список событий недели */}
-      {weekEvents.length === 0 ? (
+      {/* Список событий (выбранного дня или всей недели) */}
+      {displayEvents.length === 0 ? (
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-12 text-center">
           <Calendar className="w-16 h-16 mx-auto mb-4 text-slate-300" />
-          <h3 className="text-lg font-bold text-slate-900 mb-2">Нет событий на этой неделе</h3>
+          <h3 className="text-lg font-bold text-slate-900 mb-2">
+            {selectedDay ? 'Нет событий на этот день' : 'Нет событий на этой неделе'}
+          </h3>
           <p className="text-sm text-slate-600">
-            События появятся здесь, когда они будут добавлены
+            {selectedDay ? 'Выберите другой день или посмотрите все события недели' : 'События появятся здесь, когда они будут добавлены'}
           </p>
+          {selectedDay && (
+            <button
+              onClick={() => setSelectedDay(null)}
+              className="mt-4 px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-lg font-medium transition-colors"
+            >
+              Показать все события недели
+            </button>
+          )}
         </div>
       ) : (
-        <div className="space-y-4">
-          {weekEvents.map((event) => {
+        <>
+          {/* Заголовок списка */}
+          {selectedDay && (
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-bold text-slate-900">
+                  События: {selectedDay.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </h3>
+                <button
+                  onClick={() => setSelectedDay(null)}
+                  className="px-3 py-1 text-sm text-sky-600 hover:bg-sky-50 rounded-lg transition-colors"
+                >
+                  Показать все события недели
+                </button>
+              </div>
+            </div>
+          )}
+          
+          <div className="space-y-4">
+            {displayEvents.map((event) => {
             const color = getEventColor(event.category);
             const eventDate = new Date(event.startDate);
             const isMultiDay = eventDate.toDateString() !== new Date(event.endDate).toDateString();
@@ -326,6 +393,7 @@ export const WeekView: React.FC<WeekViewProps> = ({
             );
           })}
         </div>
+        </>
       )}
     </div>
   );
