@@ -69,15 +69,70 @@ export const WeekView: React.FC<WeekViewProps> = ({
       .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
   }, [weekStart, events]);
 
-  // Цвета для карточек событий (циклически)
-  const eventColors = [
-    'bg-sky-50 border-sky-200',
-    'bg-green-50 border-green-200',
-    'bg-amber-50 border-amber-200',
-    'bg-purple-50 border-purple-200',
-    'bg-pink-50 border-pink-200',
-    'bg-indigo-50 border-indigo-200',
-  ];
+  // Цветовая схема по категориям событий
+  const categoryColorMap: Record<string, { dot: string; card: string; border: string }> = {
+    'Культура': {
+      dot: 'bg-cyan-400',
+      card: 'bg-cyan-50',
+      border: 'border-cyan-200',
+    },
+    'Музыка': {
+      dot: 'bg-purple-400',
+      card: 'bg-purple-50',
+      border: 'border-purple-200',
+    },
+    'Еда': {
+      dot: 'bg-green-400',
+      card: 'bg-green-50',
+      border: 'border-green-200',
+    },
+    'Спорт': {
+      dot: 'bg-orange-400',
+      card: 'bg-orange-50',
+      border: 'border-orange-200',
+    },
+    'Образование': {
+      dot: 'bg-blue-400',
+      card: 'bg-blue-50',
+      border: 'border-blue-200',
+    },
+    'IT': {
+      dot: 'bg-indigo-400',
+      card: 'bg-indigo-50',
+      border: 'border-indigo-200',
+    },
+    'Сообщество': {
+      dot: 'bg-indigo-400',
+      card: 'bg-indigo-50',
+      border: 'border-indigo-200',
+    },
+    'Семья': {
+      dot: 'bg-pink-400',
+      card: 'bg-pink-50',
+      border: 'border-pink-200',
+    },
+    'Ночная жизнь': {
+      dot: 'bg-amber-600',
+      card: 'bg-amber-50',
+      border: 'border-amber-200',
+    },
+  };
+
+  // Получить цвет для события на основе категории
+  const getEventColor = (category?: string) => {
+    if (!category) {
+      return {
+        dot: 'bg-slate-400',
+        card: 'bg-slate-50',
+        border: 'border-slate-200',
+      };
+    }
+    return categoryColorMap[category] || {
+      dot: 'bg-slate-400',
+      card: 'bg-slate-50',
+      border: 'border-slate-200',
+    };
+  };
 
   const dayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
@@ -122,21 +177,13 @@ export const WeekView: React.FC<WeekViewProps> = ({
               {/* Точки событий */}
               {day.events.length > 0 && (
                 <div className="flex items-center justify-center gap-1 flex-wrap">
-                  {day.events.slice(0, 5).map((event, eventIndex) => {
-                    // Определяем цвет точки на основе категории или индекса
-                    const colorIndex = eventIndex % eventColors.length;
-                    const colors = [
-                      'bg-sky-400',
-                      'bg-green-400',
-                      'bg-amber-400',
-                      'bg-purple-400',
-                      'bg-pink-400',
-                    ];
+                  {day.events.slice(0, 5).map((event) => {
+                    const color = getEventColor(event.category);
                     return (
                       <div
                         key={event.id}
-                        className={`w-2 h-2 rounded-full ${colors[colorIndex] || 'bg-sky-400'}`}
-                        title={event.title}
+                        className={`w-2 h-2 rounded-full ${color.dot}`}
+                        title={`${event.title}${event.category ? ` (${event.category})` : ''}`}
                       />
                     );
                   })}
@@ -163,8 +210,8 @@ export const WeekView: React.FC<WeekViewProps> = ({
         </div>
       ) : (
         <div className="space-y-4">
-          {weekEvents.map((event, index) => {
-            const colorClass = eventColors[index % eventColors.length];
+          {weekEvents.map((event) => {
+            const color = getEventColor(event.category);
             const eventDate = new Date(event.startDate);
             const isMultiDay = eventDate.toDateString() !== new Date(event.endDate).toDateString();
             
@@ -173,7 +220,7 @@ export const WeekView: React.FC<WeekViewProps> = ({
                 key={event.id}
                 hover
                 onClick={() => onEventClick?.(event)}
-                className={`cursor-pointer border-2 ${colorClass} transition-all hover:shadow-md`}
+                className={`cursor-pointer border-2 ${color.card} ${color.border} transition-all hover:shadow-md`}
               >
                 <CardContent className="p-6">
                   {/* Дата */}
