@@ -32,6 +32,10 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   const [viewMode, setViewMode] = useState<CalendarViewMode>(initialView);
   const [currentDate, setCurrentDate] = useState(initialDate);
 
+  // Дефолтные no-op обработчики для безопасной передачи в дочерние компоненты
+  const handleEventClick = onEventClick ?? (() => {});
+  const handleDateChange = onDateChange ?? (() => {});
+
   const viewModes: { mode: CalendarViewMode; label: string }[] = [
     { mode: 'month', label: 'Месяц' },
     { mode: 'week', label: 'Неделя' },
@@ -58,13 +62,13 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
     }
     
     setCurrentDate(newDate);
-    onDateChange?.(newDate);
+    handleDateChange(newDate);
   };
 
   const handleTodayClick = () => {
     const today = new Date();
     setCurrentDate(today);
-    onDateChange?.(today);
+    handleDateChange(today);
   };
 
   const renderView = () => {
@@ -75,11 +79,11 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
             date={currentDate}
             events={events}
             filters={filters}
-            onEventClick={onEventClick}
+            onEventClick={handleEventClick}
             onDateClick={(date) => {
               setCurrentDate(date);
               setViewMode('day');
-              onDateChange?.(date);
+              handleDateChange(date);
             }}
           />
         );
@@ -89,7 +93,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
             date={currentDate}
             events={events}
             filters={filters}
-            onEventClick={onEventClick}
+            onEventClick={handleEventClick}
           />
         );
       case 'day':
@@ -98,10 +102,10 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
             date={currentDate}
             events={events}
             filters={filters}
-            onEventClick={onEventClick}
+            onEventClick={handleEventClick}
             onDateChange={(date) => {
               setCurrentDate(date);
-              onDateChange?.(date);
+              handleDateChange(date);
             }}
           />
         );
@@ -110,7 +114,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
           <AgendaView
             events={events}
             filters={filters}
-            onEventClick={onEventClick}
+            onEventClick={handleEventClick}
           />
         );
     }

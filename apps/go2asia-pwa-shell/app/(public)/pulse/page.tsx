@@ -93,13 +93,6 @@ export default function PulsePage() {
       <CalendarView
         events={mockEvents}
         initialView="month"
-        onEventClick={(event) => {
-          // TODO: Переход на страницу события
-          console.log('Event clicked:', event);
-        }}
-        onDateChange={(date) => {
-          console.log('Date changed:', date);
-        }}
       />
     </div>
   );
