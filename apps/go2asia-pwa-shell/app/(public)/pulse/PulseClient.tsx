@@ -86,12 +86,17 @@ export function PulseClient({ events }: PulseClientProps) {
     updateURLWithFilters(router, newFilters);
   };
 
+  const handleEventClick = (event: Event) => {
+    router.push(`/pulse/${event.id}`);
+  };
+
   return (
     <CalendarView
       events={events}
       initialView="month"
       filters={filters}
       onFiltersChange={handleFiltersChange}
+      onEventClick={handleEventClick}
     />
   );
 }
