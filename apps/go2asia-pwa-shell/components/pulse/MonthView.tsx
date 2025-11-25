@@ -409,6 +409,7 @@ export const MonthView: React.FC<MonthViewProps> = ({
             );
           })}
         </div>
+        </>
       )}
     </div>
   );
