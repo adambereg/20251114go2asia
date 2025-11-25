@@ -80,7 +80,7 @@ export const GuruClient: React.FC = () => {
     return { ...DEFAULT_FILTERS, ...urlFilters };
   });
   const [selectedObjectId, setSelectedObjectId] = useState<string | null>(null);
-  const [mobileView, setMobileView] = useState<ViewMode>('split');
+  const [mobileView, setMobileView] = useState<ViewMode>('split'); // По умолчанию split (карта + список)
   const [mapExpanded, setMapExpanded] = useState(false);
 
   // Позиция для карты (пользователь или дефолт)

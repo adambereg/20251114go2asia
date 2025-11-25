@@ -6,6 +6,7 @@
  */
 
 import React, { useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import {
   MapContainer,
   TileLayer,
@@ -16,6 +17,7 @@ import {
   useMapEvents,
 } from 'react-leaflet';
 import L from 'leaflet';
+import { ArrowRight } from 'lucide-react';
 import type { GuruObjectWithDistance, Coordinates, RadiusOption } from './types';
 import { MARKER_COLORS, OBJECT_TYPE_LABELS } from './types';
 import { formatDistance, formatWalkingTime } from './utils/geo';
@@ -105,6 +107,27 @@ const MapController: React.FC<MapControllerProps> = ({ center, onMapMove }) => {
 };
 
 // =============================================================================
+// Функция получения ссылки на объект
+// =============================================================================
+
+function getObjectLink(object: GuruObjectWithDistance): string {
+  switch (object.type) {
+    case 'place':
+      return `/atlas/places/${object.id}`;
+    case 'event':
+      return `/pulse/${object.id}`;
+    case 'housing':
+      return `/housing/${object.id}`;
+    case 'person':
+      return `/space/profile/${object.id}`;
+    case 'quest':
+      return `/quest/${object.id}`;
+    default:
+      return '#';
+  }
+}
+
+// =============================================================================
 // Компонент маркера объекта
 // =============================================================================
 
@@ -124,6 +147,7 @@ const ObjectMarker: React.FC<ObjectMarkerProps> = ({
     () => createMarkerIcon(color, isSelected),
     [color, isSelected]
   );
+  const objectLink = getObjectLink(object);
 
   return (
     <Marker
@@ -134,7 +158,7 @@ const ObjectMarker: React.FC<ObjectMarkerProps> = ({
       }}
     >
       <Popup>
-        <div className="p-1 min-w-[200px]">
+        <div className="p-2 min-w-[220px]">
           <div className="flex items-center gap-2 mb-2">
             <span
               className="px-2 py-0.5 rounded-full text-xs font-medium text-white"
@@ -148,15 +172,23 @@ const ObjectMarker: React.FC<ObjectMarkerProps> = ({
               </span>
             )}
           </div>
-          <h3 className="font-semibold text-slate-900 mb-1">{object.title}</h3>
-          <p className="text-sm text-slate-500 mb-2">
+          <h3 className="font-semibold text-slate-900 mb-1 text-sm">{object.title}</h3>
+          <p className="text-xs text-slate-500 mb-2">
             {formatDistance(object.distance)} • {formatWalkingTime(object.walkingTime)}
           </p>
           {object.rating && (
-            <p className="text-sm text-slate-600">
+            <p className="text-xs text-slate-600 mb-3">
               ⭐ {object.rating.toFixed(1)}
             </p>
           )}
+          <Link
+            href={objectLink}
+            className="inline-flex items-center gap-1.5 w-full justify-center px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-lg hover:bg-primary/90 transition-colors"
+            onClick={(e) => e.stopPropagation()}
+          >
+            Подробнее
+            <ArrowRight className="w-3 h-3" />
+          </Link>
         </div>
       </Popup>
     </Marker>
