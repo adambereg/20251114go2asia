@@ -13,6 +13,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-01T15:00:00'),
     endDate: new Date('2025-11-01T18:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
     location: {
       name: 'Пляж Чавенг',
       address: 'Чавенг, Самуи',
@@ -47,6 +48,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-02T09:00:00'),
     endDate: new Date('2025-11-02T12:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg',
     location: {
       name: 'Дайв-центр Phuket',
       address: 'Патонг, Пхукет',
@@ -82,6 +84,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-02T20:00:00'),
     endDate: new Date('2025-11-02T23:00:00'),
     timezone: 'Asia/Ho_Chi_Minh',
+    cover: 'https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg',
     location: {
       name: 'Rock Bar Saigon',
       address: 'Район 1, Хошимин',
@@ -116,6 +119,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-04T08:00:00'),
     endDate: new Date('2025-11-04T10:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg',
     location: {
       name: 'Hub Bangkok',
       address: 'Sukhumvit Road, Бангкок',
@@ -151,6 +155,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-05T14:00:00'),
     endDate: new Date('2025-11-05T17:00:00'),
     timezone: 'Asia/Ho_Chi_Minh',
+    cover: 'https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg',
     location: {
       name: 'Vietnam Cooking Class',
       address: 'Старый квартал, Ханой',
@@ -187,6 +192,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-07T10:00:00'),
     endDate: new Date('2025-11-07T14:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg',
     location: {
       name: 'Парк Benjakitti',
       address: 'Сукхумвит, Бангкок',
@@ -221,6 +227,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-08T18:00:00'),
     endDate: new Date('2025-11-08T22:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/2263436/pexels-photo-2263436.jpeg',
     location: {
       name: 'Octave Rooftop',
       address: 'Silom, Бангкок',
@@ -255,6 +262,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-09T08:00:00'),
     endDate: new Date('2025-11-09T14:00:00'),
     timezone: 'Asia/Jakarta',
+    cover: 'https://images.pexels.com/photos/2491286/pexels-photo-2491286.jpeg',
     location: {
       name: 'Tegallalang Rice Terraces',
       address: 'Убуд, Бали',
@@ -289,6 +297,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-10T11:00:00'),
     endDate: new Date('2025-11-10T15:00:00'),
     timezone: 'Asia/Singapore',
+    cover: 'https://images.pexels.com/photos/1267697/pexels-photo-1267697.jpeg',
     location: {
       name: 'Jazz Garden',
       address: 'Орчард, Сингапур',
@@ -325,6 +334,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-11T06:30:00'),
     endDate: new Date('2025-11-11T07:30:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/2803158/pexels-photo-2803158.jpeg',
     location: {
       name: 'Парк Чатучак',
       address: 'Чатучак, Бангкок',
@@ -358,6 +368,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-12T15:00:00'),
     endDate: new Date('2025-11-12T18:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/1983037/pexels-photo-1983037.jpeg',
     location: {
       name: 'Creative Space',
       address: 'Ari, Бангкок',
@@ -394,6 +405,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-13T17:00:00'),
     endDate: new Date('2025-11-13T19:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/3894381/pexels-photo-3894381.jpeg',
     location: {
       name: 'Культурный центр',
       address: 'Старый город, Чиангмай',
@@ -428,6 +440,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-14T09:00:00'),
     endDate: new Date('2025-11-15T09:00:00'),
     timezone: 'Asia/Singapore',
+    cover: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg',
     location: {
       name: 'Tech Hub Singapore',
       address: 'Раффлз Плейс, Сингапур',
@@ -463,6 +476,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-15T08:00:00'),
     endDate: new Date('2025-11-15T13:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/264537/pexels-photo-264537.jpeg',
     location: {
       name: 'Lumpini Park',
       address: 'Lumpini, Бангкок',
@@ -496,6 +510,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-16T10:00:00'),
     endDate: new Date('2025-11-16T15:00:00'),
     timezone: 'Asia/Ho_Chi_Minh',
+    cover: 'https://images.pexels.com/photos/2253879/pexels-photo-2253879.jpeg',
     location: {
       name: 'Tao Dan Park',
       address: 'Район 1, Хошимин',
@@ -530,6 +545,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-17T19:30:00'),
     endDate: new Date('2025-11-17T22:30:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg',
     location: {
       name: 'Rooftop Cinema',
       address: 'Thonglor, Бангкок',
@@ -565,6 +581,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-18T18:00:00'),
     endDate: new Date('2025-11-18T19:30:00'),
     timezone: 'Asia/Jakarta',
+    cover: 'https://images.pexels.com/photos/3822583/pexels-photo-3822583.jpeg',
     location: {
       name: 'Yoga Barn',
       address: 'Убуд, Бали',
@@ -599,6 +616,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-19T22:00:00'),
     endDate: new Date('2025-11-20T03:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg',
     location: {
       name: 'Beam Club',
       address: 'Ekkamai, Бангкок',
@@ -633,6 +651,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-20T07:00:00'),
     endDate: new Date('2025-11-20T10:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg',
     location: {
       name: 'Старый город',
       address: 'Раттанакосин, Бангкок',
@@ -668,6 +687,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-21T20:00:00'),
     endDate: new Date('2025-11-21T23:00:00'),
     timezone: 'Asia/Ho_Chi_Minh',
+    cover: 'https://images.pexels.com/photos/1047442/pexels-photo-1047442.jpeg',
     location: {
       name: 'Jazz Cafe Saigon',
       address: 'Набережная, Хошимин',
@@ -702,6 +722,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-22T10:00:00'),
     endDate: new Date('2025-11-22T18:00:00'),
     timezone: 'Asia/Ho_Chi_Minh',
+    cover: 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg',
     location: {
       name: 'Центральная площадь',
       address: 'Ханой',
@@ -738,6 +759,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-23T06:00:00'),
     endDate: new Date('2025-11-23T07:30:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/1472887/pexels-photo-1472887.jpeg',
     location: {
       name: 'Пляж Ката',
       address: 'Пляж Ката, Пхукет',
@@ -772,6 +794,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-23T19:00:00'),
     endDate: new Date('2025-11-23T21:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg',
     location: {
       name: 'Кофейня "Кофе и Код"',
       address: 'Sukhumvit Road, Бангкок',
@@ -806,6 +829,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-24T17:00:00'),
     endDate: new Date('2025-11-24T23:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/1552641/pexels-photo-1552641.jpeg',
     location: {
       name: 'Чайна-таун',
       address: 'Yaowarat Road, Бангкок',
@@ -841,6 +865,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-24T20:00:00'),
     endDate: new Date('2025-11-25T00:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/1864637/pexels-photo-1864637.jpeg',
     location: {
       name: 'Jazz Club Bangkok',
       address: 'Sukhumvit Soi 11, Бангкок',
@@ -875,6 +900,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-25T10:00:00'),
     endDate: new Date('2025-11-25T13:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/1640770/pexels-photo-1640770.jpeg',
     location: {
       name: 'Cooking School Bangkok',
       address: 'Silom Road, Бангкок',
@@ -911,6 +937,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-25T18:00:00'),
     endDate: new Date('2025-11-25T23:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/2087391/pexels-photo-2087391.jpeg',
     location: {
       name: 'Sunday Walking Street',
       address: 'Ratchadamnoen Road, Чиангмай',
@@ -944,6 +971,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-26T11:00:00'),
     endDate: new Date('2025-11-26T15:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg',
     location: {
       name: 'Лумпини парк',
       address: 'Лумпини парк, Бангкок',
@@ -978,6 +1006,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-26T19:30:00'),
     endDate: new Date('2025-11-26T22:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg',
     location: {
       name: 'WeWork Thonglor',
       address: 'Thonglor Soi 10, Бангкок',
@@ -1012,6 +1041,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-27T09:00:00'),
     endDate: new Date('2025-11-27T13:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/911738/pexels-photo-911738.jpeg',
     location: {
       name: 'Храм Изумрудного Будды',
       address: 'Grand Palace, Бангкок',
@@ -1047,6 +1077,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-27T18:00:00'),
     endDate: new Date('2025-11-28T01:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/761854/pexels-photo-761854.jpeg',
     location: {
       name: 'Sky Bar',
       address: 'Lebua Hotel, Бангкок',
@@ -1081,6 +1112,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-28T08:00:00'),
     endDate: new Date('2025-11-28T11:00:00'),
     timezone: 'Asia/Jakarta',
+    cover: 'https://images.pexels.com/photos/390051/surfer-wave-sunset-the-indian-ocean-390051.jpeg',
     location: {
       name: 'Пляж Кута',
       address: 'Пляж Кута, Бали',
@@ -1115,6 +1147,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-28T19:00:00'),
     endDate: new Date('2025-11-28T23:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/2255441/pexels-photo-2255441.jpeg',
     location: {
       name: 'Центр Чиангмая',
       address: 'Центральная площадь, Чиангмай',
@@ -1149,6 +1182,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-29T11:00:00'),
     endDate: new Date('2025-11-29T15:00:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/1109197/pexels-photo-1109197.jpeg',
     location: {
       name: 'Русский дом',
       address: 'Sukhumvit Soi 24, Бангкок',
@@ -1184,6 +1218,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-29T20:00:00'),
     endDate: new Date('2025-11-29T22:00:00'),
     timezone: 'Asia/Ho_Chi_Minh',
+    cover: 'https://images.pexels.com/photos/3769112/pexels-photo-3769112.jpeg',
     location: {
       name: 'Ханойская опера',
       address: '1 Trang Tien, Ханой',
@@ -1220,6 +1255,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-30T07:00:00'),
     endDate: new Date('2025-11-30T08:30:00'),
     timezone: 'Asia/Bangkok',
+    cover: 'https://images.pexels.com/photos/1051838/pexels-photo-1051838.jpeg',
     location: {
       name: 'Храм Ват Пхо',
       address: 'Sanam Chai Road, Бангкок',
@@ -1254,6 +1290,7 @@ export const mockEvents: Event[] = [
     startDate: new Date('2025-11-30T17:00:00'),
     endDate: new Date('2025-11-30T21:00:00'),
     timezone: 'Asia/Singapore',
+    cover: 'https://images.pexels.com/photos/1484516/pexels-photo-1484516.jpeg',
     location: {
       name: 'Чайна-таун',
       address: 'Chinatown, Сингапур',
