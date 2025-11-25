@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button, Chip } from '@go2asia/ui';
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Chip } from '@go2asia/ui';
 import { CalendarViewMode, Event, EventFilters } from './types';
 import { MonthView } from './MonthView';
 import { WeekView } from './WeekView';
 import { DayView } from './DayView';
 import { AgendaView } from './AgendaView';
-import { EventFilters as FiltersComponent } from './EventFilters';
+import { EventFiltersComponent } from './EventFilters';
 
 export interface CalendarViewProps {
   events: Event[];
@@ -186,7 +186,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
 
       {/* Filters */}
       {onFiltersChange && (
-        <FiltersComponent
+        <EventFiltersComponent
           filters={filters || {}}
           onFiltersChange={onFiltersChange}
         />

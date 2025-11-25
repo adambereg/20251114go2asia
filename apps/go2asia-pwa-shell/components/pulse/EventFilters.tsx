@@ -9,8 +9,8 @@ export interface EventFiltersProps {
 }
 
 export const EventFilters: React.FC<EventFiltersProps> = ({
-  filters,
-  onFiltersChange,
+  filters: _filters,
+  onFiltersChange: _onFiltersChange,
 }) => {
   // TODO: Реализовать фильтры событий
   return (

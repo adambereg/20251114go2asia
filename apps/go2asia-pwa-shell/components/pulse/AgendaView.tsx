@@ -10,9 +10,9 @@ export interface AgendaViewProps {
 }
 
 export const AgendaView: React.FC<AgendaViewProps> = ({
-  events,
-  filters,
-  onEventClick,
+  events: _events,
+  filters: _filters,
+  onEventClick: _onEventClick,
 }) => {
   // TODO: Реализовать вид списка событий (Agenda)
   return (

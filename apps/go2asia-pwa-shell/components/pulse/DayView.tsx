@@ -12,11 +12,11 @@ export interface DayViewProps {
 }
 
 export const DayView: React.FC<DayViewProps> = ({
-  date,
-  events,
-  filters,
-  onEventClick,
-  onDateChange,
+  date: _date,
+  events: _events,
+  filters: _filters,
+  onEventClick: _onEventClick,
+  onDateChange: _onDateChange,
 }) => {
   // TODO: Реализовать дневной вид календаря
   return (

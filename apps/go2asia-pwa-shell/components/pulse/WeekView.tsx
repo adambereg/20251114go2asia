@@ -11,10 +11,10 @@ export interface WeekViewProps {
 }
 
 export const WeekView: React.FC<WeekViewProps> = ({
-  date,
-  events,
-  filters,
-  onEventClick,
+  date: _date,
+  events: _events,
+  filters: _filters,
+  onEventClick: _onEventClick,
 }) => {
   // TODO: Реализовать недельный вид календаря
   return (

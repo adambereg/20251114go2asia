@@ -4,7 +4,6 @@ import React, { useEffect, useRef } from 'react';
 import { X, Calendar, MapPin, Clock } from 'lucide-react';
 import { CalendarDay, Event } from './types';
 import { Card, CardContent } from '@go2asia/ui';
-import Link from 'next/link';
 
 export interface DayPopoverProps {
   day: CalendarDay;

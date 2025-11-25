@@ -15,7 +15,7 @@ export interface MonthViewProps {
 export const MonthView: React.FC<MonthViewProps> = ({
   date,
   events,
-  filters,
+  filters: _filters,
   onEventClick,
   onDateClick,
 }) => {
@@ -30,8 +30,6 @@ export const MonthView: React.FC<MonthViewProps> = ({
     
     // Первый день месяца
     const firstDay = new Date(year, month, 1);
-    // Последний день месяца
-    const lastDay = new Date(year, month + 1, 0);
     
     // Первый день недели (понедельник = 1)
     const firstDayOfWeek = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
