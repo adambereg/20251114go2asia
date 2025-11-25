@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { ModuleHero } from '@/components/modules';
-import { CalendarView } from '@/components/pulse';
+import { PulseClient } from './PulseClient';
 import { Globe } from 'lucide-react';
 import { Event } from '@/components/pulse/types';
 
@@ -428,10 +428,7 @@ export default function PulsePage() {
         gradientTo="to-sky-600"
       />
 
-      <CalendarView
-        events={mockEvents}
-        initialView="month"
-      />
+      <PulseClient events={mockEvents} />
     </div>
   );
 }

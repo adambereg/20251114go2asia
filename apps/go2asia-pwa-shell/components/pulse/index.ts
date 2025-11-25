@@ -5,5 +5,6 @@ export { DayView } from './DayView';
 export { AgendaView } from './AgendaView';
 export { DayPopover } from './DayPopover';
 export { EventFilters as EventFiltersComponent } from './EventFilters';
+export { filterEvents } from './filterEvents';
 export type { CalendarViewMode, Event, EventFilters, EventBadge, CalendarDay, CalendarWeek } from './types';
 

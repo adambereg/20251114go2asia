@@ -9,6 +9,7 @@ import { WeekView } from './WeekView';
 import { DayView } from './DayView';
 import { AgendaView } from './AgendaView';
 import { EventFilters as EventFiltersComponent } from './EventFilters';
+import { filterEvents } from './filterEvents';
 
 export interface CalendarViewProps {
   events: Event[];
@@ -35,6 +36,9 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   // Дефолтные no-op обработчики для безопасной передачи в дочерние компоненты
   const handleEventClick = onEventClick ?? (() => {});
   const handleDateChange = onDateChange ?? (() => {});
+
+  // Фильтруем события по заданным фильтрам
+  const filteredEvents = filters ? filterEvents(events, filters) : events;
 
   const viewModes: { mode: CalendarViewMode; label: string }[] = [
     { mode: 'month', label: 'Месяц' },
@@ -77,7 +81,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
         return (
           <MonthView
             date={currentDate}
-            events={events}
+            events={filteredEvents}
             filters={filters}
             onEventClick={handleEventClick}
             onDateClick={(date) => {
@@ -91,7 +95,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
         return (
           <WeekView
             date={currentDate}
-            events={events}
+            events={filteredEvents}
             filters={filters}
             onEventClick={handleEventClick}
           />
@@ -100,7 +104,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
         return (
           <DayView
             date={currentDate}
-            events={events}
+            events={filteredEvents}
             filters={filters}
             onEventClick={handleEventClick}
             onDateChange={(date) => {
@@ -112,7 +116,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       case 'agenda':
         return (
           <AgendaView
-            events={events}
+            events={filteredEvents}
             filters={filters}
             onEventClick={handleEventClick}
           />
@@ -189,12 +193,10 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       </div>
 
       {/* Filters */}
-      {onFiltersChange && (
-        <EventFiltersComponent
-          filters={filters || {}}
-          onFiltersChange={onFiltersChange}
-        />
-      )}
+      <EventFiltersComponent
+        filters={filters || {}}
+        onFiltersChange={onFiltersChange || (() => {})}
+      />
 
       {/* Calendar view */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
