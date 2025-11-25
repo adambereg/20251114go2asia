@@ -10,6 +10,7 @@ export interface WeekViewProps {
   events: Event[];
   filters?: EventFilters;
   onEventClick?: (event: Event) => void;
+  onDateClick?: (date: Date) => void;
 }
 
 export const WeekView: React.FC<WeekViewProps> = ({
@@ -17,6 +18,7 @@ export const WeekView: React.FC<WeekViewProps> = ({
   events,
   filters: _filters,
   onEventClick,
+  onDateClick,
 }) => {
   // Вычисляем начало недели (понедельник)
   const weekStart = useMemo(() => {
@@ -159,8 +161,9 @@ export const WeekView: React.FC<WeekViewProps> = ({
           {weekDays.map((day, index) => (
             <div
               key={index}
+              onClick={() => onDateClick?.(day.date)}
               className={`
-                bg-white p-3 text-center
+                bg-white p-3 text-center cursor-pointer hover:bg-slate-50 transition-colors
                 ${day.isToday ? 'bg-sky-50 ring-2 ring-sky-600 ring-inset' : ''}
               `}
             >

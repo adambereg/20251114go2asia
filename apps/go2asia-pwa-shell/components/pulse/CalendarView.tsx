@@ -98,6 +98,11 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
             events={filteredEvents}
             filters={filters}
             onEventClick={handleEventClick}
+            onDateClick={(date) => {
+              setCurrentDate(date);
+              setViewMode('day');
+              handleDateChange(date);
+            }}
           />
         );
       case 'day':
