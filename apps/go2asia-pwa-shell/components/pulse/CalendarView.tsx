@@ -8,7 +8,7 @@ import { MonthView } from './MonthView';
 import { WeekView } from './WeekView';
 import { DayView } from './DayView';
 import { AgendaView } from './AgendaView';
-import { EventFiltersComponent } from './EventFilters';
+import { EventFilters as EventFiltersComponent } from './EventFilters';
 
 export interface CalendarViewProps {
   events: Event[];
