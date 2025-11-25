@@ -4,7 +4,6 @@
  */
 
 import type {
-  GuruObject,
   GuruObjectWithDistance,
   GuruFilters,
   PlaceObject,

@@ -232,11 +232,11 @@ export const DEFAULT_FILTERS: GuruFilters = {
 // =============================================================================
 
 /** Объект с вычисленным расстоянием */
-export interface GuruObjectWithDistance extends GuruObject {
+export type GuruObjectWithDistance = GuruObject & {
   distance: number; // метры
   walkingTime: number; // минуты (примерно 80м/мин)
   score?: number; // ранжирование
-}
+};
 
 /** Цвета маркеров по типу */
 export const MARKER_COLORS: Record<GuruObjectType, string> = {
