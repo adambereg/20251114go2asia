@@ -132,3 +132,21 @@ export function getAvailableNFTBadges(
   return badges.filter((badge) => checkNFTBadgeRequirements(badge, userStats));
 }
 
+/**
+ * Вычислить итоговые очки из результатов шагов
+ */
+export function calculateTotalPoints(
+  stepResults: { [stepId: string]: StepResult },
+  baseReward: number
+): number {
+  let total = baseReward;
+  
+  Object.values(stepResults).forEach((result) => {
+    if (result.completed && result.points > 0) {
+      total += result.points;
+    }
+  });
+  
+  return total;
+}
+
