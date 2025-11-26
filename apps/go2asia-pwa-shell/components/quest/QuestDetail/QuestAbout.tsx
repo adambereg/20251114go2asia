@@ -102,7 +102,7 @@ export function QuestAbout({ quest }: QuestAboutProps) {
           <div className="pt-4 border-t border-slate-200">
             <div className="text-sm text-slate-600 mb-3">Рекомендуемая подготовка</div>
             <ul className="space-y-2">
-              {quest.preparation.map((item, (item) => (
+              {quest.preparation.map((item) => (
                 <li key={item} className="flex items-start gap-2">
                   <span className="text-emerald-600 mt-1">•</span>
                   <span className="text-slate-900">{item}</span>
