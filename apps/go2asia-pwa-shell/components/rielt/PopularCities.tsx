@@ -50,11 +50,11 @@ export function PopularCities() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
               <div className="flex items-center gap-1 mb-1">
-                <MapPin className="w-4 h-4" />
-                <span className="text-xs opacity-90">{city.country}</span>
+                <MapPin className="w-4 h-4 text-white" />
+                <span className="text-xs text-white opacity-95">{city.country}</span>
               </div>
-              <h3 className="font-bold text-sm md:text-base">{city.name}</h3>
-              <p className="text-xs opacity-90 mt-1">{city.count} объявлений</p>
+              <h3 className="font-bold text-sm md:text-base text-white">{city.name}</h3>
+              <p className="text-xs text-white opacity-95 mt-1">{city.count} объявлений</p>
             </div>
           </Link>
         ))}
