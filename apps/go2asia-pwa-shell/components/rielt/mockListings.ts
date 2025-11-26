@@ -6,20 +6,9 @@
 import type { Listing } from './types';
 
 /**
- * Генерация случайного ID
+ * Фиксированные ID для демо-объявлений
+ * Используются фиксированные ID для стабильных URL
  */
-function generateId(): string {
-  return Math.random().toString(36).substring(2, 11);
-}
-
-/**
- * Генерация случайной даты в прошлом (для createdAt)
- */
-function randomPastDate(daysAgo: number): string {
-  const date = new Date();
-  date.setDate(date.getDate() - daysAgo);
-  return date.toISOString();
-}
 
 /**
  * Демо-объявления о жилье
@@ -27,7 +16,7 @@ function randomPastDate(daysAgo: number): string {
 export const mockListings: Listing[] = [
   // Бангкок, Таиланд
   {
-    id: generateId(),
+    id: 'studio-bangkok-silom',
     title: 'Современная студия в центре Бангкока',
     description: 'Уютная студия в самом сердце Бангкока, рядом с BTS станция. Полностью оборудованная кухня, кондиционер, Wi-Fi. Идеально для цифровых кочевников. Рядом кафе, коворкинги, магазины.',
     type: 'studio',
@@ -114,12 +103,12 @@ export const mockListings: Listing[] = [
     reviewsCount: 45,
     viewsCount: 320,
     savesCount: 18,
-    createdAt: randomPastDate(30),
-    updatedAt: randomPastDate(5),
+    createdAt: '2025-10-27T00:00:00Z',
+    updatedAt: '2025-11-22T00:00:00Z',
     status: 'approved',
   },
   {
-    id: generateId(),
+    id: 'apartment-bangkok-asoke',
     title: 'Просторные апартаменты с видом на город',
     description: 'Современные апартаменты в новом жилом комплексе. 2 спальни, полностью оборудованная кухня, стиральная машина. Бассейн и фитнес-зал в здании. Рядом метро и торговый центр.',
     type: 'apartment',
@@ -184,12 +173,12 @@ export const mockListings: Listing[] = [
     reviewsCount: 12,
     viewsCount: 156,
     savesCount: 8,
-    createdAt: randomPastDate(7),
-    updatedAt: randomPastDate(1),
+    createdAt: '2025-11-20T00:00:00Z',
+    updatedAt: '2025-11-26T00:00:00Z',
     status: 'approved',
   },
   {
-    id: generateId(),
+    id: 'coliving-bangkok-thonburi',
     title: 'Co-living пространство для номадов',
     description: 'Современное co-living пространство в центре Бангкока. Отдельная комната с общей кухней и гостиной. Отличное место для работы: быстрый интернет, рабочие зоны, коворкинг рядом.',
     type: 'coliving',
@@ -261,13 +250,13 @@ export const mockListings: Listing[] = [
     reviewsCount: 67,
     viewsCount: 445,
     savesCount: 34,
-    createdAt: randomPastDate(60),
-    updatedAt: randomPastDate(10),
+    createdAt: '2025-09-27T00:00:00Z',
+    updatedAt: '2025-11-17T00:00:00Z',
     status: 'approved',
   },
   // Пхукет, Таиланд
   {
-    id: generateId(),
+    id: 'villa-phuket-kata',
     title: 'Вилла у пляжа с бассейном',
     description: 'Роскошная вилла в 50 метрах от пляжа. 3 спальни, бассейн, терраса с видом на море. Идеально для семьи или компании друзей. Рядом рестораны, магазины, развлечения.',
     type: 'house',
@@ -343,12 +332,12 @@ export const mockListings: Listing[] = [
     reviewsCount: 28,
     viewsCount: 567,
     savesCount: 45,
-    createdAt: randomPastDate(90),
-    updatedAt: randomPastDate(15),
+    createdAt: '2025-08-28T00:00:00Z',
+    updatedAt: '2025-11-12T00:00:00Z',
     status: 'approved',
   },
   {
-    id: generateId(),
+    id: 'studio-phuket-rawai',
     title: 'Студия в тихом районе Пхукета',
     description: 'Уютная студия в тихом районе, но недалеко от пляжа. Подходит для долгосрочной аренды. Рядом супермаркет, кафе, транспорт.',
     type: 'studio',
@@ -406,13 +395,13 @@ export const mockListings: Listing[] = [
     reviewsCount: 8,
     viewsCount: 89,
     savesCount: 5,
-    createdAt: randomPastDate(120),
-    updatedAt: randomPastDate(20),
+    createdAt: '2025-07-29T00:00:00Z',
+    updatedAt: '2025-11-07T00:00:00Z',
     status: 'approved',
   },
   // Бали, Индонезия
   {
-    id: generateId(),
+    id: 'apartment-bali-ubud',
     title: 'Апартаменты в Убуде с видом на рисовые поля',
     description: 'Просторные апартаменты в спокойном Убуде. 2 спальни, большая терраса с видом на рисовые поля. Рядом йога-студии, кафе, магазины. Идеально для долгосрочной аренды.',
     type: 'apartment',
@@ -490,12 +479,12 @@ export const mockListings: Listing[] = [
     reviewsCount: 34,
     viewsCount: 234,
     savesCount: 19,
-    createdAt: randomPastDate(75),
-    updatedAt: randomPastDate(8),
+    createdAt: '2025-09-12T00:00:00Z',
+    updatedAt: '2025-11-19T00:00:00Z',
     status: 'approved',
   },
   {
-    id: generateId(),
+    id: 'room-bali-canggu',
     title: 'Комната в доме в Чангу',
     description: 'Отдельная комната в доме в Чангу, районе цифровых кочевников. Общая кухня и гостиная. Рядом пляж, коворкинги, кафе. Подходит для краткосрочной аренды.',
     type: 'room',
@@ -552,13 +541,13 @@ export const mockListings: Listing[] = [
     reviewsCount: 15,
     viewsCount: 123,
     savesCount: 7,
-    createdAt: randomPastDate(14),
-    updatedAt: randomPastDate(2),
+    createdAt: '2025-11-13T00:00:00Z',
+    updatedAt: '2025-11-25T00:00:00Z',
     status: 'approved',
   },
   // Хошимин, Вьетнам
   {
-    id: generateId(),
+    id: 'studio-hochiminh-district1',
     title: 'Современная студия в центре Хошимина',
     description: 'Новая студия в центре Хошимина, район 1. Полностью оборудованная кухня, кондиционер, Wi-Fi. Рядом метро, кафе, магазины. Идеально для краткосрочной аренды.',
     type: 'studio',
@@ -620,13 +609,13 @@ export const mockListings: Listing[] = [
     reviewsCount: 23,
     viewsCount: 178,
     savesCount: 12,
-    createdAt: randomPastDate(45),
-    updatedAt: randomPastDate(7),
+    createdAt: '2025-10-12T00:00:00Z',
+    updatedAt: '2025-11-20T00:00:00Z',
     status: 'approved',
   },
   // Куала-Лумпур, Малайзия
   {
-    id: generateId(),
+    id: 'apartment-kuala-lumpur-klcc',
     title: 'Апартаменты в KLCC с видом на башни',
     description: 'Роскошные апартаменты в районе KLCC с видом на башни Петронас. 2 спальни, полностью оборудованная кухня, стиральная машина. Бассейн и фитнес-зал в здании.',
     type: 'apartment',
@@ -691,13 +680,13 @@ export const mockListings: Listing[] = [
     reviewsCount: 19,
     viewsCount: 267,
     savesCount: 15,
-    createdAt: randomPastDate(100),
-    updatedAt: randomPastDate(12),
+    createdAt: '2025-08-18T00:00:00Z',
+    updatedAt: '2025-11-15T00:00:00Z',
     status: 'approved',
   },
   // Сингапур
   {
-    id: generateId(),
+    id: 'studio-singapore-orchard',
     title: 'Компактная студия в центре Сингапура',
     description: 'Компактная, но уютная студия в самом центре Сингапура. Рядом метро, кафе, магазины. Подходит для краткосрочной аренды. Полностью оборудована всем необходимым.',
     type: 'studio',
@@ -770,8 +759,8 @@ export const mockListings: Listing[] = [
     reviewsCount: 31,
     viewsCount: 412,
     savesCount: 28,
-    createdAt: randomPastDate(55),
-    updatedAt: randomPastDate(6),
+    createdAt: '2025-10-02T00:00:00Z',
+    updatedAt: '2025-11-21T00:00:00Z',
     status: 'approved',
   },
 ];
