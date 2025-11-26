@@ -80,7 +80,25 @@ export function EditorPicks() {
 
               <div className="mt-4">
                 <Link
-                  href={`/rielt/search?${new URLSearchParams(pick.filter as any).toString()}`}
+                  href={(() => {
+                    const params = new URLSearchParams();
+                    if (pick.filter.rentalType) {
+                      params.set('rentalType', pick.filter.rentalType);
+                    }
+                    if (pick.filter.workspace) {
+                      params.set('workspace', 'true');
+                    }
+                    if (pick.filter.wifi) {
+                      params.set('wifi', 'true');
+                    }
+                    if (pick.filter.childFriendly) {
+                      params.set('childFriendly', 'true');
+                    }
+                    if (pick.filter.bedrooms) {
+                      params.set('bedrooms', pick.filter.bedrooms.toString());
+                    }
+                    return `/rielt/search?${params.toString()}`;
+                  })()}
                   className="text-emerald-600 hover:text-emerald-700 font-medium flex items-center gap-2 inline-flex"
                 >
                   Показать все
