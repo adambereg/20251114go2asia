@@ -271,6 +271,7 @@ export const mockQuests: Quest[] = [
     ],
     rewards: {
       points: 600,
+      nftBadges: [],
     },
     steps: [
       {

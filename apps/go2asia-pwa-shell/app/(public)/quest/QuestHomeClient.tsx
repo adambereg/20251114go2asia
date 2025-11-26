@@ -9,7 +9,6 @@ import { ModuleHero } from '@/components/modules';
 import { Target } from 'lucide-react';
 import { QuestCard } from '@/components/quest/QuestCard';
 import { mockQuests } from '@/components/quest/mockQuests';
-import type { Quest } from '@/components/quest/types';
 
 export function QuestHomeClient() {
   return (
