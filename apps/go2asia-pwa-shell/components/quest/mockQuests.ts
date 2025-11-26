@@ -77,7 +77,6 @@ export const mockQuests: Quest[] = [
     badges: [
       { type: 'rf', label: 'RF' },
       { type: 'offline', label: 'Офлайн' },
-      { type: 'temple', label: 'Храмы' },
     ],
     rewards: {
       points: 500,
@@ -191,7 +190,6 @@ export const mockQuests: Quest[] = [
     country: 'Таиланд',
     badges: [
       { type: 'rf', label: 'RF' },
-      { type: 'food', label: 'Еда' },
     ],
     rewards: {
       points: 300,
@@ -270,7 +268,6 @@ export const mockQuests: Quest[] = [
     country: 'Таиланд',
     badges: [
       { type: 'offline', label: 'Офлайн' },
-      { type: 'beach', label: 'Пляжи' },
     ],
     rewards: {
       points: 600,
@@ -448,7 +445,6 @@ export const mockQuests: Quest[] = [
     country: 'Индонезия',
     badges: [
       { type: 'offline', label: 'Офлайн' },
-      { type: 'temple', label: 'Храмы' },
     ],
     rewards: {
       points: 800,
