@@ -6,11 +6,21 @@
  */
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { ListingsList } from './ListingsList';
-import { ListingsMap } from './ListingsMap';
 import { FiltersPanel } from './FiltersPanel';
 import { SortDropdown } from './SortDropdown';
 import type { ListingWithDistance, SearchFilters } from '../types';
+
+// Динамический импорт карты с отключением SSR, так как Leaflet использует window
+const ListingsMap = dynamic(() => import('./ListingsMap').then((mod) => ({ default: mod.ListingsMap })), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[400px] lg:h-full rounded-xl overflow-hidden border-2 border-slate-200 bg-slate-100 flex items-center justify-center">
+      <p className="text-slate-500">Загрузка карты...</p>
+    </div>
+  ),
+});
 
 interface SearchResultsViewProps {
   listings: ListingWithDistance[];
