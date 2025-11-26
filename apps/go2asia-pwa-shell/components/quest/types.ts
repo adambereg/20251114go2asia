@@ -343,3 +343,26 @@ export const DIFFICULTY_LABELS: Record<QuestDifficulty, string> = {
   hard: 'Хард',
 };
 
+/** Метки типов шагов */
+export const STEP_TYPE_LABELS: Record<StepType, string> = {
+  'geo-checkin': 'Гео-чек-ин',
+  'qr-code': 'QR-код',
+  'quiz': 'Квиз',
+  'photo': 'Фото',
+  'video': 'Видео',
+  'pulse-event': 'Событие',
+  'task': 'Задача',
+};
+
+
+/** Метки типов шагов */
+export const STEP_TYPE_LABELS: Record<StepType, string> = {
+  'geo-checkin': 'Гео-чек-ин',
+  'qr-code': 'QR-код',
+  'quiz': 'Квиз',
+  'photo': 'Фото',
+  'video': 'Видео',
+  'pulse-event': 'Событие',
+  'task': 'Задача',
+};
+
