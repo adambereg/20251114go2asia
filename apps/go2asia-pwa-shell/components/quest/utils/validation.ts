@@ -49,7 +49,7 @@ export function validateGeoCheckIn(
  * Валидация QR-кода
  */
 export function validateQRCode(scannedCode: string, expectedCode: string): { valid: boolean; reason?: string } {
-  if (scannedCode.toLowerCase().trim() !== undefined.toLowerCase().trim()) {
+  if (scannedCode.toLowerCase().trim() === expectedCode.toLowerCase().trim()) {
     return { valid: true };
   }
   return {
