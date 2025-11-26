@@ -2,6 +2,9 @@
    Go2Asia Design System - Global Styles
    ======================================== */
 
+/* Leaflet CSS */
+@import 'leaflet/dist/leaflet.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -370,6 +373,95 @@
   /* Text balance */
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* ========== LEAFLET CUSTOM STYLES ========== */
+
+  /* Кастомные маркеры */
+  .custom-marker {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  /* Маркер позиции пользователя */
+  .user-marker-container {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .user-marker {
+    position: relative;
+    width: 24px;
+    height: 24px;
+  }
+
+  .user-marker-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background: #0ea5e9;
+    border: 3px solid white;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .user-marker-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    background: rgba(14, 165, 233, 0.3);
+    border-radius: 50%;
+    animation: user-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes user-pulse {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(2);
+      opacity: 0;
+    }
+  }
+
+  /* Leaflet popup стили */
+  .leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .leaflet-popup-content {
+    margin: 8px 12px;
+  }
+
+  .leaflet-popup-tip {
+    box-shadow: none;
+  }
+
+  /* Leaflet controls */
+  .leaflet-control-zoom {
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .leaflet-control-zoom a {
+    border-radius: 8px !important;
+    border: none !important;
+  }
+
+  .leaflet-control-zoom a:first-child {
+    border-radius: 8px 8px 0 0 !important;
+  }
+
+  .leaflet-control-zoom a:last-child {
+    border-radius: 0 0 8px 8px !important;
   }
 
   /* Custom scrollbar */
