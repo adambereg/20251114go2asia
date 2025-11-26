@@ -7,14 +7,13 @@ import { notFound } from 'next/navigation';
 import { ListingDetailClient } from './ListingDetailClient';
 import { mockListings } from '@/components/rielt';
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default function ListingDetailPage({ params }: PageProps) {
-  const listing = mockListings.find((l) => l.id === params.id);
+export default async function ListingDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const listing = mockListings.find((l) => l.id === id);
 
   if (!listing) {
     notFound();
