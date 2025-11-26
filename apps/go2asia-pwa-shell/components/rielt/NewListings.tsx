@@ -31,23 +31,24 @@ export function NewListings() {
 
   return (
     <section>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
-          Новое на этой неделе
-        </h2>
-        <Link
-          href="/rielt/search?sortBy=newest"
-          className="text-emerald-600 hover:text-emerald-700 font-medium flex items-center gap-2"
-        >
-          Показать все
-          <ArrowRight className="w-4 h-4" />
-        </Link>
-      </div>
+      <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">
+        Новое на этой неделе
+      </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {newListings.map((listing) => (
           <ListingCard key={listing.id} listing={listing} />
         ))}
+      </div>
+
+      <div className="mt-4">
+        <Link
+          href="/rielt/search?sortBy=newest"
+          className="text-emerald-600 hover:text-emerald-700 font-medium flex items-center gap-2 inline-flex"
+        >
+          Показать все
+          <ArrowRight className="w-4 h-4" />
+        </Link>
       </div>
     </section>
   );
