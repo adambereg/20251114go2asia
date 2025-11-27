@@ -51,6 +51,14 @@ function formatTimeAgo(dateString: string): string {
   return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
 }
 
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  }
+  return name.slice(0, 2).toUpperCase();
+}
+
 export function PostCard({ post, onLike, onSave, onShare, onComment }: PostCardProps) {
   const [isLiked, setIsLiked] = useState(post.isLiked);
   const [isSaved, setIsSaved] = useState(post.isSaved);
@@ -76,7 +84,7 @@ export function PostCard({ post, onLike, onSave, onShare, onComment }: PostCardP
       {/* Header */}
       <div className="flex items-start gap-3 mb-4">
         <Link href={`/space/${post.author.username}`}>
-          <Avatar src={post.author.avatar} alt={post.author.displayName} size="md" />
+          <Avatar initials={getInitials(post.author.displayName)} size="md" />
         </Link>
 
         <div className="flex-1 min-w-0">

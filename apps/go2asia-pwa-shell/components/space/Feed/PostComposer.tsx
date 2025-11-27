@@ -35,6 +35,14 @@ const QUICK_ACTIONS = [
   { icon: BarChart3, label: 'Опрос', color: 'text-sky-600' },
 ];
 
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  }
+  return name.slice(0, 2).toUpperCase();
+}
+
 export function PostComposer({ user, onSubmit }: PostComposerProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [content, setContent] = useState('');
@@ -56,7 +64,7 @@ export function PostComposer({ user, onSubmit }: PostComposerProps) {
       {/* Compact View */}
       {!isExpanded ? (
         <div className="flex items-center gap-3">
-          <Avatar src={user.avatar} alt={user.displayName} size="md" />
+          <Avatar initials={getInitials(user.displayName)} size="md" />
           <button
             onClick={() => setIsExpanded(true)}
             className="flex-1 text-left px-4 py-2.5 bg-slate-50 text-slate-500 rounded-full hover:bg-slate-100 transition-colors"
@@ -69,7 +77,7 @@ export function PostComposer({ user, onSubmit }: PostComposerProps) {
         <div>
           {/* Header */}
           <div className="flex items-center gap-3 mb-3">
-            <Avatar src={user.avatar} alt={user.displayName} size="md" />
+            <Avatar initials={getInitials(user.displayName)} size="md" />
             <div>
               <p className="font-semibold text-slate-900">{user.displayName}</p>
               {/* Privacy Selector */}
