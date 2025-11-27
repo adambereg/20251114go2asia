@@ -111,16 +111,16 @@ export function FeedView({ posts, currentUser, isLoading = false }: FeedViewProp
             {[1, 2, 3].map((i) => (
               <div key={i} className="bg-white rounded-xl border border-slate-200 p-5">
                 <div className="flex items-start gap-3 mb-4">
-                  <Skeleton variant="circular" width={48} height={48} />
+                  <Skeleton variant="circular" className="h-12 w-12" />
                   <div className="flex-1">
-                    <Skeleton variant="text" width="40%" height={20} />
-                    <Skeleton variant="text" width="30%" height={16} className="mt-1" />
+                    <Skeleton variant="text" className="h-5 w-2/5" />
+                    <Skeleton variant="text" className="h-4 w-1/3 mt-1" />
                   </div>
                 </div>
-                <Skeleton variant="text" width="100%" height={16} />
-                <Skeleton variant="text" width="90%" height={16} className="mt-2" />
-                <Skeleton variant="text" width="60%" height={16} className="mt-2" />
-                <Skeleton variant="rectangular" width="100%" height={200} className="mt-4 rounded-xl" />
+                <Skeleton variant="text" className="h-4 w-full" />
+                <Skeleton variant="text" className="h-4 w-11/12 mt-2" />
+                <Skeleton variant="text" className="h-4 w-3/5 mt-2" />
+                <Skeleton variant="rectangular" className="h-48 w-full mt-4 rounded-xl" />
               </div>
             ))}
           </div>

@@ -15,7 +15,6 @@ import {
   Lock,
   CheckCircle2,
   MapPin,
-  Calendar,
   Award,
 } from 'lucide-react';
 import type { Post, PostPrivacy } from '../types';
