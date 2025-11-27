@@ -53,10 +53,10 @@ export function LeaderboardRow({ entry, rank, isCurrentUser = false }: Leaderboa
             {isCurrentUser && <span className="ml-2 text-sm text-purple-600">(Вы)</span>}
           </h3>
           {entry.isVIP && (
-            <Crown className="w-5 h-5 text-amber-500" title="VIP" />
+            <Crown className="w-5 h-5 text-amber-500" aria-label="VIP" />
           )}
           {entry.isPRO && (
-            <Star className="w-5 h-5 text-purple-500" title="PRO" />
+            <Star className="w-5 h-5 text-purple-500" aria-label="PRO" />
           )}
         </div>
         <p className="text-sm text-slate-600">
