@@ -13,7 +13,7 @@ export function AssetsBlock({ stats }: AssetsBlockProps) {
   const isPositiveDelta = stats.weeklyDelta >= 0;
 
   return (
-    <Card className="border-2 border-slate-200">
+    <Card className="border-2 border-slate-200 p-4 md:p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-slate-900">Цифровые активы</h2>
         <Wallet className="h-5 w-5 text-slate-400" />

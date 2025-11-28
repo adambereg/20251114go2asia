@@ -23,7 +23,7 @@ export function WelcomeBlock({ user, levelProgress }: WelcomeBlockProps) {
   const roleColor = ROLE_COLORS[user.role];
 
   return (
-    <Card className="border-2 border-slate-200">
+    <Card className="border-2 border-slate-200 p-4 md:p-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
         {/* Аватар */}
         <div className="relative">
@@ -38,9 +38,13 @@ export function WelcomeBlock({ user, levelProgress }: WelcomeBlockProps) {
         {/* Информация */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-2">
-            <h1 className="text-2xl font-bold text-slate-900">
-              Привет, {user.displayName.split(' ')[0]}!
-            </h1>
+            {/* Мини-аватар с бейджем рядом с именем */}
+            <div className="flex items-center gap-2">
+              <Avatar initials={getInitials(user.displayName)} size="sm" />
+              <h1 className="text-2xl font-bold text-slate-900">
+                Привет, {user.displayName.split(' ')[0]}!
+              </h1>
+            </div>
             <Badge
               className={`${roleColor.bg} ${roleColor.text} border-0`}
               size="md"

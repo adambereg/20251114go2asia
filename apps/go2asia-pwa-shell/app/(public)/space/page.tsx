@@ -8,6 +8,7 @@ import {
   mockQuickActions,
   mockRecommendations,
   mockActivityItems,
+  mockWeeklyGoals,
 } from '@/components/space/mockData';
 
 export default function SpacePage() {
@@ -19,6 +20,7 @@ export default function SpacePage() {
         quickActions={mockQuickActions}
         recommendations={mockRecommendations}
         activities={mockActivityItems}
+        weeklyGoals={mockWeeklyGoals}
       />
     </SpaceLayout>
   );

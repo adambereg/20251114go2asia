@@ -42,7 +42,7 @@ const contentItems = [
 
 export function MyContentBlock({ stats }: MyContentBlockProps) {
   return (
-    <Card className="border-2 border-slate-200">
+    <Card className="border-2 border-slate-200 p-4 md:p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-slate-900">Ваш контент</h2>
         <Link

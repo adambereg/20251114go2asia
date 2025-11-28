@@ -450,3 +450,14 @@ export interface ProfileSettings {
   };
 }
 
+/** Персональная цель на неделю */
+export interface WeeklyGoal {
+  id: string;
+  title: string;
+  icon: string; // Эмодзи или название иконки
+  target: number;
+  current: number;
+  type: 'quest' | 'place' | 'guide' | 'referral' | 'post';
+  pointsReward?: number;
+}
+

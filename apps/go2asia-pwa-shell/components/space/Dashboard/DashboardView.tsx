@@ -6,12 +6,14 @@ import { QuickActions } from './QuickActions';
 import { MyContentBlock } from './MyContentBlock';
 import { ActivityBlock } from './ActivityBlock';
 import { RecommendationsBlock } from './RecommendationsBlock';
+import { WeeklyGoalsBlock } from './WeeklyGoalsBlock';
 import type {
   User,
   DashboardStats,
   QuickAction,
   Recommendation,
   ActivityItem,
+  WeeklyGoal,
 } from '../types';
 
 interface DashboardViewProps {
@@ -20,6 +22,7 @@ interface DashboardViewProps {
   quickActions: QuickAction[];
   recommendations: Recommendation[];
   activities: ActivityItem[];
+  weeklyGoals: WeeklyGoal[];
 }
 
 export function DashboardView({
@@ -28,6 +31,7 @@ export function DashboardView({
   quickActions,
   recommendations,
   activities,
+  weeklyGoals,
 }: DashboardViewProps) {
   return (
     <div className="space-y-6">
@@ -40,6 +44,7 @@ export function DashboardView({
         <div className="space-y-6">
           <AssetsBlock stats={stats} />
           <QuickActions actions={quickActions} />
+          <WeeklyGoalsBlock goals={weeklyGoals} />
         </div>
 
         {/* Правая колонка */}

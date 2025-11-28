@@ -5,5 +5,6 @@ export { QuickActions } from './QuickActions';
 export { MyContentBlock } from './MyContentBlock';
 export { ActivityBlock } from './ActivityBlock';
 export { RecommendationsBlock } from './RecommendationsBlock';
+export { WeeklyGoalsBlock } from './WeeklyGoalsBlock';
 
 

@@ -51,7 +51,7 @@ export function ActivityBlock({ activities, currentUser }: ActivityBlockProps) {
   const recentActivities = activities.slice(0, 5);
 
   return (
-    <Card className="border-2 border-slate-200">
+    <Card className="border-2 border-slate-200 p-4 md:p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-slate-900">Активность</h2>
         <Link

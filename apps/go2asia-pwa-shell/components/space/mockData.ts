@@ -19,6 +19,7 @@ import type {
   Transaction,
   Quest,
   Voucher,
+  WeeklyGoal,
 } from './types';
 
 // =============================================================================
@@ -770,6 +771,49 @@ export const mockVouchers: Voucher[] = [
     pointsCost: 500,
     expiresAt: '2024-12-15T23:59:59Z',
     isAvailable: true,
+  },
+];
+
+// =============================================================================
+// Weekly Goals (Достижения недели)
+// =============================================================================
+
+export const mockWeeklyGoals: WeeklyGoal[] = [
+  {
+    id: 'goal-1',
+    title: 'Пройти 1 квест',
+    icon: '🗺️',
+    target: 1,
+    current: 0,
+    type: 'quest',
+    pointsReward: 100,
+  },
+  {
+    id: 'goal-2',
+    title: 'Посетить новое место в Atlas',
+    icon: '📍',
+    target: 1,
+    current: 0,
+    type: 'place',
+    pointsReward: 50,
+  },
+  {
+    id: 'goal-3',
+    title: 'Написать 1 гайд',
+    icon: '✍️',
+    target: 1,
+    current: 0,
+    type: 'guide',
+    pointsReward: 200,
+  },
+  {
+    id: 'goal-4',
+    title: 'Пригласить 1 друга',
+    icon: '👤',
+    target: 1,
+    current: 0,
+    type: 'referral',
+    pointsReward: 150,
   },
 ];
 
