@@ -1,9 +1,26 @@
 'use client';
 
-import { FeedView } from '@/components/space/Feed';
-import { mockPosts, currentUser } from '@/components/space/mockData';
+import { SpaceLayout } from '@/components/space/Shared';
+import { DashboardView } from '@/components/space/Dashboard';
+import {
+  currentUser,
+  mockDashboardStats,
+  mockQuickActions,
+  mockRecommendations,
+  mockActivityItems,
+} from '@/components/space/mockData';
 
 export default function SpacePage() {
-  return <FeedView posts={mockPosts} currentUser={currentUser} />;
+  return (
+    <SpaceLayout>
+      <DashboardView
+        user={currentUser}
+        stats={mockDashboardStats}
+        quickActions={mockQuickActions}
+        recommendations={mockRecommendations}
+        activities={mockActivityItems}
+      />
+    </SpaceLayout>
+  );
 }
 

@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Space Asia | Go2Asia',
+  title: 'Space Asia | Личный Кабинет | Go2Asia',
   description:
-    'Социальная сеть Go2Asia. Делитесь опытом, общайтесь с сообществом, находите единомышленников в Азии.',
+    'Личный кабинет Go2Asia. Управляйте профилем, активностью, квестами, балансом и социальными функциями в экосистеме Go2Asia.',
   openGraph: {
-    title: 'Space Asia | Go2Asia',
-    description: 'Социальная сеть для русскоязычных в Азии',
+    title: 'Space Asia | Личный Кабинет | Go2Asia',
+    description: 'Личный центр управления в экосистеме Go2Asia',
     type: 'website',
   },
 };

@@ -326,3 +326,127 @@ export const FEED_FILTER_LABELS: Record<FeedFilter, string> = {
   following: 'Подписки',
 };
 
+// =============================================================================
+// Dashboard (Личный Кабинет)
+// =============================================================================
+
+/** Статистика Dashboard */
+export interface DashboardStats {
+  points: number;
+  g2aBalance: number;
+  weeklyDelta: number; // Изменение за неделю
+  level: number;
+  levelProgress: number; // 0-100
+  postsCount: number;
+  draftsCount: number;
+  savedCount: number;
+  guidesCount: number;
+  weeklyPointsEarned: number;
+  weeklyPointsSpent: number;
+}
+
+/** Быстрое действие */
+export interface QuickAction {
+  id: string;
+  label: string;
+  icon: string; // Название иконки из lucide-react
+  href: string;
+  color?: 'blue' | 'purple' | 'green' | 'orange';
+  badge?: string; // Опциональный бейдж (например, "New")
+}
+
+/** Рекомендация */
+export interface Recommendation {
+  id: string;
+  type: 'quest' | 'voucher' | 'event' | 'place';
+  title: string;
+  description?: string;
+  image?: string;
+  href: string;
+  points?: number;
+  badge?: string;
+}
+
+/** Активность пользователя */
+export interface ActivityItem {
+  id: string;
+  type: 'like' | 'comment' | 'follow' | 'mention' | 'points' | 'level_up';
+  actor?: User;
+  target?: {
+    type: 'post' | 'comment' | 'user';
+    id: string;
+    preview?: string;
+  };
+  data?: {
+    points?: number;
+    level?: number;
+  };
+  createdAt: string;
+}
+
+/** Транзакция баланса */
+export interface Transaction {
+  id: string;
+  type: 'earn' | 'spend' | 'bonus' | 'referral' | 'quest' | 'voucher';
+  amount: number;
+  currency: 'points' | 'g2a';
+  description: string;
+  relatedId?: string; // ID связанного объекта (квест, реферал и т.д.)
+  createdAt: string;
+}
+
+/** Квест */
+export interface Quest {
+  id: string;
+  title: string;
+  description: string;
+  image?: string;
+  points: number;
+  difficulty: 'easy' | 'medium' | 'hard';
+  category: string;
+  status: 'available' | 'active' | 'completed';
+  progress?: number; // 0-100 для активных
+  completedAt?: string;
+  expiresAt?: string;
+}
+
+/** Ваучер */
+export interface Voucher {
+  id: string;
+  title: string;
+  description: string;
+  image?: string;
+  discount: string; // "10%", "500 THB"
+  pointsCost: number;
+  expiresAt?: string;
+  isAvailable: boolean;
+}
+
+/** Настройки профиля */
+export interface ProfileSettings {
+  privacy: {
+    profileVisibility: 'public' | 'friends' | 'private';
+    showNearby: boolean; // Для PRO
+    showActivity: boolean;
+  };
+  notifications: {
+    likes: boolean;
+    comments: boolean;
+    follows: boolean;
+    mentions: boolean;
+    points: boolean;
+    quests: boolean;
+  };
+  language: 'ru' | 'en' | 'th';
+  devices?: Array<{
+    id: string;
+    name: string;
+    lastActive: string;
+    isCurrent: boolean;
+  }>;
+  kyc?: {
+    status: 'pending' | 'verified' | 'rejected';
+    verifiedAt?: string;
+  };
+}
+

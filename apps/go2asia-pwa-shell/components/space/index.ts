@@ -18,6 +18,9 @@ export * from './Groups';
 // Profile Components
 export * from './Profile';
 
+// Dashboard Components
+export * from './Dashboard';
+
 // Shared Components
 export * from './Shared';
 

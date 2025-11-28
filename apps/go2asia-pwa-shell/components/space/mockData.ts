@@ -12,6 +12,13 @@ import type {
   Notification,
   NFTBadge,
   Save,
+  DashboardStats,
+  QuickAction,
+  Recommendation,
+  ActivityItem,
+  Transaction,
+  Quest,
+  Voucher,
 } from './types';
 
 // =============================================================================
@@ -532,6 +539,237 @@ export const mockSaves: Save[] = [
     title: 'Loy Krathong Festival 2024',
     image: 'https://images.unsplash.com/photo-1602442787305-decbd65be507?w=400',
     createdAt: '2024-11-16T09:05:00Z',
+  },
+];
+
+// =============================================================================
+// Dashboard данные
+// =============================================================================
+
+export const mockDashboardStats: DashboardStats = {
+  points: 2100,
+  g2aBalance: 0,
+  weeklyDelta: 450,
+  level: 5,
+  levelProgress: 65,
+  postsCount: 15,
+  draftsCount: 3,
+  savedCount: 12,
+  guidesCount: 2,
+  weeklyPointsEarned: 650,
+  weeklyPointsSpent: 200,
+};
+
+export const mockQuickActions: QuickAction[] = [
+  {
+    id: 'create-post',
+    label: 'Создать пост',
+    icon: 'Edit',
+    href: '/space/community/feed?compose=true',
+    color: 'blue',
+  },
+  {
+    id: 'create-guide',
+    label: 'Создать гайд',
+    icon: 'BookOpen',
+    href: '/atlas/guides/new',
+    color: 'blue',
+  },
+  {
+    id: 'invite-friend',
+    label: 'Пригласить друга',
+    icon: 'UserPlus',
+    href: '/space/referrals',
+    color: 'orange',
+    badge: 'Бонус',
+  },
+  {
+    id: 'start-quest',
+    label: 'Начать квест',
+    icon: 'Trophy',
+    href: '/space/quests',
+    color: 'purple',
+  },
+  {
+    id: 'get-voucher',
+    label: 'Оформить ваучер',
+    icon: 'Ticket',
+    href: '/space/vouchers',
+    color: 'green',
+  },
+];
+
+export const mockRecommendations: Recommendation[] = [
+  {
+    id: 'rec-1',
+    type: 'quest',
+    title: 'Храмы Бангкока',
+    description: 'Посетите 5 главных храмов столицы',
+    image: 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=400',
+    href: '/space/quests/quest-1',
+    points: 500,
+  },
+  {
+    id: 'rec-2',
+    type: 'voucher',
+    title: 'Скидка 10% в кафе',
+    description: 'Действует до конца месяца',
+    image: 'https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=400',
+    href: '/space/vouchers/voucher-1',
+    points: 200,
+  },
+  {
+    id: 'rec-3',
+    type: 'event',
+    title: 'Loy Krathong Festival',
+    description: 'Фестиваль фонариков в Чиангмае',
+    image: 'https://images.unsplash.com/photo-1602442787305-decbd65be507?w=400',
+    href: '/pulse/events/event-1',
+  },
+  {
+    id: 'rec-4',
+    type: 'place',
+    title: 'Karsa Spa Ubud',
+    description: 'Рекомендуется рядом с вами',
+    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400',
+    href: '/atlas/places/place-1',
+  },
+];
+
+export const mockActivityItems: ActivityItem[] = [
+  {
+    id: 'act-1',
+    type: 'like',
+    actor: mockUsers[0],
+    target: {
+      type: 'post',
+      id: 'post-1',
+      preview: 'Нашла потрясающее кафе в Бангкоке...',
+    },
+    createdAt: '2024-11-27T10:00:00Z',
+  },
+  {
+    id: 'act-2',
+    type: 'comment',
+    actor: mockUsers[1],
+    target: {
+      type: 'post',
+      id: 'post-1',
+      preview: 'Отличное место! Был там на прошлой неделе',
+    },
+    createdAt: '2024-11-27T09:30:00Z',
+  },
+  {
+    id: 'act-3',
+    type: 'follow',
+    actor: mockUsers[2],
+    createdAt: '2024-11-26T16:00:00Z',
+  },
+  {
+    id: 'act-4',
+    type: 'points',
+    data: {
+      points: 50,
+    },
+    createdAt: '2024-11-26T12:00:00Z',
+  },
+];
+
+export const mockTransactions: Transaction[] = [
+  {
+    id: 'txn-1',
+    type: 'earn',
+    amount: 50,
+    currency: 'points',
+    description: 'Лайк на вашем посте',
+    relatedId: 'post-1',
+    createdAt: '2024-11-27T10:00:00Z',
+  },
+  {
+    id: 'txn-2',
+    type: 'quest',
+    amount: 500,
+    currency: 'points',
+    description: 'Завершён квест "Храмы Бангкока"',
+    relatedId: 'quest-1',
+    createdAt: '2024-11-26T14:00:00Z',
+  },
+  {
+    id: 'txn-3',
+    type: 'spend',
+    amount: 200,
+    currency: 'points',
+    description: 'Покупка ваучера "Скидка 10% в кафе"',
+    relatedId: 'voucher-1',
+    createdAt: '2024-11-25T16:00:00Z',
+  },
+  {
+    id: 'txn-4',
+    type: 'referral',
+    amount: 100,
+    currency: 'points',
+    description: 'Реферальный бонус',
+    relatedId: 'referral-1',
+    createdAt: '2024-11-24T10:00:00Z',
+  },
+];
+
+export const mockQuests: Quest[] = [
+  {
+    id: 'quest-1',
+    title: 'Храмы Бангкока',
+    description: 'Посетите 5 главных храмов столицы',
+    image: 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=400',
+    points: 500,
+    difficulty: 'medium',
+    category: 'культура',
+    status: 'completed',
+    progress: 100,
+    completedAt: '2024-11-26T14:00:00Z',
+  },
+  {
+    id: 'quest-2',
+    title: 'Пляжи Пхукета',
+    description: 'Посетите 3 лучших пляжа острова',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400',
+    points: 300,
+    difficulty: 'easy',
+    category: 'отдых',
+    status: 'active',
+    progress: 66,
+  },
+  {
+    id: 'quest-3',
+    title: 'Уличная еда Бангкока',
+    description: 'Попробуйте 10 блюд уличной еды',
+    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400',
+    points: 400,
+    difficulty: 'medium',
+    category: 'еда',
+    status: 'available',
+  },
+];
+
+export const mockVouchers: Voucher[] = [
+  {
+    id: 'voucher-1',
+    title: 'Скидка 10% в кафе',
+    description: 'Действует до конца месяца',
+    image: 'https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=400',
+    discount: '10%',
+    pointsCost: 200,
+    expiresAt: '2024-12-31T23:59:59Z',
+    isAvailable: true,
+  },
+  {
+    id: 'voucher-2',
+    title: '500 THB в спа-центре',
+    description: 'Скидка на массаж',
+    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400',
+    discount: '500 THB',
+    pointsCost: 500,
+    expiresAt: '2024-12-15T23:59:59Z',
+    isAvailable: true,
   },
 ];
 
