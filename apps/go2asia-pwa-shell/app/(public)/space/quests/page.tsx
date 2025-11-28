@@ -1,19 +1,12 @@
 'use client';
 
 import { SpaceLayout } from '@/components/space/Shared';
-import { Card } from '@go2asia/ui';
+import { QuestsView } from '@/components/space/Quests';
 
 export default function QuestsPage() {
   return (
     <SpaceLayout>
-      <Card className="border-2 border-slate-200 p-8">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-slate-900 mb-2">Квесты</h1>
-          <p className="text-slate-600">
-            Раздел в разработке. Здесь будут доступные квесты, активные и завершённые.
-          </p>
-        </div>
-      </Card>
+      <QuestsView />
     </SpaceLayout>
   );
 }

@@ -817,3 +817,169 @@ export const mockWeeklyGoals: WeeklyGoal[] = [
   },
 ];
 
+// =============================================================================
+// Дополнительные mock-данные для страниц
+// =============================================================================
+
+// Черновики постов
+export const mockDrafts: Post[] = [
+  {
+    id: 'draft-1',
+    author: currentUser,
+    type: 'text',
+    privacy: 'public',
+    content: 'Хочу поделиться опытом переезда в Таиланд...',
+    tags: ['переезд', 'таиланд'],
+    likesCount: 0,
+    commentsCount: 0,
+    sharesCount: 0,
+    savesCount: 0,
+    isLiked: false,
+    isSaved: false,
+    createdAt: '2024-11-27T10:00:00Z',
+    updatedAt: '2024-11-27T10:00:00Z',
+  },
+  {
+    id: 'draft-2',
+    author: currentUser,
+    type: 'place-report',
+    privacy: 'public',
+    content: 'Отличное место для работы в Бангкоке...',
+    tags: ['коворкинг', 'бангкок'],
+    likesCount: 0,
+    commentsCount: 0,
+    sharesCount: 0,
+    savesCount: 0,
+    isLiked: false,
+    isSaved: false,
+    createdAt: '2024-11-26T15:00:00Z',
+    updatedAt: '2024-11-26T15:00:00Z',
+  },
+  {
+    id: 'draft-3',
+    author: currentUser,
+    type: 'guide',
+    privacy: 'public',
+    content: 'Как получить визу в Таиланд: полный гайд...',
+    tags: ['виза', 'таиланд', 'гайд'],
+    likesCount: 0,
+    commentsCount: 0,
+    sharesCount: 0,
+    savesCount: 0,
+    isLiked: false,
+    isSaved: false,
+    createdAt: '2024-11-25T12:00:00Z',
+    updatedAt: '2024-11-25T12:00:00Z',
+  },
+];
+
+// Дополнительные квесты
+export const mockQuestsExtended: Quest[] = [
+  ...mockQuests,
+  {
+    id: 'quest-4',
+    title: 'Ночные рынки Бангкока',
+    description: 'Посетите 3 ночных рынка',
+    image: 'https://images.unsplash.com/photo-1556911220-e15b29be4c8f?w=400',
+    points: 350,
+    difficulty: 'easy',
+    category: 'еда',
+    status: 'available',
+  },
+  {
+    id: 'quest-5',
+    title: 'Водопады Пхукета',
+    description: 'Посетите 2 водопада на острове',
+    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400',
+    points: 250,
+    difficulty: 'easy',
+    category: 'природа',
+    status: 'available',
+  },
+];
+
+// Дополнительные ваучеры
+export const mockVouchersExtended: Voucher[] = [
+  ...mockVouchers,
+  {
+    id: 'voucher-3',
+    title: 'Скидка 15% на экскурсию',
+    description: 'На любую экскурсию по Бангкоку',
+    image: 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=400',
+    discount: '15%',
+    pointsCost: 300,
+    expiresAt: '2024-12-20T23:59:59Z',
+    isAvailable: true,
+  },
+  {
+    id: 'voucher-4',
+    title: 'Бесплатный коктейль',
+    description: 'В баре на пляже',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400',
+    discount: '1 шт',
+    pointsCost: 150,
+    expiresAt: '2024-12-10T23:59:59Z',
+    isAvailable: true,
+  },
+];
+
+// Дополнительные транзакции
+export const mockTransactionsExtended: Transaction[] = [
+  ...mockTransactions,
+  {
+    id: 'txn-5',
+    type: 'earn',
+    amount: 25,
+    currency: 'points',
+    description: 'Комментарий на вашем посте',
+    relatedId: 'post-1',
+    createdAt: '2024-11-23T14:00:00Z',
+  },
+  {
+    id: 'txn-6',
+    type: 'bonus',
+    amount: 100,
+    currency: 'points',
+    description: 'Еженедельный бонус за активность',
+    createdAt: '2024-11-22T10:00:00Z',
+  },
+  {
+    id: 'txn-7',
+    type: 'spend',
+    amount: 150,
+    currency: 'points',
+    description: 'Покупка ваучера "Бесплатный коктейль"',
+    relatedId: 'voucher-4',
+    createdAt: '2024-11-21T18:00:00Z',
+  },
+];
+
+// Дополнительные NFT бейджи
+export const mockBadgesExtended: NFTBadge[] = [
+  ...mockBadges,
+  {
+    id: 'badge-4',
+    name: 'Исследователь',
+    description: 'Посетил 20+ мест в Atlas',
+    image: '🗺️',
+    rarity: 'rare',
+    earnedAt: '2024-10-15T12:00:00Z',
+  },
+  {
+    id: 'badge-5',
+    name: 'Социальный',
+    image: '👥',
+    description: '100+ подписчиков',
+    rarity: 'common',
+    earnedAt: '2024-09-20T10:00:00Z',
+  },
+  {
+    id: 'badge-6',
+    name: 'Мастер квестов',
+    image: '🏅',
+    description: 'Завершено 25+ квестов',
+    rarity: 'epic',
+    earnedAt: '2024-11-10T16:00:00Z',
+  },
+];
+
