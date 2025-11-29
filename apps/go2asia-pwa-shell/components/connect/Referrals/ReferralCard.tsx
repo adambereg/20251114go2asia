@@ -9,6 +9,14 @@ interface ReferralCardProps {
   referral: Referral;
 }
 
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  }
+  return name.slice(0, 2).toUpperCase();
+}
+
 export function ReferralCard({ referral }: ReferralCardProps) {
   const getStatusIcon = () => {
     switch (referral.status) {
@@ -68,9 +76,7 @@ export function ReferralCard({ referral }: ReferralCardProps) {
       <div className="flex items-start gap-4">
         {/* Аватар */}
         <Avatar
-          src={referral.avatar}
-          alt={referral.name}
-          fallback={referral.name.charAt(0).toUpperCase()}
+          initials={getInitials(referral.name)}
           size="md"
         />
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Button, Input } from '@go2asia/ui';
+import { Button } from '@go2asia/ui';
 import { AlertCircle, Info, X } from 'lucide-react';
 
 interface BridgeModalProps {
@@ -107,7 +107,7 @@ export function BridgeModal({ isOpen, onClose, mode, currentBalance }: BridgeMod
           <label htmlFor="amount" className="text-sm font-medium text-slate-700 mb-2 block">
             Сумма (G2A)
           </label>
-          <Input
+          <input
             id="amount"
             type="number"
             value={amount}
@@ -115,6 +115,7 @@ export function BridgeModal({ isOpen, onClose, mode, currentBalance }: BridgeMod
             placeholder="0.00"
             min="0"
             step="0.01"
+            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-colors"
           />
         </div>
 
