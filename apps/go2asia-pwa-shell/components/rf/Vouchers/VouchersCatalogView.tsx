@@ -1,12 +1,11 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { ModuleHero } from '@/components/modules';
 import { Ticket } from 'lucide-react';
 import { EmptyState, Chip } from '@go2asia/ui';
 import { SearchHeader } from '../Catalog/SearchHeader';
 import { VoucherGrid } from './VoucherGrid';
-import { RFMainNav } from '../Shared';
+import { RFMainNav, RFHero } from '../Shared';
 import type { Voucher, PartnerCategory } from '../types';
 import { PARTNER_CATEGORY_LABELS } from '../types';
 import { mockVouchers } from '../mockData';
@@ -85,13 +84,7 @@ export function VouchersCatalogView({ initialVouchers = mockVouchers }: Vouchers
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <ModuleHero
-        icon={Ticket}
-        title="Ваучеры"
-        description="Специальные предложения от партнёров Russian Friendly"
-        gradientFrom="from-blue-500"
-        gradientTo="to-blue-600"
-      />
+      <RFHero subtitle="Каталог проверенных Russian Friendly мест и сервисов в Юго-Восточной Азии" />
 
       {/* Навигация */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">

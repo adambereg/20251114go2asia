@@ -1,14 +1,13 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { ModuleHero } from '@/components/modules';
 import { Handshake, Grid3x3, List } from 'lucide-react';
 import { Button, EmptyState } from '@go2asia/ui';
 import { SearchHeader } from './SearchHeader';
 import { FilterChips } from './FilterChips';
 import { PartnerGrid } from './PartnerGrid';
 import { SectionsBlock } from './SectionsBlock';
-import { RFMainNav } from '../Shared';
+import { RFMainNav, RFHero } from '../Shared';
 import type { Partner, PartnerCategory } from '../types';
 import { mockPartners } from '../mockData';
 
@@ -104,13 +103,7 @@ export function CatalogView({ initialPartners = mockPartners }: CatalogViewProps
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <ModuleHero
-        icon={Handshake}
-        title="Russian Friendly"
-        description="Каталог проверенных Russian Friendly мест и сервисов в Юго-Восточной Азии"
-        gradientFrom="from-blue-500"
-        gradientTo="to-blue-600"
-      />
+      <RFHero />
 
       {/* Навигация */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">

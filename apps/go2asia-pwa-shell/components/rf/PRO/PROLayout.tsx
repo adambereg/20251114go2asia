@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Button } from '@go2asia/ui';
 import { ArrowLeft } from 'lucide-react';
 import { PRONav } from './PRONav';
+import { RFHero, RFMainNav } from '../Shared';
 
 interface PROLayoutProps {
   children: React.ReactNode;
@@ -12,6 +13,13 @@ interface PROLayoutProps {
 export function PROLayout({ children }: PROLayoutProps) {
   return (
     <div className="min-h-screen bg-slate-50">
+      <RFHero subtitle="Каталог проверенных Russian Friendly мест и сервисов в Юго-Восточной Азии" />
+
+      {/* Навигация */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
+        <RFMainNav />
+      </div>
+
       {/* Навигация назад к публичному каталогу */}
       <div className="bg-white border-b border-purple-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
