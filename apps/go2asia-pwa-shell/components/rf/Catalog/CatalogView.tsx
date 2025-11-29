@@ -8,6 +8,7 @@ import { SearchHeader } from './SearchHeader';
 import { FilterChips } from './FilterChips';
 import { PartnerGrid } from './PartnerGrid';
 import { SectionsBlock } from './SectionsBlock';
+import { RFMainNav } from '../Shared';
 import type { Partner, PartnerCategory } from '../types';
 import { mockPartners } from '../mockData';
 
@@ -110,6 +111,11 @@ export function CatalogView({ initialPartners = mockPartners }: CatalogViewProps
         gradientFrom="from-blue-500"
         gradientTo="to-blue-600"
       />
+
+      {/* Навигация */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
+        <RFMainNav />
+      </div>
 
       {/* Поиск */}
       <SearchHeader
