@@ -12,6 +12,7 @@ export function RFMainNav() {
     { href: '/rf', label: 'Каталог партнёров', icon: Handshake },
     { href: '/rf/vouchers', label: 'Ваучеры', icon: Ticket },
     { href: '/rf/merchant', label: 'Кабинет партнёра', icon: Store },
+    { href: '/rf/pro', label: 'PRO Dashboard', icon: Store },
   ];
 
   return (

@@ -18,3 +18,12 @@ export * from './Catalog';
 // Детальная страница партнёра
 export * from './PartnerDetail';
 
+// Каталог ваучеров
+export * from './Vouchers';
+
+// Кабинет бизнес-партнёра
+export * from './Merchant';
+
+// Кабинет PRO-куратора
+export * from './PRO';
+
