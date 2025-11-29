@@ -57,10 +57,10 @@ export function ProgressPanel({ level, season }: ProgressPanelProps) {
 
       {/* Season Chips */}
       <div className="flex flex-wrap gap-2">
-        <Chip size="sm" variant="new">
+        <Chip size="sm" selected>
           Сезон {season.id}
         </Chip>
-        <Chip size="sm" variant="secondary" className="flex items-center gap-1">
+        <Chip size="sm" className="flex items-center gap-1">
           <Clock size={12} />
           Осталось {season.days_left} дней
         </Chip>

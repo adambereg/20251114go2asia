@@ -4,7 +4,6 @@ import { Card, Button } from '@go2asia/ui';
 import { ArrowRight } from 'lucide-react';
 import { ModuleIcon } from '../Shared';
 import type { NextAction } from '../types';
-import { MODULE_LABELS } from '../types';
 
 interface NextActionsProps {
   actions: NextAction[];

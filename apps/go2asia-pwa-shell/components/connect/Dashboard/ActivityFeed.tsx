@@ -75,7 +75,7 @@ export function ActivityFeed({ transactions, maxItems = 10 }: ActivityFeedProps)
                 {transaction.tags && transaction.tags.length > 0 && (
                   <div className="flex flex-wrap gap-1 mt-2">
                     {transaction.tags.map((tag) => (
-                      <Chip key={tag} size="sm" variant="secondary">
+                      <Chip key={tag} size="sm">
                         {tag}
                       </Chip>
                     ))}
