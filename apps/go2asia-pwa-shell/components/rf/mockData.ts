@@ -246,7 +246,7 @@ export const mockPartners: Partner[] = [
       thursday: { open: '09:00', close: '19:00' },
       friday: { open: '09:00', close: '19:00' },
       saturday: { open: '09:00', close: '19:00' },
-      sunday: { closed: true },
+      sunday: { open: '09:00', close: '19:00', closed: true },
     },
     contact: {
       phone: '+62 361 234 567',
