@@ -77,7 +77,7 @@ export function BridgeModal({ isOpen, onClose, mode, currentBalance }: BridgeMod
         </div>
 
         {/* Контент */}
-      <div className="space-y-4">
+        <div className="space-y-4">
         {/* Информация */}
         <div className="p-4 bg-slate-50 rounded-lg">
           <div className="flex items-start gap-2">
@@ -165,8 +165,8 @@ export function BridgeModal({ isOpen, onClose, mode, currentBalance }: BridgeMod
             {isProcessing ? 'Обработка...' : mode === 'topup' ? 'Пополнить' : 'Вывести'}
           </Button>
         </div>
+        </div>
       </div>
     </div>
   );
 }
-
