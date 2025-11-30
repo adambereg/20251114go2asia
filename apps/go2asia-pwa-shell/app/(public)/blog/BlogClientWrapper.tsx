@@ -26,31 +26,30 @@ export function BlogClientWrapper() {
   // Загружаем статьи из API
   const { data: articlesData, isLoading } = useGetArticles({
     limit: 20,
-    featured: true, // Сначала получаем featured статьи
+    // featured: true, // TODO: Add featured filter when API supports it
   });
 
   // Преобразуем данные из API
   const featuredArticle = useMemo(() => {
-    if (!articlesData?.data || articlesData.data.length === 0) return null;
-    const article = articlesData.data[0];
+    if (!articlesData?.items || articlesData.items.length === 0) return null;
+    const article = articlesData.items[0]; // TODO: Use featured article when API supports it
     return {
       id: article.id,
       slug: article.slug,
       title: article.title,
       subtitle: article.excerpt || '',
       cover: article.coverImage || 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg',
-      readingTime: article.readingTime || 10,
+      readingTime: 10, // TODO: Get readingTime when API supports it
       insights: article.tags?.slice(0, 3) || [],
-      badges: article.type === 'editorial' ? ['EDITORIAL', 'Выбор редакции'] : ['UGC'],
+      badges: ['EDITORIAL', 'Выбор редакции'], // TODO: Determine badge based on type when API supports it
       relatedThemes: article.tags?.slice(0, 3) || [],
     };
   }, [articlesData]);
 
   const editorialArticles = useMemo(() => {
-    if (!articlesData?.data) return [];
-    return articlesData.data
-      .filter((article) => article.type === 'editorial')
-      .slice(0, 4)
+    if (!articlesData?.items) return [];
+    return articlesData.items
+      .slice(0, 4) // TODO: Filter by type when API supports it
       .map((article) => ({
         id: article.id,
         slug: article.slug,
@@ -58,21 +57,20 @@ export function BlogClientWrapper() {
         excerpt: article.excerpt || '',
         cover: article.coverImage || 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg',
         author: {
-          name: article.author?.name || 'Редакция Go2Asia',
-          avatar: article.author?.avatar || null,
+          name: 'Редакция Go2Asia', // TODO: Get author name when API supports it
+          avatar: null,
         },
-        publishedAt: article.publishedAt || article.createdAt,
-        readingTime: article.readingTime || 5,
+        publishedAt: article.publishedAt || article.createdAt || '',
+        readingTime: 5, // TODO: Get readingTime when API supports it
         type: article.category || 'Гайд',
         badges: ['EDITORIAL'],
       }));
   }, [articlesData]);
 
   const ugcArticles = useMemo(() => {
-    if (!articlesData?.data) return [];
-    return articlesData.data
-      .filter((article) => article.type === 'ugc')
-      .slice(0, 2)
+    if (!articlesData?.items) return [];
+    return articlesData.items
+      .slice(4, 6) // TODO: Filter by type when API supports it
       .map((article) => ({
         id: article.id,
         slug: article.slug,
@@ -80,11 +78,11 @@ export function BlogClientWrapper() {
         excerpt: article.excerpt || '',
         cover: article.coverImage || 'https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg',
         author: {
-          name: article.author?.name || 'Пользователь',
-          avatar: article.author?.avatar || null,
+          name: 'Пользователь', // TODO: Get author name when API supports it
+          avatar: null,
         },
-        publishedAt: article.publishedAt || article.createdAt,
-        readingTime: article.readingTime || 7,
+        publishedAt: article.publishedAt || article.createdAt || '',
+        readingTime: 7, // TODO: Get readingTime when API supports it
         type: 'Колонка',
         badges: ['UGC', 'Проверено редакцией'],
       }));

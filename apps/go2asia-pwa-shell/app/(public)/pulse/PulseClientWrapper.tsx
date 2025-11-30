@@ -15,46 +15,26 @@ export function PulseClientWrapper() {
 
   // Преобразуем данные из API в формат компонента
   const events = useMemo(() => {
-    if (!eventsData?.data) return [];
-    return eventsData.data.map((event): Event => ({
+    if (!eventsData?.items) return [];
+    return eventsData.items.map((event): Event => ({
       id: event.id,
       title: event.title,
-      description: event.description || '',
-      startTime: new Date(event.startTime),
-      endTime: event.endTime ? new Date(event.endTime) : undefined,
+      description: event.description || undefined,
+      startDate: new Date(event.startTime),
+      endDate: event.endTime ? new Date(event.endTime) : new Date(event.startTime),
       location: {
-        city: event.city?.name || '',
-        country: event.city?.country?.name || '',
-        address: event.address || '',
-        coordinates: event.coordinates
-          ? {
-              lat: event.coordinates.lat,
-              lng: event.coordinates.lng,
-            }
-          : undefined,
+        name: '', // TODO: Get location name when API supports it
+        city: '', // TODO: Get city name from cityId when API supports it
+        country: '', // TODO: Get country name when API supports it
+        address: '', // TODO: Get address when API supports it
+        placeId: event.placeId || undefined,
       },
-      category: event.category || 'other',
-      type: event.type || 'event',
-      coverImage: event.coverImage || 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg',
-      organizer: event.organizer
-        ? {
-            id: event.organizer.id,
-            name: event.organizer.name || '',
-            avatar: event.organizer.avatar || undefined,
-            isPro: event.organizer.isPro || false,
-          }
-        : undefined,
-      price: event.price
-        ? {
-            amount: event.price.amount,
-            currency: event.price.currency || 'USD',
-            isFree: event.price.isFree || false,
-          }
-        : undefined,
-      language: event.language || 'ru',
-      rating: event.rating || 0,
-      attendeesCount: event.attendeesCount || 0,
-      isFeatured: event.isFeatured || false,
+      category: event.category || undefined,
+      organizer: undefined, // TODO: Get organizer when API supports it
+      price: undefined, // TODO: Get price when API supports it
+      language: 'ru', // TODO: Get language when API supports it
+      cover: 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg', // TODO: Get coverImage when API supports it
+      attendeesCount: 0, // TODO: Get attendeesCount when API supports it
     }));
   }, [eventsData]);
 

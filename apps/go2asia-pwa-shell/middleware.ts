@@ -73,7 +73,7 @@ export default clerkMiddleware(async (auth, req) => {
 
   // Проверка прав доступа для админских маршрутов
   if (isAdminRoute(req)) {
-    const role = sessionClaims?.metadata?.role as string | undefined;
+    const role = (sessionClaims as any)?.publicMetadata?.role as string | undefined;
     if (role !== 'admin') {
       return NextResponse.redirect(new URL('/', req.url));
     }
@@ -81,7 +81,7 @@ export default clerkMiddleware(async (auth, req) => {
 
   // Проверка прав доступа для PRO маршрутов
   if (isPRORoute(req)) {
-    const role = sessionClaims?.metadata?.role as string | undefined;
+    const role = (sessionClaims as any)?.publicMetadata?.role as string | undefined;
     if (role !== 'pro' && role !== 'admin') {
       return NextResponse.redirect(new URL('/', req.url));
     }

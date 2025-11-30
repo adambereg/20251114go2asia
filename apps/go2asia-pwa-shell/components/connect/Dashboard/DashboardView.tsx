@@ -33,19 +33,19 @@ export function DashboardView({ initialData }: DashboardViewProps) {
     const balances = balanceData
       ? {
           points: balanceData.points || 0,
-          g2a: parseFloat(balanceData.g2a || '0'),
+          g2a: parseFloat(String(balanceData.g2a || '0')),
           nft_count: 0, // TODO: получить из NFT badges API
           nft_legendary_count: 0, // TODO: получить из NFT badges API
         }
       : mockDashboardData.balances;
 
-    const recentTransactions = transactionsData?.data?.map((tx) => ({
+    const recentTransactions = (transactionsData?.items?.map((tx) => ({
       id: tx.id,
       type: tx.type === 'points_add' ? 'earn' : 'spend',
-      amount: parseInt(tx.amount || '0'),
+      amount: parseInt(String(tx.amount || '0')),
       reason: tx.reason || '',
       timestamp: tx.createdAt || new Date().toISOString(),
-    })) || mockDashboardData.recent_transactions;
+    })) || mockDashboardData.recent_transactions) as typeof mockDashboardData.recent_transactions;
 
     return {
       ...mockDashboardData,
