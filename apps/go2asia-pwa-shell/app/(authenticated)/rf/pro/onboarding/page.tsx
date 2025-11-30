@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { OnboardingView } from '@/components/rf/PRO';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Онбординг бизнесов | PRO Dashboard | Russian Friendly',
@@ -7,6 +8,15 @@ export const metadata: Metadata = {
 };
 
 export default function PROOnboardingPage() {
-  return <OnboardingView />;
+  return (
+    <main className="container mx-auto py-10">
+      <h1 className="text-2xl font-semibold mb-4">
+        Онбординг бизнесов PRO
+      </h1>
+      <p className="text-muted-foreground max-w-2xl">
+        Раздел в разработке. Скоро здесь появится приглашение и обработка
+        заявок новых бизнесов для PRO-кураторов Russian Friendly.
+      </p>
+    </main>
+  );
 }
-

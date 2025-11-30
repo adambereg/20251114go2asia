@@ -3,6 +3,8 @@ import { ModuleHero } from '@/components/modules';
 import { Briefcase } from 'lucide-react';
 import { Card, CardContent } from '@go2asia/ui';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Панель партнёра - Go2Asia',
   description: 'Панель управления для партнёров Go2Asia',
@@ -38,6 +40,7 @@ export default function PartnerPage() {
     </div>
   );
 }
+
 
 
 

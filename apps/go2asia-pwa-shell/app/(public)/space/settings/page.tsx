@@ -1,14 +1,22 @@
-'use client';
+import type { Metadata } from 'next';
 
-import { SpaceLayout } from '@/components/space/Shared';
-import { SettingsView } from '@/components/space/Settings';
+export const dynamic = 'force-static';
+
+export const metadata: Metadata = {
+  title: 'Настройки | Space Asia | Go2Asia',
+  description: 'Настройки вашего аккаунта в Space Asia',
+};
 
 export default function SettingsPage() {
   return (
-    <SpaceLayout>
-      <SettingsView />
-    </SpaceLayout>
+    <main className="container mx-auto py-10">
+      <h1 className="text-2xl font-semibold mb-4">
+        Настройки
+      </h1>
+      <p className="text-muted-foreground max-w-2xl">
+        Раздел в разработке. Скоро здесь появится управление настройками
+        вашего аккаунта в Space Asia.
+      </p>
+    </main>
   );
 }
-
-

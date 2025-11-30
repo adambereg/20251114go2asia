@@ -1,15 +1,13 @@
-'use client';
+import type { Metadata } from 'next';
+import { CommunityFeedPageClient } from './CommunityFeedPageClient';
 
-import { SpaceLayout } from '@/components/space/Shared';
-import { FeedView } from '@/components/space/Feed';
-import { mockPosts, currentUser } from '@/components/space/mockData';
+export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Лента сообщества | Space Asia | Go2Asia',
+  description: 'Лента постов и активности сообщества Space Asia',
+};
 
 export default function CommunityFeedPage() {
-  return (
-    <SpaceLayout>
-      <FeedView posts={mockPosts} currentUser={currentUser} />
-    </SpaceLayout>
-  );
+  return <CommunityFeedPageClient />;
 }
-
-

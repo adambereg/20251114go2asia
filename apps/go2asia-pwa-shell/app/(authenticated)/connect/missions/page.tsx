@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { MissionsView } from '@/components/connect/Missions';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Миссии | Connect Asia | Go2Asia',
@@ -7,6 +8,15 @@ export const metadata: Metadata = {
 };
 
 export default function MissionsPage() {
-  return <MissionsView />;
+  return (
+    <main className="container mx-auto py-10">
+      <h1 className="text-2xl font-semibold mb-4">
+        Миссии Connect Asia
+      </h1>
+      <p className="text-muted-foreground max-w-2xl">
+        Раздел в разработке. Скоро здесь появится выполнение заданий
+        и получение наград в Connect Asia.
+      </p>
+    </main>
+  );
 }
-

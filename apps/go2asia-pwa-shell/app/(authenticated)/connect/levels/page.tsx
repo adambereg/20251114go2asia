@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { LevelsView } from '@/components/connect/Levels';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Уровни и достижения | Connect Asia | Go2Asia',
@@ -7,6 +8,16 @@ export const metadata: Metadata = {
 };
 
 export default function LevelsPage() {
-  return <LevelsView />;
+  return (
+    <main className="container mx-auto py-10">
+      <h1 className="text-2xl font-semibold mb-4">
+        Уровни и достижения
+      </h1>
+      <p className="text-muted-foreground max-w-2xl">
+        Раздел в разработке. Скоро здесь появится отслеживание вашего уровня,
+        XP и достижений в Connect Asia.
+      </p>
+    </main>
+  );
 }
 

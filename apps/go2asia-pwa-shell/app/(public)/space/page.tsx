@@ -1,28 +1,13 @@
-'use client';
+import type { Metadata } from 'next';
+import { SpacePageClient } from './SpacePageClient';
 
-import { SpaceLayout } from '@/components/space/Shared';
-import { DashboardView } from '@/components/space/Dashboard';
-import {
-  currentUser,
-  mockDashboardStats,
-  mockQuickActions,
-  mockRecommendations,
-  mockActivityItems,
-  mockWeeklyGoals,
-} from '@/components/space/mockData';
+export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Space Asia - Персональное пространство | Go2Asia',
+  description: 'Ваше персональное пространство в экосистеме Go2Asia',
+};
 
 export default function SpacePage() {
-  return (
-    <SpaceLayout>
-      <DashboardView
-        user={currentUser}
-        stats={mockDashboardStats}
-        quickActions={mockQuickActions}
-        recommendations={mockRecommendations}
-        activities={mockActivityItems}
-        weeklyGoals={mockWeeklyGoals}
-      />
-    </SpaceLayout>
-  );
+  return <SpacePageClient />;
 }
-

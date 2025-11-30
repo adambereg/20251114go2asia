@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Card, CardContent } from '@go2asia/ui';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Настройки | Кабинет партнёра | Russian Friendly',
   description: 'Настройки кабинета партнёра',

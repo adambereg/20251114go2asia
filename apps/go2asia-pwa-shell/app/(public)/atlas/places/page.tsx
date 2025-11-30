@@ -7,6 +7,8 @@ import { Card, CardContent, Badge, Chip } from '@go2asia/ui';
 import Link from 'next/link';
 import { MapPin, Star } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Места Юго-Восточной Азии | Atlas Asia',
   description:

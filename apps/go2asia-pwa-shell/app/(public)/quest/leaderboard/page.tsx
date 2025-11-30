@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { LeaderboardView } from './LeaderboardView';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Лидерборд - Quest Asia | Go2Asia',
@@ -7,6 +8,15 @@ export const metadata: Metadata = {
 };
 
 export default function LeaderboardPage() {
-  return <LeaderboardView />;
+  return (
+    <main className="container mx-auto py-10">
+      <h1 className="text-2xl font-semibold mb-4">
+        Лидерборд Quest Asia
+      </h1>
+      <p className="text-muted-foreground max-w-2xl">
+        Раздел в разработке. Скоро здесь появится рейтинг игроков Quest Asia
+        по городам, неделям и сезонам.
+      </p>
+    </main>
+  );
 }
-

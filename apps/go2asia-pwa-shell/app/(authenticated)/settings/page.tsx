@@ -3,6 +3,8 @@ import { ModuleHero } from '@/components/modules';
 import { Settings as SettingsIcon } from 'lucide-react';
 import { Card, CardContent } from '@go2asia/ui';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Настройки - Go2Asia',
   description: 'Настройки аккаунта и приложения',
@@ -38,6 +40,7 @@ export default function SettingsPage() {
     </div>
   );
 }
+
 
 
 

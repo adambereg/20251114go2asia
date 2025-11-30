@@ -3,6 +3,8 @@ import { ModuleHero } from '@/components/modules';
 import { Info } from 'lucide-react';
 import { Card, CardContent } from '@go2asia/ui';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'О проекте - Go2Asia',
   description: 'Информация о проекте Go2Asia, команде и контактах',
@@ -38,6 +40,7 @@ export default function AboutPage() {
     </div>
   );
 }
+
 
 
 
