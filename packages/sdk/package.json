@@ -4,6 +4,48 @@
   "private": true,
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./atlas": {
+      "types": "./src/atlas/atlas.ts",
+      "default": "./src/atlas/atlas.ts"
+    },
+    "./pulse": {
+      "types": "./src/pulse/pulse.ts",
+      "default": "./src/pulse/pulse.ts"
+    },
+    "./blog": {
+      "types": "./src/blog/blog.ts",
+      "default": "./src/blog/blog.ts"
+    },
+    "./balance": {
+      "types": "./src/balance/balance.ts",
+      "default": "./src/balance/balance.ts"
+    },
+    "./referrals": {
+      "types": "./src/referrals/referrals.ts",
+      "default": "./src/referrals/referrals.ts"
+    },
+    "./transactions": {
+      "types": "./src/transactions/transactions.ts",
+      "default": "./src/transactions/transactions.ts"
+    },
+    "./clerk-integration": {
+      "types": "./src/clerk-integration.ts",
+      "default": "./src/clerk-integration.ts"
+    },
+    "./mutator": {
+      "types": "./src/mutator.ts",
+      "default": "./src/mutator.ts"
+    },
+    "./hooks": {
+      "types": "./src/hooks.ts",
+      "default": "./src/hooks.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
