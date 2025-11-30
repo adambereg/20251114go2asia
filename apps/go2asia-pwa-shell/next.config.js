@@ -46,6 +46,7 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['@go2asia/ui', '@go2asia/sdk'],
   },
+  transpilePackages: ['@go2asia/sdk', '@go2asia/ui'],
 };
 
 module.exports = nextConfig;
