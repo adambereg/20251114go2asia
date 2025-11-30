@@ -7,6 +7,8 @@ import { BottomNav } from '../components/app-shell/BottomNav';
 import { SideDrawer } from '../components/app-shell/SideDrawer';
 import { AuthModeToggle } from '../components/dev/AuthModeToggle';
 import { AppShellProvider } from '../components/app-shell/AppShellProvider';
+import { ClerkAuthSetup } from '../components/auth/ClerkAuthSetup';
+import { Providers } from './providers';
 
 export const metadata: Metadata = {
   title: {
@@ -43,21 +45,24 @@ const isClerkConfigured = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 function AppContent({ children }: { children: React.ReactNode }) {
   return (
-    <AuthModeProvider>
-      <AppShellProvider>
-      <html lang="ru">
-        <body>
-          <TopAppBar />
-            <SideDrawer />
-          <main className="min-h-screen pb-20 pt-16">
-            {children}
-          </main>
-          <BottomNav />
-          <AuthModeToggle />
-        </body>
-      </html>
-      </AppShellProvider>
-    </AuthModeProvider>
+    <Providers>
+      <AuthModeProvider>
+        <AppShellProvider>
+          <ClerkAuthSetup />
+          <html lang="ru">
+            <body>
+              <TopAppBar />
+              <SideDrawer />
+              <main className="min-h-screen pb-20 pt-16">
+                {children}
+              </main>
+              <BottomNav />
+              <AuthModeToggle />
+            </body>
+          </html>
+        </AppShellProvider>
+      </AuthModeProvider>
+    </Providers>
   );
 }
 

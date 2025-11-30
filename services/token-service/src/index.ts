@@ -6,6 +6,8 @@ import { createDb } from './db';
 import { healthRoutes } from './routes/health';
 import { balanceRoutes } from './routes/balance';
 import { transactionsRoutes } from './routes/transactions';
+import { rewardsRoutes } from './routes/rewards';
+import { webhookRoutes } from './routes/webhook';
 import type { TokenServiceEnv } from './types';
 
 const app = new Hono<TokenServiceEnv>();
@@ -34,6 +36,8 @@ app.use(
 app.route('/health', healthRoutes);
 app.route('/v1/balance', balanceRoutes);
 app.route('/v1/transactions', transactionsRoutes);
+app.route('/v1/rewards', rewardsRoutes);
+app.route('/v1/webhook', webhookRoutes);
 
 // 404 handler
 app.notFound((c) => {

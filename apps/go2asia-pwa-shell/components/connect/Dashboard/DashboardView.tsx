@@ -1,11 +1,14 @@
 'use client';
 
-import { useState } from 'react';
 import { ConnectHero, ConnectNav } from '../Shared';
 import { BalanceCards } from './BalanceCards';
 import { ProgressPanel } from './ProgressPanel';
 import { NextActions } from './NextActions';
 import { ActivityFeed } from './ActivityFeed';
+import { useGetBalance } from '@go2asia/sdk/balance';
+import { useGetReferralStats } from '@go2asia/sdk/referrals';
+import { useGetTransactions } from '@go2asia/sdk/transactions';
+import { useMemo } from 'react';
 import type { DashboardData } from '../types';
 import { mockDashboardData } from '../mockData';
 
@@ -13,8 +16,44 @@ interface DashboardViewProps {
   initialData?: DashboardData;
 }
 
-export function DashboardView({ initialData = mockDashboardData }: DashboardViewProps) {
-  const [data] = useState(initialData);
+export function DashboardView({ initialData }: DashboardViewProps) {
+  // Загружаем баланс из Token Service
+  const { data: balanceData, isLoading: balanceLoading } = useGetBalance();
+  
+  // Загружаем статистику рефералов
+  const { data: referralStats } = useGetReferralStats();
+  
+  // Загружаем последние транзакции
+  const { data: transactionsData } = useGetTransactions({ limit: 10 });
+
+  // Преобразуем данные из API в формат компонента
+  const data = useMemo(() => {
+    if (initialData) return initialData;
+    
+    const balances = balanceData
+      ? {
+          points: balanceData.points || 0,
+          g2a: parseFloat(balanceData.g2a || '0'),
+          nft_count: 0, // TODO: получить из NFT badges API
+          nft_legendary_count: 0, // TODO: получить из NFT badges API
+        }
+      : mockDashboardData.balances;
+
+    const recentTransactions = transactionsData?.data?.map((tx) => ({
+      id: tx.id,
+      type: tx.type === 'points_add' ? 'earn' : 'spend',
+      amount: parseInt(tx.amount || '0'),
+      reason: tx.reason || '',
+      timestamp: tx.createdAt || new Date().toISOString(),
+    })) || mockDashboardData.recent_transactions;
+
+    return {
+      ...mockDashboardData,
+      balances,
+      recent_transactions: recentTransactions,
+      referral_stats: referralStats || undefined,
+    };
+  }, [balanceData, transactionsData, referralStats, initialData]);
 
   const handleViewHistory = () => {
     window.location.href = '/connect/wallet';

@@ -318,3 +318,6 @@ apps/go2asia-pwa-shell/
 **Разработчик:** AI Assistant (Cursor)  
 **Дата завершения:** 29 ноября 2025
 
+
+
+

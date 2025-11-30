@@ -72,19 +72,21 @@ app.get('/', authMiddleware, async (c) => {
 
     const totalSubReferrals = Number((subReferrals[0] as any)?.count || 0);
 
-    // Подсчитываем заработанные токены из транзакций
-    // Ищем транзакции с reason, содержащим referral или реферальный код
-    // Примечание: таблица transactions находится в Token Service, поэтому используем прямое SQL
-    // В продакшене лучше использовать API Token Service или общую БД
-    const earnedPoints = await db.execute(sql`
-      SELECT COALESCE(SUM(amount::numeric)::int, 0) as total
-      FROM transactions
-      WHERE user_id = ${userId}
-        AND type = 'points_add'
-        AND (reason LIKE '%referral%' OR reason LIKE ${`%${referralCode}%`})
-    `);
+    // Подсчитываем разблокированные Points из реферальных связей
+    const unlockedPoints = await db
+      .select({ total: sql<number>`COALESCE(SUM(${referrals.pointsUnlocked})::int, 0)` })
+      .from(referrals)
+      .where(eq(referrals.sponsorId, userId));
 
-    const totalEarned = Number((earnedPoints[0] as any)?.total || 0);
+    const totalEarned = Number(unlockedPoints[0]?.total || 0);
+
+    // Подсчитываем ожидающие разблокировки Points (от не-VIP рефералов)
+    const pendingPoints = await db
+      .select({ total: sql<number>`COALESCE(SUM(${referrals.pointsPending})::int, 0)` })
+      .from(referrals)
+      .where(and(eq(referrals.sponsorId, userId), eq(referrals.isVIP, false)));
+
+    const totalPending = Number(pendingPoints[0]?.total || 0);
 
     // Устанавливаем заголовки кэширования (приватные данные)
     c.header('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
@@ -96,6 +98,7 @@ app.get('/', authMiddleware, async (c) => {
       activeReferrals: activeCount,
       totalSubReferrals,
       totalEarned,
+      totalPending,
       referralCode,
     });
   } catch (error) {

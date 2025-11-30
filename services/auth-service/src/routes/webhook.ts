@@ -3,6 +3,7 @@ import { Webhook } from 'svix';
 import { users } from '../db';
 import { eq } from 'drizzle-orm';
 import type { AuthServiceEnv } from '../types';
+import { getRoleFromClerkMetadata } from '../utils/roles';
 
 const app = new Hono<AuthServiceEnv>();
 
@@ -92,15 +93,18 @@ app.post('/', async (c) => {
             email = '';
           }
 
+          // Получаем роль из Clerk publicMetadata
+          const role = getRoleFromClerkMetadata(eventData.public_metadata || {});
+
           await db.insert(users).values({
             id: eventData.id,
             email: email || `user_${eventData.id}@placeholder.local`, // Временный email для тестирования
             firstName: eventData.first_name || null,
             lastName: eventData.last_name || null,
             avatar: eventData.image_url || eventData.profile_image_url || null,
-            role: 'spacer',
+            role: role,
           });
-          console.log(`User created: ${eventData.id}`);
+          console.log(`User created: ${eventData.id} with role: ${role}`);
         } catch (error) {
           // Игнорируем ошибку, если пользователь уже существует
           console.warn(`User ${eventData.id} might already exist:`, error);
@@ -115,17 +119,33 @@ app.post('/', async (c) => {
             ? eventData.email_addresses[0].email_address
             : undefined;
 
+          // Получаем роль из Clerk publicMetadata (если изменилась)
+          const role = eventData.public_metadata 
+            ? getRoleFromClerkMetadata(eventData.public_metadata)
+            : undefined;
+
+          const updateData: {
+            email?: string;
+            firstName?: string;
+            lastName?: string;
+            avatar?: string;
+            role?: string;
+            updatedAt: Date;
+          } = {
+            updatedAt: new Date(),
+          };
+
+          if (email !== undefined) updateData.email = email;
+          if (eventData.first_name !== undefined) updateData.firstName = eventData.first_name;
+          if (eventData.last_name !== undefined) updateData.lastName = eventData.last_name;
+          if (eventData.image_url !== undefined) updateData.avatar = eventData.image_url;
+          if (role !== undefined) updateData.role = role;
+
           await db
             .update(users)
-            .set({
-              email: email,
-              firstName: eventData.first_name ?? undefined,
-              lastName: eventData.last_name ?? undefined,
-              avatar: eventData.image_url ?? undefined,
-              updatedAt: new Date(),
-            })
+            .set(updateData)
             .where(eq(users.id, eventData.id));
-          console.log(`User updated: ${eventData.id}`);
+          console.log(`User updated: ${eventData.id}${role ? ` with role: ${role}` : ''}`);
         } catch (error) {
           console.error(`Failed to update user ${eventData.id}:`, error);
         }

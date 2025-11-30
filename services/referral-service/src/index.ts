@@ -7,6 +7,7 @@ import { healthRoutes } from './routes/health';
 import { statsRoutes } from './routes/stats';
 import { treeRoutes } from './routes/tree';
 import { registerRoutes } from './routes/register';
+import { vipRoutes } from './routes/vip';
 import type { ReferralServiceEnv } from './types';
 
 const app = new Hono<ReferralServiceEnv>();
@@ -36,6 +37,7 @@ app.route('/health', healthRoutes);
 app.route('/v1/stats', statsRoutes);
 app.route('/v1/tree', treeRoutes);
 app.route('/v1/register', registerRoutes);
+app.route('/v1/vip', vipRoutes);
 
 // 404 handler
 app.notFound((c) => {

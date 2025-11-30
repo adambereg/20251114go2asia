@@ -7,7 +7,11 @@ export const referrals = pgTable('referrals', {
   sponsorId: text('sponsor_id').notNull(), // Clerk user ID спонсора
   referralCode: text('referral_code').notNull(), // Код реферала спонсора
   isActive: boolean('is_active').default(true).notNull(),
+  isVIP: boolean('is_vip').default(false).notNull(), // VIP статус реферала
+  pointsUnlocked: integer('points_unlocked').default(0).notNull(), // Разблокированные Points для спонсора
+  pointsPending: integer('points_pending').default(5000).notNull(), // Ожидающие разблокировки Points (5000 за регистрацию)
   registeredAt: timestamp('registered_at').defaultNow().notNull(),
+  vipActivatedAt: timestamp('vip_activated_at'), // Дата активации VIP статуса
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });

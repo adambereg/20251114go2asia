@@ -3,6 +3,8 @@ import { z } from 'zod';
 import { articles } from '../db';
 import { eq, sql, gt, and, lte, isNotNull } from 'drizzle-orm';
 import type { ContentServiceEnv } from '../types';
+import { parseSortParams, createSortSQL } from '../utils/sorting';
+import { createSearchCondition } from '../utils/search';
 
 type ArticleRow = typeof articles.$inferSelect;
 
@@ -22,6 +24,13 @@ const getArticlesQuerySchema = z.object({
       }
       return val;
     }),
+  featured: z
+    .string()
+    .optional()
+    .transform((val) => val === 'true'),
+  search: z.string().optional(),
+  sortBy: z.enum(['publishedAt', 'title', 'views', 'createdAt']).optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
   limit: z
     .string()
     .optional()
@@ -51,6 +60,10 @@ app.get('/', async (c) => {
     const validatedParams = getArticlesQuerySchema.safeParse({
       category: queryParams.category,
       tags: tagsParam,
+      featured: queryParams.featured,
+      search: queryParams.search,
+      sortBy: queryParams.sortBy,
+      sortOrder: queryParams.sortOrder,
       limit: queryParams.limit,
       cursor: queryParams.cursor,
     });
@@ -72,8 +85,23 @@ app.get('/', async (c) => {
       );
     }
 
-    const { category, tags, limit, cursor } = validatedParams.data;
+    const { category, tags, featured, search, sortBy, sortOrder, limit, cursor } = validatedParams.data;
     const db = c.get('db');
+
+    // Определяем параметры сортировки
+    const allowedSortFields = {
+      publishedAt: articles.publishedAt,
+      title: articles.title,
+      views: articles.views,
+      createdAt: articles.createdAt,
+    };
+
+    const sortParams = parseSortParams(
+      { sortBy, sortOrder },
+      allowedSortFields,
+      'publishedAt',
+      'desc' // По умолчанию сортируем по дате публикации (новые сначала)
+    );
 
     // Базовый запрос - только опубликованные статьи
     let baseQuery = db.select().from(articles);
@@ -87,6 +115,9 @@ app.get('/', async (c) => {
 
     if (category) {
       conditions.push(eq(articles.category, category));
+    }
+    if (featured !== undefined) {
+      conditions.push(eq(articles.featured, featured));
     }
     if (tags && tags.length > 0) {
       // Фильтрация по тегам: проверяем, что массив tags содержит хотя бы один из указанных тегов
@@ -102,6 +133,16 @@ app.get('/', async (c) => {
         })})`);
       }
     }
+    if (search) {
+      const searchCondition = createSearchCondition(search, [
+        articles.title,
+        articles.excerpt,
+        articles.content,
+      ]);
+      if (searchCondition) {
+        conditions.push(searchCondition);
+      }
+    }
     if (cursor) {
       conditions.push(gt(articles.id, cursor));
     }
@@ -110,8 +151,15 @@ app.get('/', async (c) => {
       baseQuery = baseQuery.where(and(...conditions)) as any;
     }
 
-    // Сортировка по дате публикации (сначала новые) и лимит
-    const query = baseQuery.orderBy(articles.publishedAt).orderBy(articles.id).limit(limit + 1) as any;
+    // Сортировка
+    const sortField = allowedSortFields[sortParams.field];
+    const sortSQL = createSortSQL(sortField, sortParams.order);
+    
+    // Добавляем вторичную сортировку по id для стабильности
+    const query = baseQuery
+      .orderBy(sortSQL)
+      .orderBy(articles.id)
+      .limit(limit + 1) as any;
     const result = await query;
 
     // Определяем, есть ли следующая страница

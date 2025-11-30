@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { Card, CardContent, Chip, Badge } from '@go2asia/ui';
-import { ModuleHero } from '@/components/modules';
-import { Clock, User, Heart, Bookmark, Share2, Globe, Calendar, MapPin } from 'lucide-react';
+import { BlogClientWrapper } from './BlogClientWrapper';
 
 export const metadata: Metadata = {
   title: 'Blog Asia - Статьи и истории | Go2Asia',
   description: 'Медиа-площадка Go2Asia: редакционные материалы, UGC-статьи, тематические подборки и спецпроекты о жизни в Юго-Восточной Азии',
 };
 
-// Моковые данные для Hero-блока "Тема номера"
+export default function BlogPage() {
+  return <BlogClientWrapper />;
+}
+
 const featuredArticle = {
   id: 'featured-1',
   slug: 'digital-nomads-southeast-asia-2025',

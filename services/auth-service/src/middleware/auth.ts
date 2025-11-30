@@ -1,9 +1,11 @@
 import { Context, Next } from 'hono';
 import { verifyToken } from '@clerk/backend';
 import type { AuthServiceEnv } from '../types';
+import { getRoleFromClerkJWT, type UserRole } from '../utils/roles';
 
 /**
  * Middleware для аутентификации через Clerk JWT
+ * Извлекает userId, email и role из токена и сохраняет в контексте
  */
 export async function authMiddleware(c: Context<AuthServiceEnv>, next: Next) {
   const requestId = c.get('requestId');
@@ -51,13 +53,19 @@ export async function authMiddleware(c: Context<AuthServiceEnv>, next: Next) {
         sub: string;
         email?: string;
         primaryEmailAddressId?: string;
+        publicMetadata?: Record<string, unknown>;
+        metadata?: Record<string, unknown>;
       };
 
       const payload = rawPayload as ClerkJwtPayload;
 
+      // Извлекаем роль из метаданных Clerk
+      const userRole = getRoleFromClerkJWT(payload);
+
       // Сохраняем данные пользователя в контексте
       c.set('userId', payload.sub);
       c.set('userEmail', payload.email ?? payload.primaryEmailAddressId);
+      c.set('userRole', userRole);
       
       await next();
     } catch (error) {

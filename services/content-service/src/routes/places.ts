@@ -1,8 +1,10 @@
 import { Hono } from 'hono';
 import { z } from 'zod';
 import { places } from '../db';
-import { eq, sql, gt, and, inArray } from 'drizzle-orm';
+import { eq, sql, gt, and } from 'drizzle-orm';
 import type { ContentServiceEnv } from '../types';
+import { parseSortParams, createSortSQL } from '../utils/sorting';
+import { createSearchCondition } from '../utils/search';
 
 type PlaceRow = typeof places.$inferSelect;
 
@@ -22,6 +24,9 @@ const getPlacesQuerySchema = z.object({
       }
       return val;
     }),
+  search: z.string().optional(),
+  sortBy: z.enum(['id', 'name', 'rating', 'createdAt']).optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
   limit: z
     .string()
     .optional()
@@ -51,6 +56,9 @@ app.get('/', async (c) => {
     const validatedParams = getPlacesQuerySchema.safeParse({
       cityId: queryParams.cityId,
       types: typesParam,
+      search: queryParams.search,
+      sortBy: queryParams.sortBy,
+      sortOrder: queryParams.sortOrder,
       limit: queryParams.limit,
       cursor: queryParams.cursor,
     });
@@ -72,8 +80,23 @@ app.get('/', async (c) => {
       );
     }
 
-    const { cityId, types, limit, cursor } = validatedParams.data;
+    const { cityId, types, search, sortBy, sortOrder, limit, cursor } = validatedParams.data;
     const db = c.get('db');
+
+    // Определяем параметры сортировки
+    const allowedSortFields = {
+      id: places.id,
+      name: places.name,
+      rating: places.rating,
+      createdAt: places.createdAt,
+    };
+
+    const sortParams = parseSortParams(
+      { sortBy, sortOrder },
+      allowedSortFields,
+      'name',
+      'asc'
+    );
 
     // Базовый запрос
     let baseQuery = db.select().from(places);
@@ -99,6 +122,16 @@ app.get('/', async (c) => {
         })})`);
       }
     }
+    if (search) {
+      const searchCondition = createSearchCondition(search, [
+        places.name,
+        places.description,
+        places.address,
+      ]);
+      if (searchCondition) {
+        conditions.push(searchCondition);
+      }
+    }
     if (cursor) {
       conditions.push(gt(places.id, cursor));
     }
@@ -107,8 +140,15 @@ app.get('/', async (c) => {
       baseQuery = baseQuery.where(and(...conditions)) as any;
     }
 
-    // Сортировка и лимит
-    const query = baseQuery.orderBy(places.id).limit(limit + 1) as any;
+    // Сортировка
+    const sortField = allowedSortFields[sortParams.field];
+    const sortSQL = createSortSQL(sortField, sortParams.order);
+    
+    // Добавляем вторичную сортировку по id для стабильности
+    const query = baseQuery
+      .orderBy(sortSQL)
+      .orderBy(places.id)
+      .limit(limit + 1) as any;
     const result = await query;
 
     // Определяем, есть ли следующая страница

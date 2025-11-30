@@ -1,7 +1,7 @@
 import { pgTable, text, varchar, timestamp, pgEnum } from 'drizzle-orm/pg-core';
 
 // Enums
-export const userRoleEnum = pgEnum('user_role', ['spacer', 'vip', 'pro']);
+export const userRoleEnum = pgEnum('user_role', ['spacer', 'vip', 'pro', 'partner', 'admin']);
 
 // Users table - профили пользователей
 export const users = pgTable('users', {

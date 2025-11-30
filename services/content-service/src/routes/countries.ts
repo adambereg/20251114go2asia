@@ -1,8 +1,10 @@
 import { Hono } from 'hono';
 import { z } from 'zod';
 import { countries, cities, places } from '../db';
-import { eq, sql, gt } from 'drizzle-orm';
+import { eq, sql, gt, and } from 'drizzle-orm';
 import type { ContentServiceEnv } from '../types';
+import { parseSortParams, createSortSQL } from '../utils/sorting';
+import { createSearchCondition } from '../utils/search';
 
 type CountryWithCounts = typeof countries.$inferSelect & {
   citiesCount: number;
@@ -13,6 +15,9 @@ const app = new Hono<ContentServiceEnv>();
 
 // Валидационные схемы
 const getCountriesQuerySchema = z.object({
+  search: z.string().optional(),
+  sortBy: z.enum(['id', 'name', 'createdAt', 'citiesCount', 'placesCount']).optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
   limit: z
     .string()
     .optional()
@@ -32,6 +37,9 @@ app.get('/', async (c) => {
   try {
     // Валидация query параметров
     const queryParams = getCountriesQuerySchema.safeParse({
+      search: c.req.query('search'),
+      sortBy: c.req.query('sortBy'),
+      sortOrder: c.req.query('sortOrder'),
       limit: c.req.query('limit'),
       cursor: c.req.query('cursor'),
     });
@@ -53,8 +61,33 @@ app.get('/', async (c) => {
       );
     }
 
-    const { limit, cursor } = queryParams.data;
+    const { search, sortBy, sortOrder, limit, cursor } = queryParams.data;
     const db = c.get('db');
+
+    // Определяем параметры сортировки
+    const allowedSortFields = {
+      id: countries.id,
+      name: countries.name,
+      createdAt: countries.createdAt,
+      citiesCount: sql<number>`(
+        SELECT COUNT(*)::int 
+        FROM ${cities} 
+        WHERE ${cities.countryId} = ${countries.id}
+      )`,
+      placesCount: sql<number>`(
+        SELECT COUNT(*)::int 
+        FROM ${places} 
+        INNER JOIN ${cities} ON ${places.cityId} = ${cities.id}
+        WHERE ${cities.countryId} = ${countries.id}
+      )`,
+    };
+
+    const sortParams = parseSortParams(
+      { sortBy, sortOrder },
+      allowedSortFields,
+      'name',
+      'asc'
+    );
 
     // Базовый запрос с подзапросами для счетчиков
     let baseQuery = db
@@ -89,13 +122,39 @@ app.get('/', async (c) => {
       })
       .from(countries);
 
-    // Cursor-based пагинация
-    if (cursor) {
-      baseQuery = baseQuery.where(gt(countries.id, cursor)) as any;
+    // Условия фильтрации
+    const conditions = [];
+
+    // Поиск по названию и описанию
+    if (search) {
+      const searchCondition = createSearchCondition(search, [
+        countries.name,
+        countries.nameEn,
+        countries.description,
+      ]);
+      if (searchCondition) {
+        conditions.push(searchCondition);
+      }
     }
 
-    // Сортировка и лимит (берем на 1 больше для проверки hasMore)
-    const query = baseQuery.orderBy(countries.id).limit(limit + 1) as any;
+    // Cursor-based пагинация
+    if (cursor) {
+      conditions.push(gt(countries.id, cursor));
+    }
+
+    if (conditions.length > 0) {
+      baseQuery = baseQuery.where(and(...conditions)) as any;
+    }
+
+    // Сортировка
+    const sortField = allowedSortFields[sortParams.field];
+    const sortSQL = createSortSQL(sortField, sortParams.order);
+    
+    // Добавляем вторичную сортировку по id для стабильности
+    const query = baseQuery
+      .orderBy(sortSQL)
+      .orderBy(countries.id)
+      .limit(limit + 1) as any;
     const result = await query;
 
     // Определяем, есть ли следующая страница

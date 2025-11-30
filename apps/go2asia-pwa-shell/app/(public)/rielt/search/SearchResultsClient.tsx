@@ -147,3 +147,14 @@ export function SearchResultsClient() {
   );
 }
 
+
+
+
+
+
+
+
+
+
+
+

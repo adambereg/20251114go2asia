@@ -6,6 +6,7 @@ import { createDb } from './db';
 import { healthRoutes } from './routes/health';
 import { profileRoutes } from './routes/profile';
 import { webhookRoutes } from './routes/webhook';
+import { adminRoutes } from './routes/admin';
 import type { AuthServiceEnv } from './types';
 
 const app = new Hono<AuthServiceEnv>();
@@ -34,6 +35,7 @@ app.use(
 app.route('/health', healthRoutes);
 app.route('/v1/profile', profileRoutes);
 app.route('/v1/webhook', webhookRoutes);
+app.route('/v1/admin', adminRoutes);
 
 // 404 handler
 app.notFound((c) => {

@@ -27,3 +27,30 @@ export const transactions = pgTable('transactions', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+// NFT Badges table - NFT-бейджи пользователей (off-chain)
+export const nftBadges = pgTable('nft_badges', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull(),
+  badgeId: text('badge_id').notNull(), // Идентификатор бейджа (например, 'newcomer', 'explorer')
+  badgeName: text('badge_name').notNull(), // Название бейджа
+  badgeDescription: text('badge_description'),
+  badgeImage: text('badge_image'), // URL изображения бейджа
+  source: text('source').notNull(), // Источник получения (например, 'level_up', 'quest_complete', 'achievement')
+  metadata: jsonb('metadata'), // Дополнительные данные
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+// Daily limits table - отслеживание дневных лимитов начислений
+export const dailyLimits = pgTable('daily_limits', {
+  userId: text('user_id').notNull(),
+  action: text('action').notNull(), // Тип действия (например, 'post_like')
+  date: timestamp('date').notNull(), // Дата (только дата, без времени)
+  count: integer('count').default(0).notNull(), // Количество начислений за день
+  lastRewardTime: timestamp('last_reward_time'), // Время последнего начисления
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+}, (table) => ({
+  pk: {
+    primaryKey: [table.userId, table.action, table.date],
+  },
+}));
+

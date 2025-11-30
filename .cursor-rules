@@ -5,6 +5,69 @@
 version: 1
 
 # ---------------------------
+# ⚠️ ВАЖНО: PowerShell и Git операции
+# ---------------------------
+
+## PowerShell (НЕ bash!)
+
+**КРИТИЧЕСКИ ВАЖНО:** У пользователя Windows PowerShell, а не bash!
+
+### Правила работы с командами:
+
+1. **НЕ используй Unix-команды:**
+   - ❌ `grep` → ✅ `Select-String`
+   - ❌ `sed`, `awk`, `cat` → ✅ PowerShell эквиваленты
+   - ❌ `| cat` → ✅ просто вывод или `| Out-String`
+
+2. **Все команды должны быть PowerShell-совместимыми**
+
+### Git операции:
+
+**НЕ выполняй автоматически следующие команды:**
+- ❌ `git push`
+- ❌ `git pull`
+- ❌ `git fetch`
+- ❌ `git merge`
+- ❌ `git checkout -b`
+
+**Вместо этого:**
+- ✅ ПИШИ пользователю список команд PowerShell для выполнения
+- ✅ ЖДИ, пока пользователь сам их выполнит
+- ✅ НЕ выполняй эти команды автоматически через `run_terminal_cmd`
+
+### Проверка после операций с ветками:
+
+**ОБЯЗАТЕЛЬНО** после любых операций с ветками добавляй команды проверки:
+
+```powershell
+git branch -a
+git branch -r | Select-String "feature/"
+```
+
+**ВАЖНО:** Анализируй РЕАЛЬНЫЙ вывод команд, а не предполагаемое состояние!
+
+### Пример правильного подхода:
+
+```markdown
+Выполните следующие команды PowerShell:
+
+```powershell
+git checkout main
+git pull origin main
+git checkout -b feature/space-asia
+git add apps/go2asia-pwa-shell/components/space/
+git commit -m "feat(space): базовая структура"
+git push -u origin feature/space-asia
+```
+
+После выполнения проверьте:
+```powershell
+git branch -a
+git branch -r | Select-String "feature/"
+```
+```
+
+# ---------------------------
 # CAPSULES CONFIG
 # ---------------------------
 

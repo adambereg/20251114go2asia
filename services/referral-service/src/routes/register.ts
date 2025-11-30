@@ -131,6 +131,9 @@ app.post('/', authMiddleware, async (c) => {
       sponsorId,
       referralCode,
       isActive: true,
+      isVIP: false,
+      pointsUnlocked: 0,
+      pointsPending: 5000, // 5000 Points ожидают разблокировки при VIP-активации
     });
 
     // Создаём реферальный код для нового пользователя (если его ещё нет)
@@ -153,9 +156,34 @@ app.post('/', authMiddleware, async (c) => {
       });
     }
 
-    // TODO: Начислить бонусы спонсору через Token Service
-    // Это можно сделать через HTTP запрос к Token Service или напрямую через БД
-    // Пока оставляем как TODO, так как нужна интеграция между сервисами
+    // Отправляем событие в Token Service для обработки начисления Points
+    // Points будут разблокированы только при VIP-активации реферала
+    const env = c.env as { TOKEN_SERVICE_URL?: string };
+    const tokenServiceUrl = env.TOKEN_SERVICE_URL || 'https://api.go2asia.space';
+
+    try {
+      await fetch(`${tokenServiceUrl}/v1/webhook`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          event: 'referral.signup',
+          data: {
+            referrerId: sponsorId,
+            referralId: userId,
+            isVIP: false, // Реферал пока не VIP, Points не разблокируются
+            metadata: {
+              referralCode,
+              referralId,
+            },
+          },
+        }),
+      });
+    } catch (error) {
+      // Логируем ошибку, но не блокируем регистрацию реферала
+      console.error('Failed to send referral.signup event to Token Service:', error);
+    }
 
     // Устанавливаем заголовки кэширования
     c.header('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');

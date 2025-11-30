@@ -8,6 +8,8 @@ export interface AuthServiceBindings extends Record<string, unknown> {
   CLERK_WEBHOOK_SECRET?: string;
 }
 
+import type { UserRole } from './utils/roles';
+
 export interface AuthServiceEnv extends Env {
   Bindings: AuthServiceBindings;
   Variables: {
@@ -15,5 +17,6 @@ export interface AuthServiceEnv extends Env {
     requestId: string;
     userId?: string;
     userEmail?: string;
+    userRole?: UserRole;
   };
 }

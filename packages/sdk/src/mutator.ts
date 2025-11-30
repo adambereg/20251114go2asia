@@ -1,6 +1,7 @@
 // Custom mutator для Orval
 // Используется для настройки HTTP клиента с поддержкой Clerk аутентификации
 
+// Base URL для API (без /v1, так как каждый endpoint уже содержит путь)
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api-staging.go2asia.space';
 
 type QueryParamValue = string | number | boolean | null | undefined | Array<string | number | boolean>;

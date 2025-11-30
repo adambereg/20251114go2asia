@@ -3,6 +3,8 @@ import { z } from 'zod';
 import { events } from '../db';
 import { eq, sql, gt, and, gte, lt } from 'drizzle-orm';
 import type { ContentServiceEnv } from '../types';
+import { parseSortParams, createSortSQL } from '../utils/sorting';
+import { createSearchCondition } from '../utils/search';
 
 type EventRow = typeof events.$inferSelect;
 
@@ -12,6 +14,11 @@ const app = new Hono<ContentServiceEnv>();
 const getEventsQuerySchema = z.object({
   cityId: z.string().optional(),
   date: z.enum(['today', 'tomorrow', 'week']).optional(),
+  category: z.string().optional(),
+  type: z.string().optional(),
+  search: z.string().optional(),
+  sortBy: z.enum(['startTime', 'title', 'createdAt']).optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
   limit: z
     .string()
     .optional()
@@ -69,6 +76,11 @@ app.get('/', async (c) => {
     const queryParams = getEventsQuerySchema.safeParse({
       cityId: c.req.query('cityId'),
       date: c.req.query('date'),
+      category: c.req.query('category'),
+      type: c.req.query('type'),
+      search: c.req.query('search'),
+      sortBy: c.req.query('sortBy'),
+      sortOrder: c.req.query('sortOrder'),
       limit: c.req.query('limit'),
       cursor: c.req.query('cursor'),
     });
@@ -90,8 +102,22 @@ app.get('/', async (c) => {
       );
     }
 
-    const { cityId, date, limit, cursor } = queryParams.data;
+    const { cityId, date, category, type, search, sortBy, sortOrder, limit, cursor } = queryParams.data;
     const db = c.get('db');
+
+    // Определяем параметры сортировки
+    const allowedSortFields = {
+      startTime: events.startTime,
+      title: events.title,
+      createdAt: events.createdAt,
+    };
+
+    const sortParams = parseSortParams(
+      { sortBy, sortOrder },
+      allowedSortFields,
+      'startTime',
+      'asc' // По умолчанию сортируем по дате начала (ближайшие сначала)
+    );
 
     // Базовый запрос
     let baseQuery = db.select().from(events);
@@ -101,12 +127,27 @@ app.get('/', async (c) => {
     if (cityId) {
       conditions.push(eq(events.cityId, cityId));
     }
+    if (category) {
+      conditions.push(eq(events.category, category));
+    }
+    if (type) {
+      conditions.push(eq(events.type, type));
+    }
     if (date) {
       const dateRange = getDateRange(date);
       if (dateRange) {
         // Фильтруем события, которые начинаются в указанном диапазоне
         conditions.push(gte(events.startTime, dateRange.start));
         conditions.push(lt(events.startTime, dateRange.end));
+      }
+    }
+    if (search) {
+      const searchCondition = createSearchCondition(search, [
+        events.title,
+        events.description,
+      ]);
+      if (searchCondition) {
+        conditions.push(searchCondition);
       }
     }
     if (cursor) {
@@ -117,8 +158,15 @@ app.get('/', async (c) => {
       baseQuery = baseQuery.where(and(...conditions)) as any;
     }
 
-    // Сортировка по дате начала (сначала ближайшие) и лимит
-    const query = baseQuery.orderBy(events.startTime).orderBy(events.id).limit(limit + 1) as any;
+    // Сортировка
+    const sortField = allowedSortFields[sortParams.field];
+    const sortSQL = createSortSQL(sortField, sortParams.order);
+    
+    // Добавляем вторичную сортировку по id для стабильности
+    const query = baseQuery
+      .orderBy(sortSQL)
+      .orderBy(events.id)
+      .limit(limit + 1) as any;
     const result = await query;
 
     // Определяем, есть ли следующая страница
