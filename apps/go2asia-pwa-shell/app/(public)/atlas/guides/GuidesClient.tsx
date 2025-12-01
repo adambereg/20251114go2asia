@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { Card, CardContent, Badge, Chip, Skeleton, SkeletonCard } from '@go2asia/ui';
+import { Card, CardContent, Chip, Skeleton, SkeletonCard } from '@go2asia/ui';
 import { ModuleHero } from '@/components/modules';
-import { Globe, MapPin, BookOpen, Clock, AlertCircle } from 'lucide-react';
+import { Globe, Clock, AlertCircle } from 'lucide-react';
 import { AtlasMainNav } from '@/modules/atlas';
 import { AtlasSearchBar } from '@/modules/atlas';
 import { useGetArticles } from '@go2asia/sdk/blog';
@@ -182,7 +182,7 @@ export function GuidesClient() {
                       )}
                       {guide.category && (
                         <div className="mb-3">
-                          <Chip variant="secondary" size="sm">
+                          <Chip size="sm" className="bg-slate-100 text-slate-700">
                             {guide.category}
                           </Chip>
                         </div>
@@ -190,7 +190,7 @@ export function GuidesClient() {
                       {guide.tags && guide.tags.length > 0 && (
                         <div className="flex flex-wrap gap-2 mb-3">
                           {guide.tags.slice(0, 3).map((tag) => (
-                            <Chip key={tag} variant="secondary" size="sm">
+                            <Chip key={tag} size="sm" className="bg-slate-100 text-slate-700">
                               {tag}
                             </Chip>
                           ))}

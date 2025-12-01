@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Card, CardContent, Skeleton, SkeletonCard } from '@go2asia/ui';
 import { ModuleHero } from '@/components/modules';
-import { Globe, MapPin, Building2, Star, AlertCircle } from 'lucide-react';
+import { Globe, MapPin, Building2, AlertCircle } from 'lucide-react';
 import { AtlasMainNav } from '@/modules/atlas';
 import { AtlasSearchBar } from '@/modules/atlas';
 import { useGetCities } from '@go2asia/sdk/atlas';

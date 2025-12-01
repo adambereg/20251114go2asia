@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { Card, CardContent, Badge, Chip, Skeleton, SkeletonCard } from '@go2asia/ui';
+import { Card, CardContent, Chip, Skeleton, SkeletonCard } from '@go2asia/ui';
 import { ModuleHero } from '@/components/modules';
-import { Globe, MapPin, Star, AlertCircle } from 'lucide-react';
+import { Globe, AlertCircle } from 'lucide-react';
 import { AtlasMainNav } from '@/modules/atlas';
 import { AtlasSearchBar } from '@/modules/atlas';
 import { useGetPlaces } from '@go2asia/sdk/atlas';
@@ -175,7 +175,7 @@ export function PlacesClient() {
                       {place.categories && place.categories.length > 0 && (
                         <div className="flex flex-wrap gap-2 mb-3">
                           {place.categories.slice(0, 3).map((category) => (
-                            <Chip key={category} variant="secondary" size="sm">
+                            <Chip key={category} size="sm" className="bg-slate-100 text-slate-700">
                               {category}
                             </Chip>
                           ))}

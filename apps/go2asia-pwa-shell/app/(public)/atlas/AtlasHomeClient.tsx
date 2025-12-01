@@ -28,8 +28,9 @@ export function AtlasHomeClient() {
   });
 
   // Загружаем последние гайды из API
+  // Примечание: данные загружаются, но пока не используются в UI
+  // TODO: Добавить секцию с гайдами на главную страницу Atlas
   const { 
-    data: guidesData, 
     isLoading: guidesLoading, 
     error: guidesError 
   } = useGetArticles({
@@ -38,8 +39,9 @@ export function AtlasHomeClient() {
   });
 
   // Загружаем ближайшие события из API
+  // Примечание: данные загружаются, но пока не используются в UI
+  // TODO: Добавить секцию с событиями на главную страницу Atlas
   const { 
-    data: eventsData, 
     isLoading: eventsLoading, 
     error: eventsError 
   } = useGetEvents({
