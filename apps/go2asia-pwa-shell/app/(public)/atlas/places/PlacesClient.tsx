@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Card, CardContent, Chip, Skeleton, SkeletonCard } from '@go2asia/ui';
 import { ModuleHero } from '@/components/modules';
-import { Globe, AlertCircle } from 'lucide-react';
+import { Globe } from 'lucide-react';
 import { AtlasMainNav } from '@/modules/atlas';
 import { AtlasSearchBar } from '@/modules/atlas';
 import { useGetPlaces } from '@go2asia/sdk/atlas';
@@ -15,8 +15,7 @@ export function PlacesClient() {
   // Загружаем места из API
   const { 
     data: placesData, 
-    isLoading, 
-    error 
+    isLoading
   } = useGetPlaces({
     limit: 20,
     cursor,
@@ -66,41 +65,6 @@ export function PlacesClient() {
     );
   }
 
-  // Показываем ошибку
-  if (error && !placesData?.items) {
-    return (
-      <div className="min-h-screen bg-slate-50">
-        <ModuleHero
-          icon={Globe}
-          title="Atlas Asia"
-          description="«Живой» вики-справочник по странам Юго-Восточной Азии с UGC и редакционной поддержкой"
-          gradientFrom="from-sky-500"
-          gradientTo="to-sky-600"
-        />
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
-          <AtlasMainNav />
-          <AtlasSearchBar />
-        </section>
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="text-center py-12">
-            <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">
-              Ошибка загрузки данных
-            </h2>
-            <p className="text-slate-600 mb-4">
-              Не удалось загрузить список мест. Пожалуйста, попробуйте обновить страницу.
-            </p>
-            <button
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors"
-            >
-              Обновить страницу
-            </button>
-          </div>
-        </section>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-slate-50">
