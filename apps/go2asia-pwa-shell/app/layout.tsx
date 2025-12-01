@@ -48,7 +48,7 @@ function AppContent({ children }: { children: React.ReactNode }) {
     <Providers>
       <AuthModeProvider>
         <AppShellProvider>
-          <ClerkAuthSetup />
+          {isClerkConfigured && <ClerkAuthSetup />}
           <html lang="ru">
             <body>
               <TopAppBar />
