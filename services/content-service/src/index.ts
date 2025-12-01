@@ -26,11 +26,19 @@ app.use('*', requestIdMiddleware);
 app.use(
   '*',
   cors({
-    origin: [
-      'https://go2asia.space',
-      'https://*.netlify.app',
-      'http://localhost:3000',
-    ],
+    origin: (origin) => {
+      // Разрешаем все Netlify домены
+      if (origin && origin.includes('.netlify.app')) {
+        return true;
+      }
+      // Разрешаем конкретные домены
+      const allowedOrigins = [
+        'https://go2asia.space',
+        'http://localhost:3000',
+        'http://localhost:3001',
+      ];
+      return allowedOrigins.includes(origin || '');
+    },
     credentials: true,
   })
 );
