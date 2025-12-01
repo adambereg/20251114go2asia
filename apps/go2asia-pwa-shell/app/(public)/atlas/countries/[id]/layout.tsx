@@ -2,7 +2,6 @@
 
 import type { ReactNode } from 'react';
 import { usePathname, useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AtlasCountryLayout } from '@/modules/atlas';
 import {
@@ -22,64 +21,8 @@ import {
   Star,
   Calculator,
 } from 'lucide-react';
-
-// Моковые данные для разных стран (fallback, если API не работает)
-const mockCountries: Record<string, { name: string; flagEmoji: string; heroImageUrl: string; heroImageAlt: string }> = {
-  vietnam: {
-    name: 'Вьетнам',
-    flagEmoji: '🇻🇳',
-    heroImageUrl: 'https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg',
-    heroImageAlt: 'Вьетнам',
-  },
-  thailand: {
-    name: 'Таиланд',
-    flagEmoji: '🇹🇭',
-    heroImageUrl: 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg',
-    heroImageAlt: 'Таиланд',
-  },
-  indonesia: {
-    name: 'Индонезия',
-    flagEmoji: '🇮🇩',
-    heroImageUrl: 'https://images.pexels.com/photos/2491286/pexels-photo-2491286.jpeg',
-    heroImageAlt: 'Индонезия',
-  },
-  malaysia: {
-    name: 'Малайзия',
-    flagEmoji: '🇲🇾',
-    heroImageUrl: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
-    heroImageAlt: 'Малайзия',
-  },
-  singapore: {
-    name: 'Сингапур',
-    flagEmoji: '🇸🇬',
-    heroImageUrl: 'https://images.pexels.com/photos/774691/pexels-photo-774691.jpeg',
-    heroImageAlt: 'Сингапур',
-  },
-  philippines: {
-    name: 'Филиппины',
-    flagEmoji: '🇵🇭',
-    heroImageUrl: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
-    heroImageAlt: 'Филиппины',
-  },
-  cambodia: {
-    name: 'Камбоджа',
-    flagEmoji: '🇰🇭',
-    heroImageUrl: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
-    heroImageAlt: 'Камбоджа',
-  },
-  laos: {
-    name: 'Лаос',
-    flagEmoji: '🇱🇦',
-    heroImageUrl: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
-    heroImageAlt: 'Лаос',
-  },
-  myanmar: {
-    name: 'Мьянма',
-    flagEmoji: '🇲🇲',
-    heroImageUrl: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
-    heroImageAlt: 'Мьянма',
-  },
-};
+import { useGetCountryById } from '@go2asia/sdk/atlas';
+import { Skeleton } from '@go2asia/ui';
 
 const sideNavItems = [
   { key: 'overview', label: 'Обзор', icon: Info, href: '' },
@@ -99,13 +42,6 @@ const sideNavItems = [
   { key: 'calculator', label: 'Калькулятор стоимости', icon: Calculator, href: 'calculator' },
 ] as const;
 
-interface CountryData {
-  name: string;
-  flag?: string;
-  heroImage?: string;
-  updatedAt?: string;
-}
-
 export default function CountryLayout({
   children,
 }: {
@@ -116,53 +52,49 @@ export default function CountryLayout({
   const countryIdFromUrl = params?.id as string;
   const countryId = pathname.split('/').slice(0, 4).join('/'); // /atlas/countries/[id]
 
-  const [countryData, setCountryData] = useState<CountryData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // Загружаем данные страны из API через SDK hook
+  const { 
+    data: countryData, 
+    isLoading 
+  } = useGetCountryById(countryIdFromUrl || '', {
+    query: {
+      enabled: !!countryIdFromUrl,
+    },
+  });
 
-  // Загружаем данные страны из API
-  useEffect(() => {
-    if (!countryIdFromUrl) {
-      setIsLoading(false);
-      return;
-    }
-
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.go2asia.space';
-    fetch(`${apiUrl}/v1/api/content/countries/${countryIdFromUrl}`)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return null;
-      })
-      .then((data) => {
-        if (data) {
-          setCountryData(data);
-        }
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsLoading(false);
-      });
-  }, [countryIdFromUrl]);
-
-  // Определяем данные страны: сначала из API, потом из моков, потом дефолт
-  const countryIdKey = countryIdFromUrl?.toLowerCase() || '';
-  const mockCountry = mockCountries[countryIdKey] || mockCountries.vietnam;
-  
-  const countryName = countryData?.name || mockCountry.name;
-  const flagEmoji = countryData?.flag || mockCountry.flagEmoji;
-  const heroImageUrl = countryData?.heroImage || mockCountry.heroImageUrl;
-  const heroImageAlt = countryData?.name || mockCountry.heroImageAlt;
+  // Определяем данные страны из API
+  const countryName = countryData?.name || 'Загрузка...';
+  const flagEmoji = countryData?.flag || '🌏';
+  const heroImageUrl = 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg'; // TODO: Get heroImage when API supports it
+  const heroImageAlt = countryData?.name || 'Страна';
   const lastUpdatedAt = countryData?.updatedAt
     ? `Последнее обновление: ${new Date(countryData.updatedAt).toLocaleDateString('ru-RU')}`
-    : 'Последнее обновление: 17.11.2025';
+    : 'Последнее обновление: недавно';
+
+  // Показываем Skeleton при загрузке
+  if (isLoading) {
+    return (
+      <AtlasCountryLayout
+        countryName="Загрузка..."
+        flagEmoji="🌏"
+        lastUpdatedAt=""
+        viewsCount={0}
+        heroImageUrl={heroImageUrl}
+        heroImageAlt="Загрузка"
+      >
+        <div className="space-y-6">
+          <Skeleton className="h-64 w-full" />
+        </div>
+      </AtlasCountryLayout>
+    );
+  }
 
   return (
     <AtlasCountryLayout
       countryName={countryName}
       flagEmoji={flagEmoji || '🌏'}
       lastUpdatedAt={lastUpdatedAt}
-      viewsCount={1234}
+      viewsCount={0} // TODO: Get viewsCount when API supports it
       heroImageUrl={heroImageUrl}
       heroImageAlt={heroImageAlt}
     >
