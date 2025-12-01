@@ -77,8 +77,8 @@ export function AtlasHomeClient() {
     );
   }
 
-  // Показываем ошибку, если есть критичные ошибки и нет данных
-  if (hasCriticalError && (!countriesData?.items || !placesData?.items)) {
+  // Показываем ошибку только если обе критичные загрузки не удались и нет данных
+  if (hasCriticalError && !countriesData?.items && !placesData?.items) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="max-w-md mx-auto px-4 text-center">
