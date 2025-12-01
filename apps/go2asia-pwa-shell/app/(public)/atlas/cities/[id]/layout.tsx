@@ -2,7 +2,6 @@
 
 import type { ReactNode } from 'react';
 import { usePathname, useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AtlasCityLayout } from '@/modules/atlas';
 import {
@@ -20,80 +19,8 @@ import {
   Star,
   Calculator,
 } from 'lucide-react';
-
-// Моковые данные для разных городов (fallback, если API не работает)
-const mockCities: Record<string, { name: string; nameNative: string; countryName: string; heroImageUrl: string; heroImageAlt: string }> = {
-  bangkok: {
-    name: 'Бангкок',
-    nameNative: 'Bangkok',
-    countryName: 'Таиланд',
-    heroImageUrl: 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg',
-    heroImageAlt: 'Бангкок',
-  },
-  hanoi: {
-    name: 'Ханой',
-    nameNative: 'Hà Nội',
-    countryName: 'Вьетнам',
-    heroImageUrl: 'https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg',
-    heroImageAlt: 'Ханой',
-  },
-  'ho-chi-minh': {
-    name: 'Хошимин',
-    nameNative: 'Hồ Chí Minh',
-    countryName: 'Вьетнам',
-    heroImageUrl: 'https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg',
-    heroImageAlt: 'Хошимин',
-  },
-  vientiane: {
-    name: 'Вьентьян',
-    nameNative: 'Vientiane',
-    countryName: 'Лаос',
-    heroImageUrl: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
-    heroImageAlt: 'Вьентьян',
-  },
-  'phnom-penh': {
-    name: 'Пномпень',
-    nameNative: 'Phnom Penh',
-    countryName: 'Камбоджа',
-    heroImageUrl: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
-    heroImageAlt: 'Пномпень',
-  },
-  'kuala-lumpur': {
-    name: 'Куала-Лумпур',
-    nameNative: 'Kuala Lumpur',
-    countryName: 'Малайзия',
-    heroImageUrl: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
-    heroImageAlt: 'Куала-Лумпур',
-  },
-  manila: {
-    name: 'Манила',
-    nameNative: 'Manila',
-    countryName: 'Филиппины',
-    heroImageUrl: 'https://images.pexels.com/photos/2491286/pexels-photo-2491286.jpeg',
-    heroImageAlt: 'Манила',
-  },
-  jakarta: {
-    name: 'Джакарта',
-    nameNative: 'Jakarta',
-    countryName: 'Индонезия',
-    heroImageUrl: 'https://images.pexels.com/photos/2491286/pexels-photo-2491286.jpeg',
-    heroImageAlt: 'Джакарта',
-  },
-  singapore: {
-    name: 'Сингапур',
-    nameNative: 'Singapore',
-    countryName: 'Сингапур',
-    heroImageUrl: 'https://images.pexels.com/photos/774691/pexels-photo-774691.jpeg',
-    heroImageAlt: 'Сингапур',
-  },
-  naypyidaw: {
-    name: 'Нейпьидо',
-    nameNative: 'Naypyidaw',
-    countryName: 'Мьянма',
-    heroImageUrl: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
-    heroImageAlt: 'Нейпьидо',
-  },
-};
+import { useGetCityById } from '@go2asia/sdk/atlas';
+import { Skeleton } from '@go2asia/ui';
 
 const sideNavItems = [
   { key: 'overview', label: 'Обзор', icon: Info, href: '' },
@@ -111,14 +38,6 @@ const sideNavItems = [
   { key: 'budget', label: 'Цены и бюджет', icon: Calculator, href: 'budget' },
 ] as const;
 
-interface CityData {
-  name: string;
-  nameNative?: string;
-  countryName?: string;
-  heroImage?: string;
-  updatedAt?: string;
-}
-
 export default function CityLayout({
   children,
 }: {
@@ -129,47 +48,29 @@ export default function CityLayout({
   const cityIdFromUrl = params?.id as string;
   const cityId = pathname.split('/').slice(0, 4).join('/'); // /atlas/cities/[id]
 
-  const [cityData, setCityData] = useState<CityData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // Загружаем данные города из API через SDK hook
+  const { 
+    data: cityData, 
+    isLoading 
+  } = useGetCityById(cityIdFromUrl || '');
 
-  // Загружаем данные города из API
-  useEffect(() => {
-    if (!cityIdFromUrl) {
-      setIsLoading(false);
-      return;
-    }
-
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.go2asia.space';
-    fetch(`${apiUrl}/v1/api/content/cities/${cityIdFromUrl}`)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return null;
-      })
-      .then((data) => {
-        if (data) {
-          setCityData(data);
-        }
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsLoading(false);
-      });
-  }, [cityIdFromUrl]);
-
-  // Определяем данные города: сначала из API, потом из моков, потом дефолт
-  const cityIdKey = cityIdFromUrl?.toLowerCase() || '';
-  const fallbackMockCity = mockCities[cityIdKey] || mockCities.bangkok;
-  
-  const cityName = cityData?.name || fallbackMockCity.name;
-  const cityNameNative = cityData?.nameNative || fallbackMockCity.nameNative;
-  const countryName = cityData?.countryName || fallbackMockCity.countryName;
-  const heroImageUrl = cityData?.heroImage || fallbackMockCity.heroImageUrl;
-  const heroImageAlt = cityData?.name || fallbackMockCity.heroImageAlt;
+  // Определяем данные города из API
+  const cityName = cityData?.name || 'Загрузка...';
+  const cityNameNative = ''; // TODO: Get nameNative when API supports it
+  const countryName = ''; // TODO: Get country name from countryId when API supports it
+  const heroImageUrl = 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg'; // TODO: Get heroImage when API supports it
+  const heroImageAlt = cityData?.name || 'Город';
   const lastUpdatedAt = cityData?.updatedAt
     ? `Последнее обновление: ${new Date(cityData.updatedAt).toLocaleDateString('ru-RU')}`
     : 'Последнее обновление: 17.11.2025';
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <Skeleton className="h-64 w-full" />
+      </div>
+    );
+  }
 
   return (
     <AtlasCityLayout
