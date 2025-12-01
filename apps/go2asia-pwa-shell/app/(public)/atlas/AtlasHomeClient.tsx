@@ -2,8 +2,6 @@
 
 import { AtlasHomeView } from '@/modules/atlas';
 import { useGetCountries, useGetPlaces } from '@go2asia/sdk/atlas';
-import { useGetArticles } from '@go2asia/sdk/blog';
-import { useGetEvents } from '@go2asia/sdk/pulse';
 import { useMemo } from 'react';
 import { Skeleton, SkeletonCard } from '@go2asia/ui';
 import { AlertCircle } from 'lucide-react';
@@ -25,28 +23,6 @@ export function AtlasHomeClient() {
     error: placesError 
   } = useGetPlaces({
     limit: 3,
-  });
-
-  // Загружаем последние гайды из API
-  // Примечание: данные загружаются, но пока не используются в UI
-  // TODO: Добавить секцию с гайдами на главную страницу Atlas
-  const { 
-    isLoading: guidesLoading, 
-    error: guidesError 
-  } = useGetArticles({
-    limit: 3,
-    // Примечание: если API поддерживает фильтрацию по типу гайда, добавить category: 'guide'
-  });
-
-  // Загружаем ближайшие события из API
-  // Примечание: данные загружаются, но пока не используются в UI
-  // TODO: Добавить секцию с событиями на главную страницу Atlas
-  const { 
-    isLoading: eventsLoading, 
-    error: eventsError 
-  } = useGetEvents({
-    limit: 5,
-    date: 'week', // Ближайшие события на неделю
   });
 
   // Преобразуем данные из API в формат компонента
@@ -74,9 +50,10 @@ export function AtlasHomeClient() {
     }));
   }, [placesData]);
 
-  // Проверяем наличие ошибок
-  const hasError = countriesError || placesError || guidesError || eventsError;
-  const isLoading = countriesLoading || placesLoading || guidesLoading || eventsLoading;
+  // Проверяем наличие критичных ошибок (только для данных, которые используются в UI)
+  // guidesError и eventsError не учитываем, так как эти данные пока не используются
+  const hasCriticalError = countriesError || placesError;
+  const isLoading = countriesLoading || placesLoading;
 
   // Показываем состояние загрузки с Skeleton компонентами
   if (isLoading) {
@@ -100,8 +77,8 @@ export function AtlasHomeClient() {
     );
   }
 
-  // Показываем ошибку, если есть критичные ошибки
-  if (hasError && (!countriesData?.items || !placesData?.items)) {
+  // Показываем ошибку, если есть критичные ошибки и нет данных
+  if (hasCriticalError && (!countriesData?.items || !placesData?.items)) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="max-w-md mx-auto px-4 text-center">
