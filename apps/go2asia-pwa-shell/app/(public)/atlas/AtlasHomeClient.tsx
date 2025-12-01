@@ -2,17 +2,49 @@
 
 import { AtlasHomeView } from '@/modules/atlas';
 import { useGetCountries, useGetPlaces } from '@go2asia/sdk/atlas';
+import { useGetArticles } from '@go2asia/sdk/blog';
+import { useGetEvents } from '@go2asia/sdk/pulse';
 import { useMemo } from 'react';
+import { Skeleton, SkeletonCard } from '@go2asia/ui';
+import { AlertCircle } from 'lucide-react';
 
 export function AtlasHomeClient() {
   // Загружаем страны из API
-  const { data: countriesData, isLoading: countriesLoading } = useGetCountries({
+  const { 
+    data: countriesData, 
+    isLoading: countriesLoading, 
+    error: countriesError 
+  } = useGetCountries({
     limit: 20,
   });
 
   // Загружаем популярные места из API
-  const { data: placesData, isLoading: placesLoading } = useGetPlaces({
+  const { 
+    data: placesData, 
+    isLoading: placesLoading, 
+    error: placesError 
+  } = useGetPlaces({
     limit: 3,
+  });
+
+  // Загружаем последние гайды из API
+  const { 
+    data: guidesData, 
+    isLoading: guidesLoading, 
+    error: guidesError 
+  } = useGetArticles({
+    limit: 3,
+    // Примечание: если API поддерживает фильтрацию по типу гайда, добавить category: 'guide'
+  });
+
+  // Загружаем ближайшие события из API
+  const { 
+    data: eventsData, 
+    isLoading: eventsLoading, 
+    error: eventsError 
+  } = useGetEvents({
+    limit: 5,
+    date: 'week', // Ближайшие события на неделю
   });
 
   // Преобразуем данные из API в формат компонента
@@ -40,15 +72,56 @@ export function AtlasHomeClient() {
     }));
   }, [placesData]);
 
-  // Показываем загрузку или данные
-  if (countriesLoading || placesLoading) {
+  // Проверяем наличие ошибок
+  const hasError = countriesError || placesError || guidesError || eventsError;
+  const isLoading = countriesLoading || placesLoading || guidesLoading || eventsLoading;
+
+  // Показываем состояние загрузки с Skeleton компонентами
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="text-slate-600">Загрузка...</div>
+      <div className="min-h-screen bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <Skeleton className="h-12 w-64 mb-8" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {[...Array(6)].map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+          <Skeleton className="h-12 w-64 mb-8" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(3)].map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
 
+  // Показываем ошибку, если есть критичные ошибки
+  if (hasError && (!countriesData?.items || !placesData?.items)) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="max-w-md mx-auto px-4 text-center">
+          <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">
+            Ошибка загрузки данных
+          </h2>
+          <p className="text-slate-600 mb-4">
+            Не удалось загрузить данные. Пожалуйста, попробуйте обновить страницу.
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors"
+          >
+            Обновить страницу
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Показываем данные (даже если часть данных не загрузилась)
   return <AtlasHomeView countries={countries} popularPlaces={popularPlaces} />;
 }
 
