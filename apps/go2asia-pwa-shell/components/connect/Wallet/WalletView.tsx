@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { ConnectHero, ConnectNav } from '../Shared';
 import { PointsTab } from './PointsTab';
 import { G2ATab } from './G2ATab';
 import { NFTTab } from './NFTTab';
+import { useGetBalance } from '@go2asia/sdk/balance';
+import { useGetTransactions } from '@go2asia/sdk/transactions';
 import type { WalletData, NFTWalletData } from '../types';
 import { mockWalletData, mockNFTWalletData } from '../mockData';
 
@@ -14,14 +16,74 @@ interface WalletViewProps {
 }
 
 export function WalletView({
-  initialWalletData = mockWalletData,
-  initialNFTData = mockNFTWalletData,
+  initialWalletData,
+  initialNFTData,
 }: WalletViewProps) {
   const [activeTab, setActiveTab] = useState<'points' | 'g2a' | 'nft'>('points');
+  const [cursor, setCursor] = useState<string | undefined>(undefined);
+  const [allTransactions, setAllTransactions] = useState<any[]>([]);
+
+  // Загружаем баланс из Token Service
+  const { data: balanceData, isLoading: balanceLoading } = useGetBalance();
+  
+  // Загружаем транзакции с курсорной пагинацией
+  const { data: transactionsData, isLoading: transactionsLoading } = useGetTransactions({ 
+    limit: 20,
+    cursor: cursor,
+  });
+
+  // Преобразуем данные из API в формат компонента
+  const walletData = useMemo(() => {
+    if (initialWalletData) return initialWalletData;
+
+    const balance = balanceData
+      ? {
+          points: balanceData.points || 0,
+          g2a: parseFloat(String(balanceData.g2a || '0')),
+          nft_count: 0, // TODO: получить из NFT badges API
+          nft_legendary_count: 0, // TODO: получить из NFT badges API
+        }
+      : mockWalletData.balance;
+
+    // Объединяем все загруженные транзакции
+    const transactions: typeof mockWalletData.transactions = transactionsData?.items?.map((tx) => {
+      const metadata = tx.metadata as Record<string, unknown> | null;
+      const txModule = (metadata?.module as string) || 'space'; // По умолчанию 'space'
+      
+      return {
+        id: tx.id,
+        type: (tx.type === 'points_add' || tx.type === 'g2a_add' ? 'credit' : 'debit') as 'credit' | 'debit',
+        amount: parseInt(String(tx.amount || '0')),
+        currency: (tx.type?.includes('g2a') ? 'g2a' : 'points') as 'points' | 'g2a',
+        module: (txModule as 'space' | 'atlas' | 'pulse' | 'rf' | 'quest' | 'guru'),
+        description: tx.reason || '',
+        created_at: tx.createdAt || new Date().toISOString(),
+        tags: [],
+        metadata: metadata || {},
+      };
+    }) || mockWalletData.transactions;
+
+    return {
+      balance,
+      transactions,
+      pagination: {
+        page: 1,
+        per_page: 20,
+        total: transactions.length,
+        has_more: transactionsData?.hasMore || false,
+      },
+    };
+  }, [balanceData, transactionsData, initialWalletData]);
+
+  const nftData = useMemo(() => {
+    if (initialNFTData) return initialNFTData;
+    return mockNFTWalletData; // TODO: получить из NFT badges API
+  }, [initialNFTData]);
 
   const handleLoadMore = () => {
-    // Mock загрузка ещё транзакций
-    console.log('Load more transactions');
+    if (transactionsData?.nextCursor) {
+      setCursor(transactionsData.nextCursor);
+    }
   };
 
   return (
@@ -73,12 +135,12 @@ export function WalletView({
 
         {/* Контент вкладок */}
         {activeTab === 'points' && (
-          <PointsTab data={initialWalletData} onLoadMore={handleLoadMore} />
+          <PointsTab data={walletData} onLoadMore={handleLoadMore} />
         )}
         {activeTab === 'g2a' && (
-          <G2ATab data={initialWalletData} onLoadMore={handleLoadMore} />
+          <G2ATab data={walletData} onLoadMore={handleLoadMore} />
         )}
-        {activeTab === 'nft' && <NFTTab nfts={initialNFTData.nfts} />}
+        {activeTab === 'nft' && <NFTTab nfts={nftData.nfts} />}
       </div>
     </div>
   );
