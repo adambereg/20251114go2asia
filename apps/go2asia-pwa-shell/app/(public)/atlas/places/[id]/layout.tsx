@@ -2,7 +2,6 @@
 
 import type { ReactNode } from 'react';
 import { usePathname, useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AtlasPlaceLayout } from '@/modules/atlas';
 import {
@@ -17,64 +16,8 @@ import {
   Star,
   Gift,
 } from 'lucide-react';
-
-// Моковые данные для разных мест (fallback, если API не работает)
-const mockPlaces: Record<string, { title: string; cityName: string; countryName: string; heroImageUrl: string; heroImageAlt: string; tags: string[]; rating: number }> = {
-  'grand-palace-bangkok': {
-    title: 'Большой дворец',
-    cityName: 'Бангкок',
-    countryName: 'Таиланд',
-    heroImageUrl: 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg',
-    heroImageAlt: 'Большой дворец, Бангкок',
-    tags: ['храм', 'культура'],
-    rating: 4.8,
-  },
-  'hoan-kiem-lake': {
-    title: 'Озеро Хоан Кием',
-    cityName: 'Ханой',
-    countryName: 'Вьетнам',
-    heroImageUrl: 'https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg',
-    heroImageAlt: 'Озеро Хоан Кием, Ханой',
-    tags: ['парк', 'природа'],
-    rating: 4.6,
-  },
-  'borobudur': {
-    title: 'Храмовый комплекс Боробудур',
-    cityName: 'Джокьякарта',
-    countryName: 'Индонезия',
-    heroImageUrl: 'https://images.pexels.com/photos/2491286/pexels-photo-2491286.jpeg',
-    heroImageAlt: 'Храмовый комплекс Боробудур',
-    tags: ['храм', 'культура'],
-    rating: 4.9,
-  },
-  'petronas-towers': {
-    title: 'Башни Петронас',
-    cityName: 'Куала-Лумпур',
-    countryName: 'Малайзия',
-    heroImageUrl: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
-    heroImageAlt: 'Башни Петронас',
-    tags: ['архитектура', 'viewpoint'],
-    rating: 4.7,
-  },
-  'marina-bay': {
-    title: 'Марина Бэй',
-    cityName: 'Сингапур',
-    countryName: 'Сингапур',
-    heroImageUrl: 'https://images.pexels.com/photos/774691/pexels-photo-774691.jpeg',
-    heroImageAlt: 'Марина Бэй',
-    tags: ['парк', 'viewpoint'],
-    rating: 4.9,
-  },
-  'angkor-wat': {
-    title: 'Ангкор-Ват',
-    cityName: 'Сиемреап',
-    countryName: 'Камбоджа',
-    heroImageUrl: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg',
-    heroImageAlt: 'Ангкор-Ват',
-    tags: ['храм', 'культура'],
-    rating: 4.9,
-  },
-};
+import { useGetPlaceById } from '@go2asia/sdk/atlas';
+import { Skeleton } from '@go2asia/ui';
 
 const sideNavItems = [
   { key: 'overview', label: 'Обзор', icon: Info, href: '' },
@@ -89,16 +32,6 @@ const sideNavItems = [
   { key: 'partners', label: 'Партнёрские предложения', icon: Gift, href: 'partners' },
 ] as const;
 
-interface PlaceData {
-  title: string;
-  cityName?: string;
-  countryName?: string;
-  heroImage?: string;
-  tags?: string[];
-  rating?: number;
-  updatedAt?: string;
-}
-
 export default function PlaceLayout({
   children,
 }: {
@@ -109,62 +42,46 @@ export default function PlaceLayout({
   const placeIdFromUrl = params?.id as string;
   const placeId = pathname.split('/').slice(0, 4).join('/'); // /atlas/places/[id]
 
-  const [placeData, setPlaceData] = useState<PlaceData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // Загружаем данные места из API через SDK hook
+  const { 
+    data: placeData, 
+    isLoading 
+  } = useGetPlaceById(placeIdFromUrl || '');
 
-  // Загружаем данные места из API
-  useEffect(() => {
-    if (!placeIdFromUrl) {
-      setIsLoading(false);
-      return;
-    }
-
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.go2asia.space';
-    fetch(`${apiUrl}/v1/api/content/places/${placeIdFromUrl}`)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return null;
-      })
-      .then((data) => {
-        if (data) {
-          setPlaceData(data);
-        }
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsLoading(false);
-      });
-  }, [placeIdFromUrl]);
-
-  // Определяем данные места: сначала из API, потом из моков, потом дефолт
-  const placeIdKey = placeIdFromUrl?.toLowerCase() || '';
-  const fallbackMockPlace = mockPlaces[placeIdKey] || mockPlaces['grand-palace-bangkok'];
-  
-  const title = placeData?.title || fallbackMockPlace.title;
-  const cityName = placeData?.cityName || fallbackMockPlace.cityName;
-  const countryName = placeData?.countryName || fallbackMockPlace.countryName;
-  const heroImageUrl = placeData?.heroImage || fallbackMockPlace.heroImageUrl;
-  const heroImageAlt = placeData?.title || fallbackMockPlace.heroImageAlt;
-  const tags = placeData?.tags || fallbackMockPlace.tags;
-  const rating = placeData?.rating || fallbackMockPlace.rating;
+  // Определяем данные места из API
+  const title = placeData?.name || 'Загрузка...';
+  const cityName = ''; // TODO: Get city name from cityId when API supports it
+  const countryName = ''; // TODO: Get country name when API supports it
+  const heroImageUrl = placeData?.photos && placeData.photos.length > 0 
+    ? placeData.photos[0] 
+    : 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg'; // TODO: Get heroImage when API supports it
+  const heroImageAlt = placeData?.name || 'Место';
+  const tags = placeData?.categories || [];
+  const rating = 0; // TODO: Get rating when API supports it
   const lastUpdatedAt = placeData?.updatedAt
     ? `Последнее обновление: ${new Date(placeData.updatedAt).toLocaleDateString('ru-RU')}`
     : 'Последнее обновление: 17.11.2025';
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <Skeleton className="h-64 w-full" />
+      </div>
+    );
+  }
 
   return (
     <AtlasPlaceLayout
       title={title}
       cityName={cityName}
       countryName={countryName}
-      isRussianFriendly={placeIdKey.includes('marina')}
-      isPartner={placeIdKey.includes('marina')}
-      isPopular={true}
+      isRussianFriendly={false} // TODO: Get from API when supported
+      isPartner={false} // TODO: Get from API when supported
+      isPopular={true} // TODO: Get from API when supported
       rating={rating}
       tags={tags}
       lastUpdatedAt={lastUpdatedAt}
-      viewsCount={1234}
+      viewsCount={1234} // TODO: Get from API when supported
       heroImageUrl={heroImageUrl}
       heroImageAlt={heroImageAlt}
     >
