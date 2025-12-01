@@ -53,14 +53,11 @@ export default function CountryLayout({
   const countryId = pathname.split('/').slice(0, 4).join('/'); // /atlas/countries/[id]
 
   // Загружаем данные страны из API через SDK hook
+  // enabled обрабатывается автоматически внутри hook (проверка на пустой id)
   const { 
     data: countryData, 
     isLoading 
-  } = useGetCountryById(countryIdFromUrl || '', {
-    query: {
-      enabled: !!countryIdFromUrl,
-    },
-  });
+  } = useGetCountryById(countryIdFromUrl || '');
 
   // Определяем данные страны из API
   const countryName = countryData?.name || 'Загрузка...';

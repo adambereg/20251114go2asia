@@ -9,14 +9,11 @@ export default function CountryOverviewPage() {
   const countryId = params?.id as string;
 
   // Загружаем данные страны из API
+  // enabled обрабатывается автоматически внутри hook (проверка на пустой id)
   const { 
     data: countryData, 
     isLoading 
-  } = useGetCountryById(countryId || '', {
-    query: {
-      enabled: !!countryId,
-    },
-  });
+  } = useGetCountryById(countryId || '');
 
   if (isLoading) {
     return (
