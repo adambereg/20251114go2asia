@@ -30,7 +30,8 @@ export function DashboardView({ initialData }: DashboardViewProps) {
   const data = useMemo(() => {
     if (initialData) return initialData;
     
-    const balances = balanceData
+    // Используем реальные данные из API, если они есть, иначе моки
+    const balances = balanceData !== undefined
       ? {
           points: balanceData.points || 0,
           g2a: parseFloat(String(balanceData.g2a || '0')),
@@ -39,13 +40,24 @@ export function DashboardView({ initialData }: DashboardViewProps) {
         }
       : mockDashboardData.balances;
 
-    const recentTransactions = (transactionsData?.items?.map((tx) => ({
-      id: tx.id,
-      type: tx.type === 'points_add' ? 'earn' : 'spend',
-      amount: parseInt(String(tx.amount || '0')),
-      reason: tx.reason || '',
-      timestamp: tx.createdAt || new Date().toISOString(),
-    })) || mockDashboardData.recent_transactions) as typeof mockDashboardData.recent_transactions;
+    const recentTransactions: typeof mockDashboardData.recent_transactions = transactionsData?.items && transactionsData.items.length > 0
+      ? transactionsData.items.map((tx) => {
+          const metadata = tx.metadata as Record<string, unknown> | null;
+          const txModule = (metadata?.module as string) || 'space';
+          
+          return {
+            id: tx.id,
+            type: (tx.type === 'points_add' || tx.type === 'g2a_add' ? 'credit' : 'debit') as 'credit' | 'debit',
+            amount: parseInt(String(tx.amount || '0')),
+            currency: (tx.type?.includes('g2a') ? 'g2a' : 'points') as 'points' | 'g2a',
+            module: (txModule as 'space' | 'atlas' | 'pulse' | 'rf' | 'quest' | 'guru'),
+            description: tx.reason || '',
+            created_at: tx.createdAt || new Date().toISOString(),
+            tags: [],
+            metadata: metadata || {},
+          };
+        })
+      : mockDashboardData.recent_transactions;
 
     return {
       ...mockDashboardData,
@@ -54,6 +66,15 @@ export function DashboardView({ initialData }: DashboardViewProps) {
       referral_stats: referralStats || undefined,
     };
   }, [balanceData, transactionsData, referralStats, initialData]);
+
+  // Показываем состояние загрузки
+  if (balanceLoading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <p className="text-slate-600">Загрузка данных...</p>
+      </div>
+    );
+  }
 
   const handleViewHistory = () => {
     window.location.href = '/connect/wallet';

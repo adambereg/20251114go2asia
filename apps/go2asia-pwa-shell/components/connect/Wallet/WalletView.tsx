@@ -36,7 +36,8 @@ export function WalletView({
   const walletData = useMemo(() => {
     if (initialWalletData) return initialWalletData;
 
-    const balance = balanceData
+    // Используем реальные данные из API, если они есть, иначе моки
+    const balance = balanceData !== undefined
       ? {
           points: balanceData.points || 0,
           g2a: parseFloat(String(balanceData.g2a || '0')),
@@ -46,7 +47,8 @@ export function WalletView({
       : mockWalletData.balance;
 
     // Объединяем все загруженные транзакции
-    const transactions: typeof mockWalletData.transactions = transactionsData?.items?.map((tx) => {
+    const transactions: typeof mockWalletData.transactions = transactionsData?.items && transactionsData.items.length > 0
+      ? transactionsData.items.map((tx) => {
       const metadata = tx.metadata as Record<string, unknown> | null;
       const txModule = (metadata?.module as string) || 'space'; // По умолчанию 'space'
       
@@ -61,7 +63,8 @@ export function WalletView({
         tags: [],
         metadata: metadata || {},
       };
-    }) || mockWalletData.transactions;
+    })
+      : mockWalletData.transactions;
 
     return {
       balance,
@@ -85,6 +88,23 @@ export function WalletView({
       setCursor(transactionsData.nextCursor);
     }
   };
+
+  // Показываем состояние загрузки
+  if (balanceLoading || transactionsLoading) {
+    return (
+      <div className="min-h-screen bg-slate-50">
+        <ConnectHero subtitle="Центр экономики и геймификации Go2Asia" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
+          <ConnectNav />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center py-12">
+            <p className="text-slate-600">Загрузка данных кошелька...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">
