@@ -2,7 +2,6 @@
 
 import type { ReactNode } from 'react';
 import { usePathname, useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AtlasGuideLayout } from '@/modules/atlas';
 import {
@@ -15,75 +14,8 @@ import {
   MessageCircle,
   History,
 } from 'lucide-react';
-
-// Моковые данные для разных гайдов (fallback, если API не работает)
-const mockGuides: Record<string, { title: string; cityName?: string; countryName: string; heroImageUrl: string; heroImageAlt: string; guideType: string; readingTime: number; duration?: string; tags: string[]; rating: number }> = {
-  '3-days-hanoi': {
-    title: '3 дня в Ханое',
-    cityName: 'Ханой',
-    countryName: 'Вьетнам',
-    heroImageUrl: 'https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg',
-    heroImageAlt: '3 дня в Ханое',
-    guideType: 'Маршруты и планы',
-    readingTime: 15,
-    duration: '3 дня',
-    tags: ['культура', 'еда'],
-    rating: 4.8,
-  },
-  'visa-thailand': {
-    title: 'Визы в Таиланд: полное руководство',
-    countryName: 'Таиланд',
-    heroImageUrl: 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg',
-    heroImageAlt: 'Визы в Таиланд',
-    guideType: 'Практика и документы',
-    readingTime: 20,
-    tags: ['визы', 'документы'],
-    rating: 4.9,
-  },
-  'phuket-week': {
-    title: 'Неделя на Пхукете',
-    cityName: 'Пхукет',
-    countryName: 'Таиланд',
-    heroImageUrl: 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg',
-    heroImageAlt: 'Неделя на Пхукете',
-    guideType: 'Маршруты и планы',
-    readingTime: 25,
-    duration: '7 дней',
-    tags: ['пляжи', 'отдых'],
-    rating: 4.7,
-  },
-  'top-beaches': {
-    title: 'Топ-10 пляжей ЮВА',
-    countryName: 'Юго-Восточная Азия',
-    heroImageUrl: 'https://images.pexels.com/photos/2491286/pexels-photo-2491286.jpeg',
-    heroImageAlt: 'Топ-10 пляжей ЮВА',
-    guideType: 'Подборки мест',
-    readingTime: 12,
-    tags: ['пляжи', 'природа'],
-    rating: 4.6,
-  },
-  'new-year-vietnam': {
-    title: 'Новый год во Вьетнаме',
-    countryName: 'Вьетнам',
-    heroImageUrl: 'https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg',
-    heroImageAlt: 'Новый год во Вьетнаме',
-    guideType: 'Сезонные/ивентные',
-    readingTime: 18,
-    tags: ['события', 'праздники'],
-    rating: 4.5,
-  },
-  'bangkok-digital-nomad': {
-    title: 'Бангкок для digital nomad',
-    cityName: 'Бангкок',
-    countryName: 'Таиланд',
-    heroImageUrl: 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg',
-    heroImageAlt: 'Бангкок для digital nomad',
-    guideType: 'Жизнь на месте',
-    readingTime: 30,
-    tags: ['работа', 'коворкинги'],
-    rating: 4.8,
-  },
-};
+import { useGetArticleBySlug } from '@go2asia/sdk/blog';
+import { Skeleton } from '@go2asia/ui';
 
 const sideNavItems = [
   { key: 'overview', label: 'Обзор', icon: Info, href: '' },
@@ -96,19 +28,6 @@ const sideNavItems = [
   { key: 'versions', label: 'Версии / Обновления', icon: History, href: 'versions' },
 ] as const;
 
-interface GuideData {
-  title: string;
-  cityName?: string;
-  countryName?: string;
-  heroImage?: string;
-  guideType?: string;
-  readingTime?: number;
-  duration?: string;
-  tags?: string[];
-  rating?: number;
-  updatedAt?: string;
-}
-
 export default function GuideLayout({
   children,
 }: {
@@ -119,52 +38,34 @@ export default function GuideLayout({
   const guideIdFromUrl = params?.id as string;
   const guideId = pathname.split('/').slice(0, 4).join('/'); // /atlas/guides/[id]
 
-  const [guideData, setGuideData] = useState<GuideData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // Загружаем данные гайда из API через SDK hook (используем slug из URL)
+  const { 
+    data: articleData, 
+    isLoading 
+  } = useGetArticleBySlug(guideIdFromUrl || '');
 
-  // Загружаем данные гайда из API
-  useEffect(() => {
-    if (!guideIdFromUrl) {
-      setIsLoading(false);
-      return;
-    }
-
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.go2asia.space';
-    fetch(`${apiUrl}/v1/api/content/guides/${guideIdFromUrl}`)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return null;
-      })
-      .then((data) => {
-        if (data) {
-          setGuideData(data);
-        }
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsLoading(false);
-      });
-  }, [guideIdFromUrl]);
-
-  // Определяем данные гайда: сначала из API, потом из моков, потом дефолт
-  const guideIdKey = guideIdFromUrl?.toLowerCase() || '';
-  const fallbackMockGuide = mockGuides[guideIdKey] || mockGuides['3-days-hanoi'];
-  
-  const title = guideData?.title || fallbackMockGuide.title;
-  const cityName = guideData?.cityName || fallbackMockGuide.cityName;
-  const countryName = guideData?.countryName || fallbackMockGuide.countryName;
-  const heroImageUrl = guideData?.heroImage || fallbackMockGuide.heroImageUrl;
-  const heroImageAlt = guideData?.title || fallbackMockGuide.heroImageAlt;
-  const guideType = guideData?.guideType || fallbackMockGuide.guideType;
-  const readingTime = guideData?.readingTime || fallbackMockGuide.readingTime;
-  const duration = guideData?.duration || fallbackMockGuide.duration;
-  const tags = guideData?.tags || fallbackMockGuide.tags;
-  const rating = guideData?.rating || fallbackMockGuide.rating;
-  const lastUpdatedAt = guideData?.updatedAt
-    ? `Последнее обновление: ${new Date(guideData.updatedAt).toLocaleDateString('ru-RU')}`
+  // Определяем данные гайда из API
+  const title = articleData?.title || 'Загрузка...';
+  const cityName = ''; // TODO: Get city name when API supports it
+  const countryName = ''; // TODO: Get country name when API supports it
+  const heroImageUrl = articleData?.coverImage || 'https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg';
+  const heroImageAlt = articleData?.title || 'Гайд';
+  const guideType = articleData?.category || '';
+  const readingTime = 0; // TODO: Get readingTime when API supports it
+  const duration = ''; // TODO: Get duration when API supports it
+  const tags = articleData?.tags || [];
+  const rating = 0; // TODO: Get rating when API supports it
+  const lastUpdatedAt = articleData?.updatedAt
+    ? `Последнее обновление: ${new Date(articleData.updatedAt).toLocaleDateString('ru-RU')}`
     : 'Последнее обновление: 17.11.2025';
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <Skeleton className="h-64 w-full" />
+      </div>
+    );
+  }
 
   return (
     <AtlasGuideLayout
